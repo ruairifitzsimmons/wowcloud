@@ -1,13 +1,12 @@
-import Image from 'next/image'
 import styles from './page.module.css'
-import Test from './components/test'
+import DungeonList from './dungeonList'
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <div>
-        <Test />
-        <h1>Hello World!</h1>
+        <h1>WoW Cloud</h1>
+        <DungeonList/>
       </div>
     </main>
   )

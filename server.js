@@ -33,7 +33,7 @@ app.listen(port, () => {
 async function getAccessToken() {
     try {
         const response = await axios.post(
-            `https://us.battle.net/oauth/token`,
+            `https://eu.battle.net/oauth/token`,
             null,
             {
                 params: {
@@ -43,7 +43,6 @@ async function getAccessToken() {
                 }
             }
         );
-
         return response.data.access_token;
     } catch (error) {
         console.error('Error fetching access token: ', error);

@@ -11,7 +11,7 @@ function DungeonList() {
         const data = await getDungeons();
         setDungeons(data.instances);
       } catch (error) {
-
+        // error
       }
     }
 

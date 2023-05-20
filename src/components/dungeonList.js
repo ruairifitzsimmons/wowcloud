@@ -1,5 +1,5 @@
 "use client";
-import { getDungeons } from './api';
+import { getDungeons } from '../utils/api';
 import React, { useEffect, useState } from "react";
 
 function DungeonList() {

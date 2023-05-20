@@ -1,0 +1,11 @@
+.container {
+    width: 1200px;
+    background: rgb(37, 40, 64);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.header {
+    color: white;
+}

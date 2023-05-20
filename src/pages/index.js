@@ -1,6 +1,7 @@
+import Head from 'next/head'
 import styles from '../styles/page.module.css'
 import DungeonList from '../components/dungeonList'
-import Head from 'next/head'
+import Navbar from '../components/navbar'
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
           key='desc'
         />
       </Head>
+      <Navbar/>
       <div>
         <h1>WoW Cloud</h1>
         <DungeonList/>

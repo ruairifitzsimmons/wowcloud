@@ -1,8 +1,9 @@
+const dotenv = require('dotenv');
+dotenv.config({ path: '../../.env' });
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-require('dotenv').config();
-
 const app = express();
 const port = 9000;
 
@@ -12,7 +13,7 @@ app.get('/api/dungeons', async (req, res) => {
     try {
         const accessToken = await getAccessToken();
         const response = await axios.get(
-            `https://eu.api.blizzard.com/data/wow/journal-instance/index?namespace=static-eu&locale=en_GB`,
+            'https://eu.api.blizzard.com/data/wow/journal-instance/index?namespace=static-eu&locale=en_GB',
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -33,16 +34,10 @@ app.listen(port, () => {
 async function getAccessToken() {
     try {
         const response = await axios.post(
-            `https://eu.battle.net/oauth/token`,
-            null,
-            {
-                params: {
-                    grant_type: 'client_credentials',
-                    client_id: process.env.API_BATTLENET_KEY,
-                    client_secret: process.env.API_BATTLENET_SECRET,
-                }
-            }
+            //'https://eu.battle.net/oauth/token?grant_type=client_credentials&client_id=ce8df521280e4df6b47cda395335bc69&client_secret=HMA8Tj1jPlkfwizZZ1MaE35D2YVCiGhF'
+            `https://eu.battle.net/oauth/token?grant_type=client_credentials&client_id=${process.env.API_BATTLENET_KEY}&client_secret=${process.env.API_BATTLENET_SECRET}`,
         );
+        console.log(response.data);
         return response.data.access_token;
     } catch (error) {
         console.error('Error fetching access token: ', error);

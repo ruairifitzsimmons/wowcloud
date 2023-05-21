@@ -6,9 +6,9 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 const port = 9000;
-
 app.use(cors());
 
+// DUNGEONS
 app.get('/api/dungeons', async (req, res) => {
     try {
         const accessToken = await getAccessToken();
@@ -24,6 +24,26 @@ app.get('/api/dungeons', async (req, res) => {
     } catch (error) {
         console.error('Error fetching dungeons: ', error);
         res.status(500).json({ error: 'An error occured' });
+    }
+});
+
+//CHARACTER
+app.get('/api/character', async (req, res) => {
+    //const { realm, name } = req.query;
+    try {
+        const accessToken = await getAccessToken();
+        const response = await axios.get(
+            `https://eu.api.blizzard.com/profile/wow/character/ravencrest/oneflow?namespace=profile-eu&locale=en_GB`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error fetching character: ', error);
+        res.status(500).json({ error: 'An error occured 2' });
     }
 });
 

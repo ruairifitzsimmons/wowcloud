@@ -11,3 +11,13 @@ export async function getDungeons() {
         throw error;
     }
 }
+
+export async function getCharacter() {
+    try {
+        const response = await axios.get(`${BASE_URL}/character`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching character: ', error);
+        throw error;
+    }
+}

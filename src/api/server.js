@@ -27,13 +27,31 @@ app.get('/api/dungeons', async (req, res) => {
     }
 });
 
+app.get('/api/realms', async (req, res) => {
+    try {
+      const accessToken = await getAccessToken();
+      const response = await axios.get(
+        `https://eu.api.blizzard.com/data/wow/realm/index?namespace=dynamic-eu&locale=en_GB`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      res.json(response.data);
+    } catch (error) {
+      console.error('Error fetching realms: ', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  });
+
 //CHARACTER
 app.get('/api/character', async (req, res) => {
-    //const { realm, name } = req.query;
+    const { realm, characterName } = req.query; // Retrieve realm and characterName from query parameters
     try {
         const accessToken = await getAccessToken();
         const response = await axios.get(
-            `https://eu.api.blizzard.com/profile/wow/character/ravencrest/oneflow?namespace=profile-eu&locale=en_GB`,
+            `https://eu.api.blizzard.com/profile/wow/character/${realm}/${characterName}?namespace=profile-eu&locale=en_GB`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -43,9 +61,10 @@ app.get('/api/character', async (req, res) => {
         res.json(response.data);
     } catch (error) {
         console.error('Error fetching character: ', error);
-        res.status(500).json({ error: 'An error occured 2' });
+        res.status(500).json({ error: 'An error occurred' });
     }
 });
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

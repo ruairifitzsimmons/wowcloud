@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/page.module.css'
 import DungeonList from '../components/dungeonList'
-import CharacterSearch from '../components/character'
 import Navbar from '../components/navbar'
 
 export default function Home() {
@@ -18,7 +17,6 @@ export default function Home() {
       <Navbar/>
       <div>
         <h1>WoW Cloud</h1>
-        <CharacterSearch/>
         <DungeonList/>
       </div>
     </main>

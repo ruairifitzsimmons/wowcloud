@@ -1,7 +1,9 @@
 import styles from '../styles/navbar.module.css';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Navbar() {
+
     return (
         <div className={styles.container}>
             <div className={styles.navcontainer}>
@@ -13,12 +15,15 @@ export default function Navbar() {
                     <a className={styles.menuitem}>
                         Forum
                     </a>
-                    <a className={styles.menuitem}>
+
+                    <Link href='/character' className={styles.menuitem}>
                         Character Search
-                    </a>
+                    </Link>
+
                     <button className={styles.menubutton}>
-                        Sign in / Register
+                        Register
                     </button>
+
                 </div>
             </div>
         </div>

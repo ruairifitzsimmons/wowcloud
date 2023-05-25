@@ -53,6 +53,10 @@ app.get('/api/character', async (req, res) => {
         const response = await axios.get(
             `https://eu.api.blizzard.com/profile/wow/character/${realm}/${characterName}?namespace=profile-eu&locale=en_GB`,
             {
+                params: {
+                    namespace: 'profile-eu',
+                    locale: 'en_GB',
+                },
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

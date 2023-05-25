@@ -1,5 +1,6 @@
 import { getCharacter, getRealms } from '../utils/api';
 import { useEffect, useState } from 'react';
+import styles from '../styles/character.module.css'
 
 export default function CharacterSearch() {
   const [realms, setRealms] = useState([]);
@@ -12,7 +13,7 @@ export default function CharacterSearch() {
       try {
         const realmsData = await getRealms();
         if (realmsData && realmsData.realms) {
-          setRealms(realmsData.realms); // Set the realms state with the fetched data
+          setRealms(realmsData.realms);
         } else {
           console.error('Invalid realms data');
         }
@@ -41,27 +42,29 @@ export default function CharacterSearch() {
 
   return (
     <div>
-      <form onSubmit={handleSearch}>
-        <select
-          value={selectedRealm}
-          onChange={(e) => setSelectedRealm(e.target.value)}
-        >
-          <option value="">Select Realm</option>
-          {realms &&
-            realms.map((realm) => (
-              <option key={realm.id} value={realm.slug}>
-                {realm.name}
-              </option>
-            ))}
-        </select>
-        <input
-          type="text"
-          value={characterName}
-          onChange={(e) => setCharacterName(e.target.value)}
-          placeholder="Enter character name"
-        />
-        <button type="submit">Search</button>
-      </form>
+      <div className={styles.searchContainer}>
+        <form onSubmit={handleSearch}>
+          <select
+            value={selectedRealm}
+            onChange={(e) => setSelectedRealm(e.target.value)}
+          >
+            <option value="">Select Realm</option>
+            {realms &&
+              realms.map((realm) => (
+                <option key={realm.id} value={realm.slug}>
+                  {realm.name}
+                </option>
+              ))}
+          </select>
+          <input
+            type="text"
+            value={characterName}
+            onChange={(e) => setCharacterName(e.target.value)}
+            placeholder="Enter character name"
+          />
+          <button type="submit">Search</button>
+        </form>
+      </div>
 
       {characterData && (
         <div>

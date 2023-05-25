@@ -14,18 +14,20 @@ export async function getDungeons() {
 
 export async function getCharacter(realm, characterName) {
     try {
-        const response = await axios.get(`${BASE_URL}/character`, {
-            params: {
-                realm: realm,
-                characterName: characterName,
-            },
-        });
-        return response.data;
+      const response = await axios.get(`${BASE_URL}/character`, {
+        params: {
+          realm,
+          characterName,
+        },
+      });
+      return response.data;
     } catch (error) {
-        console.error('Error fetching character: ', error);
-        throw error;
+      console.error('Error fetching character: ', error);
+      throw error;
     }
-}
+  }
+  
+  
 
 export async function getRealms() {
     try {

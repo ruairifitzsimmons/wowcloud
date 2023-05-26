@@ -3,3 +3,35 @@
     width: 400px;
     padding: 24px;
 }
+
+.item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.itemimage {
+    background: rgba(255, 255, 255, 0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+}
+
+.iteminfo {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.itemname {
+    color: rgb(255, 157, 0);
+}
+
+.tooltip {
+    display: flex;
+    flex-direction: column;
+    background: black;
+    padding: 24px;
+    border: 1px solid white;
+}

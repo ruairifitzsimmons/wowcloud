@@ -1,7 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 import { getCharacter, getRealms, getCharacterEquipment, getCharacterEquipmentMedia } from '../utils/api';
 import { useEffect, useState } from 'react';
 import styles from '../styles/character.module.css';
+import EquippedItem from './equippedItem';
+
 
 export default function CharacterSearch() {
   const [realms, setRealms] = useState([]);
@@ -68,7 +69,7 @@ export default function CharacterSearch() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.searchContainer}>
         <form onSubmit={handleSearch}>
           <select
@@ -94,19 +95,13 @@ export default function CharacterSearch() {
       </div>
 
       {characterData && (
-        <div>
-          <div>
+        <div className={styles.character}>
+          <div className={styles.characterContainer}>
             <div>
-              <span>{characterData.name}</span>
+              <span className={styles.characterName}>{characterData.name}</span>
             </div>
             <div>
-              <span>
-                -{characterData.achievement_points}
-                -{characterData.equipped_item_level}
-              </span>
-            </div>
-            <div>
-              <span>
+              <span className={styles.characterMetadata}>
                 {characterData.level}&nbsp;
                 {characterData.race.name}&nbsp;
                 {characterData.active_spec.name}&nbsp;
@@ -117,53 +112,15 @@ export default function CharacterSearch() {
 
           {characterData.equipment && characterData.media && (
             <div>
-              {characterData.equipment.equipped_items.length > 0 && (
-                <div className={styles.item}>
-                  {/* ITEM THUMBNAIL */}
-                  {characterData.media[0] &&
-                    characterData.media[0].assets &&
-                    characterData.media[0].assets.length > 0 && (
-                      <img
-                        className={styles.itemimage}
-                        src={characterData.media[0].assets[0].value}
-                        alt="Equipment Media"
-                      />
-                    )}
-
-                  {/* ITEM DETAILS */}
-                  <div className={styles.iteminfo}>
-                    <span className={styles.itemname}>
-                      {characterData.equipment.equipped_items[0].name}
-                    </span>
-                    <span>
-                      {characterData.equipment.equipped_items[0].slot.name}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {characterData.equipment.equipped_items.length > 1 && (
-                <div className={styles.item}>
-                  {/* ITEM THUMBNAIL */}
-                  {characterData.media[1] &&
-                    characterData.media[1].assets &&
-                    characterData.media[1].assets.length > 0 && (
-                      <img
-                        className={styles.itemimage}
-                        src={characterData.media[1].assets[0].value}
-                        alt="Equipment Media"
-                      />
-                    )}
-
-                  {/* ITEM DETAILS */}
-                  <div className={styles.iteminfo}>
-                    <span className={styles.itemname}>
-                      {characterData.equipment.equipped_items[1].name}
-                    </span>
-                    <span>
-                      {characterData.equipment.equipped_items[1].slot.name}
-                    </span>
-                  </div>
+              {characterData.equipment && characterData.media && (
+                <div className={styles.equippeditem}>
+                  {characterData.equipment.equipped_items.map((item, index) => (
+                    <EquippedItem
+                      key={index}
+                      item={item}
+                      media={characterData.media[index]}
+                    />
+                  ))}
                 </div>
               )}
             </div>

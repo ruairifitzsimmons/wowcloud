@@ -7,6 +7,7 @@
     right: 16px;
     left: 16px;
     background: linear-gradient(rgba(24,26,42) 30%, rgba(0,0,0,0) 70%);
+    z-index: 999;
 }
 
 .navcontainer {

@@ -1,7 +1,38 @@
+.container {
+    height: 2000px;
+    padding: 64px 24px;
+}
+
 .searchContainer {
-    background: red;
-    width: 400px;
-    padding: 24px;
+}
+
+.character {
+    width: 100%;
+}
+
+.characterContainer {
+    padding: 8px;
+    border: 1px solid grey;
+    margin: 16px 0px;
+}
+
+.characterName {
+    color: white;
+    font-size: 24px;
+}
+
+.characterMetadata {
+    color: grey;
+}
+
+.equippeditem {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.equippedItem {
+    margin-top: 10px;
 }
 
 .item {
@@ -9,6 +40,13 @@
     flex-direction: row;
     align-items: center;
     gap: 16px;
+    padding: 8px;
+    border: 1px solid rgb(122, 122, 122);
+}
+
+.item:hover {
+    border: 1px solid orange;
+    cursor: default;
 }
 
 .itemimage {
@@ -28,10 +66,31 @@
     color: rgb(255, 157, 0);
 }
 
-.tooltip {
+.item {
+    position: relative;
+}
+.popup {
+    position: fixed;
+    z-index: 3;
+    width: 300px;
     display: flex;
     flex-direction: column;
-    background: black;
-    padding: 24px;
-    border: 1px solid white;
+    background: rgba(46, 48, 66, 0.6);
+    backdrop-filter: blur(8px);
+    margin: 16px 16px 0px 16px;
+    padding: 16px;
+    border: 1px solid grey;
+    box-shadow: rgba(0, 0, 0, 0.335) 0px 8px 20px 4px;
+    color: white;
+}
+
+.popupname {
+    color: rgb(218, 2, 218);
+    font-weight: 600;
+}
+
+.itemslotarmor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

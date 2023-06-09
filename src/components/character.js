@@ -1,4 +1,4 @@
-import { getCharacter, getRealms, getCharacterEquipment, getCharacterEquipmentMedia } from '../utils/api';
+import { getCharacter, getRealms, getCharacterEquipment, getCharacterEquipmentMedia, getCharacterMedia } from '../utils/api';
 import { useEffect, useState } from 'react';
 import styles from '../styles/character.module.css';
 import EquippedItem from './equippedItem';
@@ -36,8 +36,6 @@ export default function CharacterSearch() {
           getCharacter(selectedRealm, characterName),
           getCharacterEquipment(selectedRealm, characterName),
         ]);
-
-        console.log('Equipment Response:', equipmentResponse);
 
         const characterDataWithEquipment = {
           ...characterResponse,

@@ -78,6 +78,30 @@ app.get('/api/character', async (req, res) => {
     }
 });
 
+// CHARACTER MEDIA
+app.get('/api/character-media', async (req, res) => {
+    const { realm, characterName } = req.query;
+    try {
+      const accessToken = await getAccessToken();
+      const response = await axios.get(
+        `https://eu.api.blizzard.com/profile/wow/character/${realm}/${characterName}/character-media`,
+        {
+          params: {
+            namespace: 'profile-eu',
+            locale: 'en_GB',
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      res.json(response.data);
+    } catch (error) {
+      console.error('Error fetching character media: ', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  });
+
 // CHARACTER EQUIPMENT
 app.get('/api/character-equipment', async (req, res) => {
     const { realm, characterName } = req.query;

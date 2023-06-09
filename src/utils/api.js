@@ -37,6 +37,24 @@ export async function getCharacter(realm, characterName) {
   }
 }
 
+export async function getCharacterMedia(realm, characterName) {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/character-media`,
+      {
+        params: {
+          realm,
+          characterName,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching character media: ', error);
+    throw error;
+  }
+}
+
 export async function getCharacterEquipment(realm, characterName) {
   try {
     const response = await axios.get(`${BASE_URL}/character-equipment`, {

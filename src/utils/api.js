@@ -39,9 +39,7 @@ export async function getCharacter(realm, characterName) {
 
 export async function getCharacterMedia(realm, characterName) {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/character-media`,
-      {
+    const response = await axios.get(`${BASE_URL}/character-media`, {
         params: {
           realm,
           characterName,

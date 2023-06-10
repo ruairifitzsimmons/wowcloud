@@ -32,17 +32,25 @@ export default function CharacterSearch() {
 
     try {
       if (selectedRealm && characterName) {
-        const [characterResponse, equipmentResponse] = await Promise.all([
+        const [characterResponse, equipmentResponse, characterMediaResponse] = await Promise.all([
           getCharacter(selectedRealm, characterName),
           getCharacterEquipment(selectedRealm, characterName),
+          getCharacterMedia(selectedRealm, characterName),
         ]);
 
         const characterDataWithEquipment = {
           ...characterResponse,
           equipment: equipmentResponse,
         };
-
+        
         setCharacterData(characterDataWithEquipment);
+
+        const characterDataWithCharacterMedia = {
+          ...characterDataWithEquipment,
+          assets: characterMediaResponse.assets || [],
+        };
+  
+        setCharacterData(characterDataWithCharacterMedia);
 
         if (equipmentResponse.equipped_items.length > 0) {
           const equippedItems = equipmentResponse.equipped_items;
@@ -51,10 +59,9 @@ export default function CharacterSearch() {
           );
 
           const mediaResponses = await Promise.all(mediaPromises);
-          console.log('Media Responses:', mediaResponses);
 
           const characterDataWithMedia = {
-            ...characterDataWithEquipment,
+            ...characterDataWithCharacterMedia,
             media: mediaResponses,
           };
 
@@ -91,38 +98,50 @@ export default function CharacterSearch() {
           <button type="submit">Search</button>
         </form>
       </div>
-
+      
       {characterData && (
-        <div className={styles.character}>
-          <div className={styles.characterContainer}>
-            <div>
-              <span className={styles.characterName}>{characterData.name}</span>
-            </div>
-            <div>
-              <span className={styles.characterMetadata}>
-                {characterData.level}&nbsp;
-                {characterData.race.name}&nbsp;
-                {characterData.active_spec.name}&nbsp;
-                {characterData.character_class.name}&nbsp;
-              </span>
-            </div>
-          </div>
 
-          {characterData.equipment && characterData.media && (
-            <div>
-              {characterData.equipment && characterData.media && (
-                <div className={styles.equippeditem}>
-                  {characterData.equipment.equipped_items.map((item, index) => (
-                    <EquippedItem
-                      key={index}
-                      item={item}
-                      media={characterData.media[index]}
-                    />
-                  ))}
-                </div>
-              )}
+        <div className={styles.mainContainer}>
+          <div className={styles.character}>
+            <div className={styles.characterContainer}>
+              <div>
+                <span className={styles.characterName}>{characterData.name}</span>
+              </div>
+              <div>
+                <span className={styles.characterMetadata}>
+                  {characterData.level}&nbsp;
+                  {characterData.race.name}&nbsp;
+                  {characterData.active_spec.name}&nbsp;
+                  {characterData.character_class.name}&nbsp;
+                </span>
+              </div>
             </div>
-          )}
+
+            {characterData.assets && (
+              <div>
+                {/*{characterData.assets.map((asset, index) => (
+                  <img key={index} src={asset.value} alt={asset.key} />
+                ))}*/}
+                <img className={styles.characterImage} src={characterData.assets[2].value}/>
+              </div>
+            )}
+
+            {characterData.equipment && characterData.media && (
+              <div>
+                {characterData.equipment && characterData.media && (
+                  <div className={styles.equippeditem}>
+                    {characterData.equipment.equipped_items.map((item, index) => (
+                      <EquippedItem
+                        key={index}
+                        item={item}
+                        media={characterData.media[index]}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -98,10 +98,10 @@ export default function CharacterSearch() {
           <button type="submit">Search</button>
         </form>
       </div>
-      
-      {characterData && (
 
-        <div className={styles.mainContainer}>
+      <div className={styles.mainContainer}>
+        {/* CHARACTER METADATA */}
+        {characterData && (
           <div className={styles.character}>
             <div className={styles.characterContainer}>
               <div>
@@ -117,17 +117,16 @@ export default function CharacterSearch() {
               </div>
             </div>
 
+            {/* CHARACTER IMAGE */}
             {characterData.assets && (
-              <div>
-                {/*{characterData.assets.map((asset, index) => (
-                  <img key={index} src={asset.value} alt={asset.key} />
-                ))}*/}
+              <div className={styles.characterImageContainer}>
                 <img className={styles.characterImage} src={characterData.assets[2].value}/>
               </div>
             )}
 
+            {/* CHARACTER EQUIPPED ITEMS */}
             {characterData.equipment && characterData.media && (
-              <div>
+              <div className={styles.equippedItemContainer}>
                 {characterData.equipment && characterData.media && (
                   <div className={styles.equippeditem}>
                     {characterData.equipment.equipped_items.map((item, index) => (
@@ -142,8 +141,8 @@ export default function CharacterSearch() {
               </div>
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

@@ -1,27 +1,33 @@
-.mainContainer {
-    width: 1200px;
-    max-width: 1200px;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.222);
-}
-
 .container {
-    height: fit-content;
-    padding: 64px 24px;
+    padding: 16px;
 }
 
 .searchContainer {
+    position: relative;
+    width: fit-content;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    z-index: 1;
+}
+
+.mainContainer {
+    width: 100vw;
+    max-width: 1200px;
 }
 
 .character {
-    width: 100%;
+    position: relative;
+    margin: 16px;
+    padding: 32px;
+    z-index: 1;
 }
 
 .characterContainer {
+    position: relative;
+    z-index: 1;
     padding: 8px;
-    background: rgba(128, 128, 128, 0.072);
-    margin: 16px 0px;
 }
 
 .characterName {
@@ -33,40 +39,56 @@
     color: grey;
 }
 
-.characterImage {
+.characterImageContainer {
     position: absolute;
-    top: -15%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.characterImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 0;
+    box-shadow: black 0px 0px 32px -8px;
+}
+
+.equippedItemContainer {
+    padding: 8px;
 }
 
 .equippeditem {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
     max-width: 400px;
-}
-
-.equippedItem {
-    margin-top: 10px;
 }
 
 .item {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 16px;
-    padding: 8px;
-    border: 1px solid rgb(122, 122, 122);
+    gap: 8px;
+    padding: 4px;
+    border-radius: 4px;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
 }
 
 .item:hover {
-    border: 1px solid orange;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
     cursor: default;
 }
 
 .itemimage {
     background: rgba(255, 255, 255, 0.1);
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 4px;
 }
 
@@ -78,24 +100,30 @@
 
 .itemname {
     color: rgb(255, 157, 0);
+    font-size: 12px;
+}
+
+.itemslotname {
+    font-size: 12px;
 }
 
 .item {
-    position: relative;
 }
+
 .popup {
-    position: fixed;
-    z-index: 3;
-    width: 300px;
+    position: absolute;
+    z-index: 5;
+    width: 200px;
     display: flex;
     flex-direction: column;
-    background: rgba(46, 48, 66, 0.6);
+    background: rgba(46, 48, 66, 0.5);
     backdrop-filter: blur(8px);
-    margin: 16px 16px 0px 16px;
     padding: 16px;
     border: 1px solid grey;
+    border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.335) 0px 8px 20px 4px;
     color: white;
+    font-size: 12px;
 }
 
 .popupname {

@@ -5,13 +5,11 @@ import styles from '../styles/character.module.css';
 const EquippedItem = ({ media, item, index }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupPositions, setPopupPositions] = useState([]);
-  const parentRef = useRef(null);
 
   const handleMouseEnter = (e) => {
     if (!showPopup) {
-      const rect = parentRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = e.clientX;
+      const y = e.clientY;
       const updatedPositions = [...popupPositions];
       updatedPositions[index] = { x, y };
       setPopupPositions(updatedPositions);
@@ -24,9 +22,8 @@ const EquippedItem = ({ media, item, index }) => {
   };
 
   const handleMouseMove = (e) => {
-    const rect = parentRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = e.clientX;
+    const y = e.clientY;
 
     setPopupPositions((positions) => {
       const updatedPositions = [...positions];
@@ -55,13 +52,32 @@ const EquippedItem = ({ media, item, index }) => {
     });
   }, [index]);
 
+  // Determine the CSS class based on the item's quality type
+  const getItemNameClass = () => {
+    switch (item.quality.type) {
+      case 'COMMON':
+        return styles.common;
+      case 'UNCOMMON':
+        return styles.uncommon;
+      case 'RARE':
+        return styles.rare;
+      case 'EPIC':
+        return styles.epic;
+      case 'LEGENDARY':
+        return styles.legendary;
+      default:
+        return '';
+    }
+  };
+
   return (
     <div
       className={styles.item}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      ref={parentRef}
     >
+
+      {/* ITEM IMAGE */}
       {media && media.assets && media.assets.length > 0 && (
         <img
           className={styles.itemimage}
@@ -69,12 +85,14 @@ const EquippedItem = ({ media, item, index }) => {
           alt="Equipment Media"
         />
       )}
+
       {/* ITEM DETAILS */}
       <div className={styles.iteminfo}>
-        <span className={styles.itemname}>{item.name}</span>
+        <span className={`${styles.itemname} ${getItemNameClass()}`}>{item.name}</span>
         <span className={styles.itemslotname}>{item.slot.name}</span>
       </div>
 
+      {/* ITEM POPUP */}
       {showPopup && (
         <div
           className={styles.popup}
@@ -83,20 +101,20 @@ const EquippedItem = ({ media, item, index }) => {
             top: `${popupPositions[index]?.y ?? 0}px`,
           }}
         >
-          {/* Popup content */}
-          <span className={styles.popupname}>{item.name}</span>
+          {/* POPUP CONTENT */}
+          <span className={`${styles.popupname} ${getItemNameClass()}`}>{item.name}</span>
 
           {/* NAME DESCRIPTION */}
           {item.name_description && item.name_description.display_string && (
-            <span>{item.name_description.display_string}</span>
+            <span className={styles.popupdesc}>{item.name_description.display_string}</span>
           )}
 
           {/* ITEM LEVEL */}
-          <span>{item.level.display_string}</span>
+          <span className={styles.popupitemlevel}>{item.level.display_string}</span>
 
           {/* TRANSMOG */}
           {item.transmog && item.transmog.display_string && (
-            <span>{item.transmog.display_string}</span>
+            <span className={styles.popuptransmog}>{item.transmog.display_string}</span>
           )}
 
           {/* BINDING */}
@@ -122,7 +140,7 @@ const EquippedItem = ({ media, item, index }) => {
           {/* SPELLS */}
           {item.spells &&
             item.spells.map((spell, index) => (
-              <span key={`spell_${index}`} value={spell.value}>
+              <span className={styles.popupspell} key={`spell_${index}`} value={spell.value}>
                 {spell.description}
               </span>
             ))}
@@ -145,16 +163,6 @@ const EquippedItem = ({ media, item, index }) => {
           {/* ENCHANTED */}
           {item.enchantments && item.enchantments.display_string && (
             <span>{item.enchantments.playable_classes.display_string}</span>
-          )}
-
-          {/* SELL PRICE */}
-          {item.sell_price && item.sell_price.display_strings && (
-            <span>
-              {item.sell_price.display_strings.header}&nbsp;
-              {item.sell_price.display_strings.gold}&nbsp;
-              {item.sell_price.display_strings.silver}&nbsp;
-              {item.sell_price.display_strings.copper}
-            </span>
           )}
         </div>
       )}

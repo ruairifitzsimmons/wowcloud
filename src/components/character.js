@@ -75,9 +75,10 @@ export default function CharacterSearch() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.searchContainer}>
-        <form onSubmit={handleSearch}>
+      <div>
+        <form className={styles.searchContainer} onSubmit={handleSearch}>
           <select
+            className={styles.searchSelect}
             value={selectedRealm}
             onChange={(e) => setSelectedRealm(e.target.value)}
           >
@@ -90,12 +91,13 @@ export default function CharacterSearch() {
               ))}
           </select>
           <input
+            className={styles.searchInput}
             type="text"
             value={characterName}
             onChange={(e) => setCharacterName(e.target.value)}
             placeholder="Enter character name"
           />
-          <button type="submit">Search</button>
+          <button className={styles.searchButton} type="submit">Search</button>
         </form>
       </div>
 

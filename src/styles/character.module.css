@@ -4,12 +4,46 @@
 
 .searchContainer {
     position: relative;
+    display: flex;
+    flex-direction: row;
     width: fit-content;
     background: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 16px;
     margin: 16px;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 16px -8px;
     z-index: 1;
+}
+
+.searchSelect {
+    font-size: 12px;
+    color: black;
+    padding: 8px;
+    border: 0px;
+    border-radius: 8px;
+}
+
+.searchInput {
+    font-size: 12px;
+    color: black;
+    padding: 8px;
+    border: 0px;
+    border-radius: 8px;
+}
+
+.searchButton {
+    background: rgb(255, 58, 58);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    color: white;
+    padding: 8px 32px;
+    border: 0px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 .mainContainer {
@@ -31,12 +65,16 @@
 }
 
 .characterName {
+    font-family: 'Chakra Petch', sans-serif;
     color: white;
-    font-size: 24px;
+    font-size: 32px;
+    font-weight: 600;
 }
 
 .characterMetadata {
-    color: grey;
+    font-family: 'Chakra Petch', sans-serif;
+    color: rgb(176, 176, 176);
+    font-size: 16px;
 }
 
 .characterImageContainer {
@@ -53,13 +91,10 @@
     height: 100%;
     object-fit: cover;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgb(68, 68, 68);
     z-index: 0;
     box-shadow: black 0px 0px 32px -8px;
-}
-
-.equippedItemContainer {
-    padding: 8px;
+    background: rgb(61, 61, 93);
 }
 
 .equippeditem {
@@ -68,6 +103,7 @@
     flex-direction: column;
     gap: 4px;
     max-width: 400px;
+    padding: 8px;
 }
 
 .item {
@@ -76,20 +112,31 @@
     align-items: center;
     gap: 8px;
     padding: 4px;
-    border-radius: 4px;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+    border-radius: 8px;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+    transition-duration: 0.4s;
 }
 
 .item:hover {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
+    background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
     cursor: default;
 }
 
+.item:hover > .itemimage {
+    transform: scale(1.1) translateX(-6px);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: rgb(0, 0, 0, 0.5) 4px 0px 8px 0px;
+}
+
 .itemimage {
+    transition-duration: 0.2s;
     background: rgba(255, 255, 255, 0.1);
     width: 32px;
     height: 32px;
-    border-radius: 4px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0);
 }
 
 .iteminfo {
@@ -99,40 +146,76 @@
 }
 
 .itemname {
-    color: rgb(255, 157, 0);
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 12px;
+    font-weight: 600;
 }
 
 .itemslotname {
     font-size: 12px;
 }
 
-.item {
-}
-
 .popup {
-    position: absolute;
+    position: fixed;
     z-index: 5;
     width: 200px;
     display: flex;
     flex-direction: column;
-    background: rgba(46, 48, 66, 0.5);
+    gap: 2px;
+    background: rgba(26, 27, 35, 0.7);
     backdrop-filter: blur(8px);
     padding: 16px;
+    margin-left: 8px;
+    margin-top: 8px;
     border: 1px solid grey;
     border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.335) 0px 8px 20px 4px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px 16px;
     color: white;
     font-size: 12px;
 }
 
 .popupname {
-    color: rgb(218, 2, 218);
     font-weight: 600;
+}
+
+.popupdesc {
+    color: rgb(0, 255, 0);
+}
+
+.popupitemlevel {
+    color: rgb(255, 225, 0)
+}
+
+.popuptransmog {
+    color: rgb(255, 106, 225);
+}
+
+.popupspell {
+    color: rgb(0, 255, 0);
 }
 
 .itemslotarmor {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.common {
+    color: #AAAAAA; /* Common item color */
+}
+
+.uncommon {
+color: #1EFF00; /* Uncommon item color */
+}
+
+.rare {
+color: #0070DD; /* Rare item color */
+}
+
+.epic {
+color: #A335EE; /* Epic item color */
+}
+
+.legendary {
+color: #FF8000; /* Legendary item color */
 }

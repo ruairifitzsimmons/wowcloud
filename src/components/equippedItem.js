@@ -52,7 +52,6 @@ const EquippedItem = ({ media, item, index }) => {
     });
   }, [index]);
 
-  // Determine the CSS class based on the item's quality type
   const getItemNameClass = () => {
     switch (item.quality.type) {
       case 'COMMON':

@@ -97,7 +97,14 @@
     background: rgb(61, 61, 93);
 }
 
+.characterDetailsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .equippeditem {
+    border: 1px solid greenyellow;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -218,4 +225,27 @@ color: #A335EE; /* Epic item color */
 
 .legendary {
 color: #FF8000; /* Legendary item color */
+}
+
+.charMetadata {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid red;
+    z-index: 5;
+    color: white;
+}
+
+.achievementilvl {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px
+}
+
+.charHealth {
+    background: green;
+}
+
+.charPower {
+    background: rgb(0, 81, 255);
 }

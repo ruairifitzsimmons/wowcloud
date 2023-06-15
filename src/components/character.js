@@ -106,16 +106,18 @@ export default function CharacterSearch() {
         {characterData && (
           <div className={styles.character}>
             <div className={styles.characterContainer}>
-              <div>
+              <div className={styles.characterLeft}>
                 <span className={styles.characterName}>{characterData.name}</span>
+                <div>
+                  <span className={styles.characterMetadata}>
+                    {characterData.level}&nbsp;
+                    {characterData.race.name}&nbsp;
+                    {characterData.active_spec.name}&nbsp;
+                    {characterData.character_class.name}&nbsp;
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className={styles.characterMetadata}>
-                  {characterData.level}&nbsp;
-                  {characterData.race.name}&nbsp;
-                  {characterData.active_spec.name}&nbsp;
-                  {characterData.character_class.name}&nbsp;
-                </span>
+              <div className={styles.characterRight}>
               </div>
             </div>
 
@@ -127,8 +129,8 @@ export default function CharacterSearch() {
             )}
 
             {/* CHARACTER EQUIPPED ITEMS */}
-            {characterData.equipment && characterData.media && (
-              <div className={styles.equippedItemContainer}>
+            {characterData && characterData.equipment && characterData.media && (
+              <div className={styles.characterDetailsContainer}>
                 {characterData.equipment && characterData.media && (
                   <div className={styles.equippeditem}>
                     {characterData.equipment.equipped_items.map((item, index) => (
@@ -140,6 +142,20 @@ export default function CharacterSearch() {
                     ))}
                   </div>
                 )}
+                <div className={styles.charMetadata}>
+                  <div className={styles.achievementilvl}>
+                    <span>*{characterData.achievement_points}</span>
+                    <span>^{characterData.equipped_item_level}</span>
+                  </div>
+                  <span className={styles.charHealth}>Health: </span>
+                  <span className={styles.charPower}>Power: </span>
+                  <span>Stamina: </span>
+                  <span>Strength: </span>
+                  <span>Agility: </span>
+                  <span>Intellect: </span>
+                  <span>Mastery: </span>
+                  <span>Versatility: </span>
+                </div> 
               </div>
             )}
           </div>

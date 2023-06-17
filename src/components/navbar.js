@@ -20,9 +20,9 @@ export default function Navbar() {
                         Character Search
                     </Link>
 
-                    <button className={styles.menubutton}>
+                    <Link href='/loginRegister' className={styles.menubutton}>
                         Register
-                    </button>
+                    </Link>
 
                 </div>
             </div>

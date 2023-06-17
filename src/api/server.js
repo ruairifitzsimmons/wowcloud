@@ -4,9 +4,13 @@ dotenv.config({ path: '../../.env' });
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-const app = express();
+const app = express();  
+const dbRouter = require('./db'); // Import the router from db.js
 const port = 9000;
 app.use(cors());
+app.use(express.json());
+app.use('/api', dbRouter); // Mount the app instance from db.js under the '/api' path
+
 
 // DUNGEONS
 app.get('/api/dungeons', async (req, res) => {
@@ -145,7 +149,6 @@ app.get('/api/character-equipment-media', async (req, res) => {
                 },
             }
         );
-        console.log(response.data)
         res.json(response.data);
     } catch (error) {
         console.error('Error fetching equipment media: ', error);

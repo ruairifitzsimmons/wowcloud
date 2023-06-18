@@ -40,6 +40,7 @@ const RegistrationForm = () => {
 
   return (
     <form className={styles.registerForm} onSubmit={handleSubmit}>
+    <h2>Register</h2>
       <label>
         Username:
         <input

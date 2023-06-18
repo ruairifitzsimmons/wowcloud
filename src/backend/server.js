@@ -7,11 +7,39 @@ const cors = require('cors');
 const app = express();  
 const dbRouter = require('./db'); // Import the router from db.js
 const port = 9000;
+
+const dungeonsController = require('./controllers/dungeonController');
+const realmsController = require('./controllers/realmsController');
+const characterController = require('./controllers/characterController');
+const characterMediaController = require('./controllers/characterMediaController');
+const characterEquipmentController = require('./controllers/characterEquipmentController');
+const characterEquipmentMediaController = require('./controllers/characterEquipmentMediaController');
+
 app.use(cors());
 app.use(express.json());
 app.use('/api', dbRouter); // Mount the app instance from db.js under the '/api' path
 
 
+// DUNGEONS
+app.get('/api/dungeons', dungeonsController.getDungeons);
+
+// REALMS
+app.get('/api/realms', realmsController.getRealms);
+
+// CHARACTER
+app.get('/api/character', characterController.getCharacter);
+
+// CHARACTER MEDIA
+app.get('/api/character-media', characterMediaController.getCharacterMedia);
+
+// CHARACTER EQUIPMENT
+app.get('/api/character-equipment', characterEquipmentController.getCharacterEquipment);
+
+// CHARACTER EQUIPMENT MEDIA
+app.get('/api/character-equipment-media', characterEquipmentMediaController.getCharacterEquipmentMedia);
+
+
+/*
 // DUNGEONS
 app.get('/api/dungeons', async (req, res) => {
     try {
@@ -155,11 +183,13 @@ app.get('/api/character-equipment-media', async (req, res) => {
         res.status(500).json({ error: 'An error occurred' });
     }
 });
+*/
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
+/*
 // ACCESS TOKEN
 async function getAccessToken() {
     try {
@@ -172,3 +202,4 @@ async function getAccessToken() {
         throw error;
     }
 }
+*/

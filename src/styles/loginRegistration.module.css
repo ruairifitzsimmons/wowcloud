@@ -3,3 +3,9 @@
     color: white;
     padding: 24px;
 }
+
+.loginForm {
+    border: 1px solid red;
+    color: white;
+    padding: 24px;
+}

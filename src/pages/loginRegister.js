@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Navbar from '../components/navbar'
 import styles from '../styles/page.module.css'
 import RegistrationForm from '../components/registration'
+import LoginForm from '../components/login'
 
 export default function loginRegister() {
     return (
@@ -15,7 +16,8 @@ export default function loginRegister() {
             />
           </Head>
           <Navbar/>
-          <div>
+          <div className={styles.loginRegisterContainer}>
+            <LoginForm/>
             <RegistrationForm/>
           </div>
         </main>

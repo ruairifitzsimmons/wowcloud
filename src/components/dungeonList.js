@@ -1,5 +1,5 @@
 "use client";
-import { getDungeons } from '../utils/api';
+import { getDungeons } from '../backend/utils/blizzardApi';
 import React, { useEffect, useState } from "react";
 
 function DungeonList() {

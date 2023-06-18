@@ -1,8 +1,8 @@
-import axios from 'axios';
+const axios = require('axios');
 
 const BASE_URL = 'http://localhost:9000/api';
 
-export async function getDungeons() {
+async function getDungeons() {
   try {
       const response = await axios.get(`${BASE_URL}/dungeons`);
       return response.data;
@@ -12,7 +12,7 @@ export async function getDungeons() {
   }
 }
 
-export async function getRealms() {
+async function getRealms() {
   try {
     const response = await axios.get(`${BASE_URL}/realms`);
     return response.data; // Return the response data
@@ -22,7 +22,7 @@ export async function getRealms() {
   }
 }
 
-export async function getCharacter(realm, characterName) {
+async function getCharacter(realm, characterName) {
   try {
     const response = await axios.get(`${BASE_URL}/character`, {
       params: {
@@ -37,7 +37,7 @@ export async function getCharacter(realm, characterName) {
   }
 }
 
-export async function getCharacterMedia(realm, characterName) {
+async function getCharacterMedia(realm, characterName) {
   try {
     const response = await axios.get(`${BASE_URL}/character-media`, {
         params: {
@@ -53,7 +53,7 @@ export async function getCharacterMedia(realm, characterName) {
   }
 }
 
-export async function getCharacterEquipment(realm, characterName) {
+async function getCharacterEquipment(realm, characterName) {
   try {
     const response = await axios.get(`${BASE_URL}/character-equipment`, {
       params: {
@@ -68,7 +68,7 @@ export async function getCharacterEquipment(realm, characterName) {
   }
 }
 
-export async function getCharacterEquipmentMedia(itemid) {
+async function getCharacterEquipmentMedia(itemid) {
   try {
     const response = await axios.get(`${BASE_URL}/character-equipment-media`, {
       params: {
@@ -81,3 +81,12 @@ export async function getCharacterEquipmentMedia(itemid) {
     throw error;
   }
 }
+
+module.exports = {
+  getDungeons,
+  getRealms,
+  getCharacter,
+  getCharacterMedia,
+  getCharacterEquipment,
+  getCharacterEquipmentMedia,
+};

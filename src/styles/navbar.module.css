@@ -8,9 +8,9 @@
     left: 16px;
     z-index: 999;
     background: linear-gradient(to bottom, rgb(24, 26, 42), rgb(24, 26, 42, 0.5));
-}
-
-.navcontainer {
+  }
+  
+  .navcontainer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -23,24 +23,24 @@
     border-radius: 16px;
     box-shadow: rgba(0, 0, 0, 0.335) 0px 8px 20px 4px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.menuitems {
+  }
+  
+  .menuitems {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-}
-
-.menuitem {
+  }
+  
+  .menuitem {
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1.4px;
     color: white;
     text-transform: uppercase;
-}
-
-.menubutton {
+  }
+  
+  .menubutton {
     background: rgb(255, 58, 58);
     font-size: 12px;
     font-weight: 700;
@@ -50,4 +50,68 @@
     border: 0px;
     border-radius: 8px;
     text-transform: uppercase;
-}
+  }
+  
+  /* Slide-in Menu Styles */
+  
+  .menuToggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .menuIcon {
+    display: block;
+    color: white;
+  }
+  
+  .mobileMenu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 27, 35, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 16px;
+    box-sizing: border-box;
+    z-index: 9999;
+    overflow-y: auto;
+  }
+  
+  .closeButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .closeIcon {
+    display: block;
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .menuitems {
+      display: none;
+    }
+  
+    .menuToggle {
+      display: block;
+    }
+  
+    .mobileMenu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .navcontainer {
+      margin-top: 8px;
+    }
+  }
+  

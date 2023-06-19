@@ -1,4 +1,5 @@
-import { getCharacter, getRealms, getCharacterEquipment, getCharacterEquipmentMedia, getCharacterMedia } from '../backend/utils/blizzardApi';
+/* eslint-disable @next/next/no-img-element */
+import { getCharacter, getRealms, getCharacterEquipment, getCharacterEquipmentMedia, getCharacterMedia, getCharacterStatistics } from '../backend/utils/blizzardApi';
 import { useEffect, useState } from 'react';
 import styles from '../styles/character.module.css';
 import EquippedItem from './equippedItem';
@@ -76,7 +77,11 @@ export default function CharacterSearch() {
   return (
     <div className={styles.container}>
       <div>
+        {/* Form */}
+        <div className={styles.formContainer}>
         <form className={styles.searchContainer} onSubmit={handleSearch}>
+
+          {/* Realm Select */}
           <select
             className={styles.searchSelect}
             value={selectedRealm}
@@ -90,6 +95,8 @@ export default function CharacterSearch() {
                 </option>
               ))}
           </select>
+
+          {/* Character Input */}
           <input
             className={styles.searchInput}
             type="text"
@@ -97,16 +104,21 @@ export default function CharacterSearch() {
             onChange={(e) => setCharacterName(e.target.value)}
             placeholder="Enter character name"
           />
+
+          {/* Search Button */}
           <button className={styles.searchButton} type="submit">Search</button>
+
         </form>
+        </div>
       </div>
 
+      {/* Character Container */}
       <div className={styles.mainContainer}>
-        {/* CHARACTER METADATA */}
         {characterData && (
           <div className={styles.character}>
+
+            {/* Character Metadata */}
             <div className={styles.characterContainer}>
-              <div className={styles.characterLeft}>
                 <span className={styles.characterName}>{characterData.name}</span>
                 <div>
                   <span className={styles.characterMetadata}>
@@ -116,21 +128,19 @@ export default function CharacterSearch() {
                     {characterData.character_class.name}&nbsp;
                   </span>
                 </div>
-              </div>
-              <div className={styles.characterRight}>
-              </div>
             </div>
 
-            {/* CHARACTER IMAGE */}
+            {/* Character Image */}
             {characterData.assets && (
               <div className={styles.characterImageContainer}>
-                <img className={styles.characterImage} src={characterData.assets[2].value}/>
+                <img className={styles.characterImage} src={characterData.assets[2].value} alt='/'/>
               </div>
             )}
 
-            {/* CHARACTER EQUIPPED ITEMS */}
             {characterData && characterData.equipment && characterData.media && (
               <div className={styles.characterDetailsContainer}>
+
+                {/* Character Equipped Items */}
                 {characterData.equipment && characterData.media && (
                   <div className={styles.equippeditem}>
                     {characterData.equipment.equipped_items.map((item, index) => (
@@ -142,19 +152,32 @@ export default function CharacterSearch() {
                     ))}
                   </div>
                 )}
-                <div className={styles.charMetadata}>
+
+                {/* Character Statistics */}
+                <div className={styles.characterStatistics}>
+
+                  {/* Character Achievement Points & iLvl */}
                   <div className={styles.achievementilvl}>
                     <span>*{characterData.achievement_points}</span>
                     <span>^{characterData.equipped_item_level}</span>
                   </div>
-                  <span className={styles.charHealth}>Health: </span>
-                  <span className={styles.charPower}>Power: </span>
-                  <span>Stamina: </span>
-                  <span>Strength: </span>
-                  <span>Agility: </span>
-                  <span>Intellect: </span>
-                  <span>Mastery: </span>
-                  <span>Versatility: </span>
+
+                  {/* Character Health & Power */}
+                  <div className={styles.healthPower}>
+                  <span className={styles.characterHealth}>Health: </span>
+                  <span className={styles.characterPower}>Power: </span>
+                  </div>
+
+                  {/* Character Attributes */}
+                  <div className={styles.characterAttributes}>
+                    <span>Stamina:</span>
+                    <span>Strength:</span>
+                    <span>Agility:</span>
+                    <span>Intellect:</span>
+                    <span>Mastery:</span>
+                    <span>Versatility:</span>
+                  </div>
+
                 </div> 
               </div>
             )}

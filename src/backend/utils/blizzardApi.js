@@ -1,5 +1,4 @@
 const axios = require('axios');
-
 const BASE_URL = 'http://localhost:9000/api';
 
 async function getDungeons() {
@@ -15,7 +14,7 @@ async function getDungeons() {
 async function getRealms() {
   try {
     const response = await axios.get(`${BASE_URL}/realms`);
-    return response.data; // Return the response data
+    return response.data;
   } catch (error) {
     console.error('Error fetching realms: ', error);
     throw error;
@@ -82,6 +81,21 @@ async function getCharacterEquipmentMedia(itemid) {
   }
 }
 
+async function getCharacterStatistics(realm, characterName) {
+  try {
+    const response = await axios.get(`${BASE_URL}/character-statistics`, {
+      params: {
+        realm,
+        characterName,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching character: ', error);
+    throw error;
+  }
+}
+
 module.exports = {
   getDungeons,
   getRealms,
@@ -89,4 +103,5 @@ module.exports = {
   getCharacterMedia,
   getCharacterEquipment,
   getCharacterEquipmentMedia,
+  getCharacterStatistics
 };

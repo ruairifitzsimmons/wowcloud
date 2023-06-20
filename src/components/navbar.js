@@ -32,24 +32,27 @@ export default function Navbar() {
           <Link href="/character">
             <span className={styles.menuitem}>Character Search</span>
           </Link>
-          <Link href="/loginRegister">
+          <Link href="/login">
+            <span className={styles.menubutton2}>Login</span>
+          </Link>
+          <Link href="/register">
             <span className={styles.menubutton}>Register</span>
           </Link>
         </div>
         <button className={styles.menuToggle} onClick={toggleMenu}>
-  {isMenuOpen ? (
-    <FontAwesomeIcon icon={faTimes} className={styles.menuIcon} />
-  ) : (
-    <FontAwesomeIcon icon={faBars} className={styles.menuIcon} />
-  )}
-</button>
-
+          {isMenuOpen ? (
+            <FontAwesomeIcon icon={faTimes} className={styles.menuIcon} />
+          ) : (
+            <FontAwesomeIcon icon={faBars} className={styles.menuIcon} />
+          )}
+        </button>
       </div>
+
       {isMenuOpen && (
         <div className={styles.mobileMenu}>
           <button className={styles.closeButton} onClick={toggleMenu}>
-  <FontAwesomeIcon icon={faTimes} className={styles.closeIcon} />
-</button>
+            <FontAwesomeIcon icon={faTimes} className={styles.closeIcon} />
+          </button>
           <Link href="/content">
             <span className={styles.menuitem}>Content</span>
           </Link>
@@ -59,7 +62,10 @@ export default function Navbar() {
           <Link href="/character">
             <span className={styles.menuitem}>Character Search</span>
           </Link>
-          <Link href="/loginRegister">
+          <Link href="/login">
+            <span className={styles.menubutton2}>Login</span>
+          </Link>
+          <Link href="/register">
             <span className={styles.menubutton}>Register</span>
           </Link>
         </div>

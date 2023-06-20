@@ -3,10 +3,3 @@
   flex-direction: column;
   align-items: center;
 }
-
-.loginRegisterContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  border: 1px solid pink;
-}

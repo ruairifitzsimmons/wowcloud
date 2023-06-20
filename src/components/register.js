@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-import styles from '../styles/loginregister.module.css';
 import { useRouter } from 'next/router';
+import styles from '../styles/loginregister.module.css';
 
-const LoginForm = () => {
+const RegistrationForm = () => {
 
     const router = useRouter();
     const [email, setEmail] = useState('')
@@ -13,14 +13,14 @@ const LoginForm = () => {
     async function submit(e) {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:9000/login', {
+            await axios.post('http://localhost:9000/register', {
                 email, password
             }).then(res => {
                 if (res.data === 'exist') {
-                    router.push('/profile')
+                    alert('User already exists')
                     console.log('exist')
                 } else if (res.data === 'notexist') {
-                    alert('User does not exist')
+                    router.push('/profile')
                     console.log('exist')
                 }
             }).catch (e => {
@@ -34,7 +34,7 @@ const LoginForm = () => {
 
   return (
     <div className={styles.formContainer}>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <form className={styles.form} action ="POST">
             <input 
                 className={styles.formInput}
@@ -47,7 +47,7 @@ const LoginForm = () => {
             <input 
                 className={styles.formInput}
                 type = "password"
-                onChange = {(e) => { setPassword(e.target.value ) }}
+                onChange = {(e) => { setPassword(e.target.value) }}
                 placeholder = "Password"
                 name = ""
                 id = ""
@@ -56,11 +56,13 @@ const LoginForm = () => {
                 className={styles.formButton}
                 type = "submit"
                 onClick = {submit}
-            >Log in</button>
+            >
+                Register
+            </button>
         </form>
-        <span>Not have an account?<Link href="/register">Register</Link></span>
+        <span>Have an account?<Link href="/login">Login</Link></span>
     </div>
   )
 };
 
-export default LoginForm;
+export default RegistrationForm;

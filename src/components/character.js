@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/character.module.css';
 import EquippedItem from './equippedItem';
 
-
 export default function CharacterSearch() {
   const [realms, setRealms] = useState([]);
   const [selectedRealm, setSelectedRealm] = useState('');
   const [characterName, setCharacterName] = useState('');
   const [characterData, setCharacterData] = useState(null);
+  const [characterStatistics, setCharacterStatistics] = useState(null);
+  const [showStatisticsPopup, setShowStatisticsPopup] = useState(false);
 
   useEffect(() => {
     const fetchRealms = async () => {
@@ -33,6 +34,7 @@ export default function CharacterSearch() {
 
     try {
       if (selectedRealm && characterName) {
+
         const [characterResponse, equipmentResponse, characterMediaResponse] = await Promise.all([
           getCharacter(selectedRealm, characterName),
           getCharacterEquipment(selectedRealm, characterName),
@@ -68,6 +70,10 @@ export default function CharacterSearch() {
 
           setCharacterData(characterDataWithMedia);
         }
+
+        const characterStatisticsResponse = await getCharacterStatistics(selectedRealm, characterName);
+        setCharacterStatistics(characterStatisticsResponse);
+
       }
     } catch (error) {
       console.error(error);
@@ -128,6 +134,13 @@ export default function CharacterSearch() {
                     {characterData.character_class.name}&nbsp;
                   </span>
                 </div>
+
+                <button
+                  className={styles.showStatisticsButton}
+                  onClick={() => setShowStatisticsPopup(!showStatisticsPopup)}>
+                  eye
+                </button>
+
             </div>
 
             {/* Character Image */}
@@ -136,8 +149,8 @@ export default function CharacterSearch() {
                 <img className={styles.characterImage} src={characterData.assets[2].value} alt='/'/>
               </div>
             )}
-
-            {characterData && characterData.equipment && characterData.media && (
+            
+            {characterData && characterData.equipment && characterData.media && characterStatistics && (
               <div className={styles.characterDetailsContainer}>
 
                 {/* Character Equipped Items */}
@@ -164,21 +177,47 @@ export default function CharacterSearch() {
 
                   {/* Character Health & Power */}
                   <div className={styles.healthPower}>
-                  <span className={styles.characterHealth}>Health: </span>
-                  <span className={styles.characterPower}>Power: </span>
+                  <span className={styles.characterHealth}>{characterStatistics.health}</span>
+                  <span className={styles.characterPower}>{characterStatistics.power}</span>
                   </div>
 
                   {/* Character Attributes */}
                   <div className={styles.characterAttributes}>
-                    <span>Stamina:</span>
-                    <span>Strength:</span>
-                    <span>Agility:</span>
-                    <span>Intellect:</span>
-                    <span>Mastery:</span>
-                    <span>Versatility:</span>
+                    <span className={styles.characterAttribute}>Stamina: {characterStatistics.stamina.base}</span>
+                    <span className={styles.characterAttribute}>Strength: {characterStatistics.strength.base}</span>
+                    <span className={styles.characterAttribute}>Agility: {characterStatistics.agility.base}</span>
+                    <span className={styles.characterAttribute}>Intellect: {characterStatistics.intellect.base}</span>
+                    <span className={styles.characterAttribute}>Mastery: {characterStatistics.mastery.rating}</span>
+                    <span className={styles.characterAttribute}>Versatility: {characterStatistics.versatility}</span>
                   </div>
 
-                </div> 
+                </div>
+
+                {showStatisticsPopup && (
+                <div className={styles.statisticsPopup}>
+                  {/* Character Achievement Points & iLvl */}
+                  <div className={styles.achievementilvl}>
+                    <span>*{characterData.achievement_points}</span>
+                    <span>^{characterData.equipped_item_level}</span>
+                  </div>
+
+                  {/* Character Health & Power */}
+                  <div className={styles.healthPower}>
+                  <span className={styles.characterHealth}>{characterStatistics.health}</span>
+                  <span className={styles.characterPower}>{characterStatistics.power}</span>
+                  </div>
+
+                  {/* Character Attributes */}
+                  <div className={styles.characterAttributes}>
+                    <span className={styles.characterAttribute}>Stamina: {characterStatistics.stamina.base}</span>
+                    <span className={styles.characterAttribute}>Strength: {characterStatistics.strength.base}</span>
+                    <span className={styles.characterAttribute}>Agility: {characterStatistics.agility.base}</span>
+                    <span className={styles.characterAttribute}>Intellect: {characterStatistics.intellect.base}</span>
+                    <span className={styles.characterAttribute}>Mastery: {characterStatistics.mastery.rating}</span>
+                    <span className={styles.characterAttribute}>Versatility: {characterStatistics.versatility}</span>
+                  </div>
+                </div>
+              )}
               </div>
             )}
           </div>

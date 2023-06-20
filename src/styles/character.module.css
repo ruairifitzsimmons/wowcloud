@@ -55,15 +55,16 @@
 
 .character {
     position: relative;
-    margin: 16px;
     padding: 32px;
     z-index: 1;
+    margin: 0px 16px;
 }
 
 .characterContainer {
     position: relative;
     z-index: 1;
     padding: 8px;
+    padding: 16px;
 }
 
 .characterName {
@@ -229,6 +230,8 @@ color: #FF8000; /* Legendary item color */
 }
 
 .characterStatistics {
+    position: absolute;
+    right: 40px;
     display: flex;
     flex-direction: column;
     z-index: 5;
@@ -258,7 +261,7 @@ color: #FF8000; /* Legendary item color */
     flex-direction: column;
     gap: 8px;
     margin: 16px 0px;
-    width: 140px;
+    width: 200px;
 }
 
 .characterHealth {
@@ -280,9 +283,21 @@ color: #FF8000; /* Legendary item color */
     flex-direction: column;
 }
 
+.characterAttribute {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+} 
+
+.showStatisticsButton {
+    display: none;
+}
+  
 @media (max-width: 768px) {
     .searchContainer {
         flex-direction: column;
+        box-sizing: border-box;
+        width: 100%;
     }
 
     .characterStatistics {
@@ -290,7 +305,41 @@ color: #FF8000; /* Legendary item color */
     }
 
     .character {
-        padding: 8px;
+        padding: 0px;
     }
 
+    .equippeditem {
+        padding: 16px;
+    }
+
+    .showStatisticsButton {
+        display: block;
+        padding: 8px 16px;
+        margin-top: 12px;
+        background-color: #ff3f3f;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .statisticsPopup {
+        position: absolute;
+        z-index: 999;
+        width: fit-content;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        top: 16px;
+        right: 16px;
+        background: rgba(26, 27, 35, 0.7);
+        backdrop-filter: blur(8px);
+        padding: 16px;
+        border: 1px solid grey;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px 16px;
+        color: white;
+        font-size: 12px;
+    }
 }

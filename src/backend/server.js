@@ -4,6 +4,7 @@ dotenv.config({ path: '../../.env' });
 const express = require('express');
 const collection = require('./db')
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 const app = express();  
 //const dbRouter = require('./db');
 const port = 9000;
@@ -31,42 +32,53 @@ app.get('/api/character-equipment-media', characterEquipmentMediaController.getC
 app.get('/api/character-statistics', characterStatisticsController.getCharacterStatistics);
 
 app.get('/login', cors(), (req,res) => {
-
 })
 
-app.post('/login', async(req,res) => {
-    const {email, password} = req.body
-
-    try {
-        const check = await collection.findOne({email:email})
-
-        if (check) {
-            res.json('exist')
-        } else {
-            res.json('notexist')
-        }
-
-    } catch(e) {
-        res.json('notexist')
-    }
-})
-
-app.post('/register', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const check = await collection.findOne({ email: email });
-  
-      if (check) {
+// Login
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await collection.findOne({ email: email });
+    if (user) {
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
+      if (isPasswordMatch) {
         res.json('exist');
       } else {
-        await collection.insertMany([{ email: email, password: password }]);
-        res.json('notexist');
+        res.json('passwordincorrect');
       }
-    } catch (e) {
-      res.status(500).json('error');
+    } else {
+      res.json('notexist');
     }
-  });
+  } catch (e) {
+    res.json('notexist');
+  }
+});
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Register
+app.post('/register', async (req, res) => {
+  const { email, password } = req.body;
+  // Validate email format
+  if (!emailRegex.test(email)) {
+    res.json('invalidemail');
+    return;
+  }
+  try {
+    const check = await collection.findOne({ email: email });
+    if (check) {
+      res.json('exist');
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await collection.insertMany([
+        { email: email, password: hashedPassword },
+      ]);
+      res.json('notexist');
+    }
+  } catch (e) {
+    res.status(500).json('error');
+  }
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

@@ -38,6 +38,7 @@
     letter-spacing: 1.4px;
     color: white;
     text-transform: uppercase;
+    text-decoration: none;
   }
   
   .menubutton {
@@ -50,6 +51,7 @@
     border: 0px;
     border-radius: 8px;
     text-transform: uppercase;
+    text-decoration: none;
   }
 
   .menubutton2 {
@@ -61,6 +63,7 @@
     padding: 8px 32px;
     border-radius: 8px;
     text-transform: uppercase;
+    text-decoration: none;
   }
   
   /* Slide-in Menu Styles */
@@ -110,6 +113,10 @@
     .menuitems {
       display: none;
     }
+
+    .menuitem {
+      text-decoration: none;
+    }
   
     .menuToggle {
       display: block;
@@ -118,11 +125,14 @@
     .mobileMenu {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 32px;
+      align-items: center;
+      padding-top: 80px;
+      background: rgba(26, 27, 35, 0.9);
     }
   
     .navcontainer {
-      margin-top: 8px;
+      margin-top: 16px;
     }
   }
   

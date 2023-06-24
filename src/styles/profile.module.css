@@ -1,0 +1,63 @@
+.container {
+    width: 100vw;
+    max-width: 1200px;
+}
+
+.infoContainer {
+    display: grid;
+    grid-template-columns: 6fr 3fr;
+    margin: 16px;
+    gap: 16px;
+    color: white;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.postsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: rgba(103, 109, 155, 0.1);
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
+    color: white;
+    font-size: 12px;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: rgba(103, 109, 155, 0.1);
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
+    color: white;
+    font-size: 12px;
+}
+
+.profileInfoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: rgba(103, 109, 155, 0.1);
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
+    color: white;
+    font-size: 12px;
+}
+
+.profileInfoUsername {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 24px;
+}
+
+.profileInfoEmail {
+    font-size: 16px;
+    font-weight: 400;
+}

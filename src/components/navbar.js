@@ -23,20 +23,20 @@ export default function Navbar() {
           <Image src="/images/WoW Cloud Logo.png" alt="WoW Cloud Logo" width="32" height="32" />
         </Link>
         <div className={`${styles.menuitems} ${isMenuOpen ? styles.open : ''}`}>
-          <Link href="/content">
-            <span className={styles.menuitem}>Content</span>
+          <Link className={styles.menuitem} href="/content">
+            <span >Content</span>
           </Link>
-          <Link href="/forum">
-            <span className={styles.menuitem}>Forum</span>
+          <Link className={styles.menuitem} href="/forum">
+            <span>Forum</span>
           </Link>
-          <Link href="/character">
-            <span className={styles.menuitem}>Character Search</span>
+          <Link className={styles.menuitem} href="/character">
+            <span>Character Search</span>
           </Link>
-          <Link href="/login">
-            <span className={styles.menubutton2}>Login</span>
+          <Link className={styles.menubutton2} href="/login">
+            <span>Login</span>
           </Link>
-          <Link href="/register">
-            <span className={styles.menubutton}>Register</span>
+          <Link className={styles.menubutton} href="/register">
+            <span>Register</span>
           </Link>
         </div>
         <button className={styles.menuToggle} onClick={toggleMenu}>
@@ -53,20 +53,20 @@ export default function Navbar() {
           <button className={styles.closeButton} onClick={toggleMenu}>
             <FontAwesomeIcon icon={faTimes} className={styles.closeIcon} />
           </button>
-          <Link href="/content">
-            <span className={styles.menuitem}>Content</span>
+          <Link className={styles.menuitem} href="/content">
+            <span>Content</span>
           </Link>
-          <Link href="/forum">
-            <span className={styles.menuitem}>Forum</span>
+          <Link className={styles.menuitem} href="/forum">
+            <span>Forum</span>
           </Link>
-          <Link href="/character">
-            <span className={styles.menuitem}>Character Search</span>
+          <Link className={styles.menuitem} href="/character">
+            <span>Character Search</span>
           </Link>
-          <Link href="/login">
-            <span className={styles.menubutton2}>Login</span>
+          <Link className={styles.menubutton2} href="/login">
+            <span>Login</span>
           </Link>
-          <Link href="/register">
-            <span className={styles.menubutton}>Register</span>
+          <Link className={styles.menubutton} href="/register">
+            <span>Register</span>
           </Link>
         </div>
       )}

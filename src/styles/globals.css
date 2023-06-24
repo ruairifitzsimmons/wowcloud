@@ -13,5 +13,5 @@ html {
 
 body {
   background: rgb(24, 26, 42);
-  height: 2000px;
+  height: fit-content;
 }

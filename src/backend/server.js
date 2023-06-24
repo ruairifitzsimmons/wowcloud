@@ -1,12 +1,10 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: '../../.env' });
-
 const express = require('express');
 const collection = require('./db')
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const app = express();  
-//const dbRouter = require('./db');
+const app = express();
 const port = 9000;
 
 // CONTROLLERS

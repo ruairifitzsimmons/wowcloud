@@ -1,4 +1,5 @@
 import Navbar from '../components/navbar'
+import ProfileInfo from '../components/profileInfo'
 import styles from '../styles/page.module.css'
 
 function Profile() {
@@ -6,7 +7,7 @@ function Profile() {
     return (
         <div className={styles.main}>
             <Navbar/>
-            <h1>Profile</h1>
+            <ProfileInfo/>
         </div>
     )
 }

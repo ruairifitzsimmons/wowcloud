@@ -20,7 +20,5 @@ const newSchema = new mongoose.Schema({
         required: true
     }
 })
-
 const collection = mongoose.model('collection', newSchema)
-
 module.exports = collection

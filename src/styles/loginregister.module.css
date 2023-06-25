@@ -42,6 +42,12 @@
     color: rgb(255, 58, 58);
 }
 
+.formLink {
+    color: rgb(0, 162, 255);
+    text-decoration: none;
+    font-weight: 600;
+}
+
 @media (max-width: 768px) {
 
 }

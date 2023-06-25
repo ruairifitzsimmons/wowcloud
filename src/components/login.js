@@ -25,9 +25,23 @@ const LoginForm = () => {
       });
       const data = response.data;
 
-      if (data === 'exist') {
+      if (data.token) {
+        localStorage.setItem('token', data.token); // Store the token in local storage
         router.push('/profile');
         console.log('Login successful');
+      } else {
+        alert(data.message);
+        console.log('Login failed');
+      }
+    } catch (error) {
+      alert('An error occurred: ' + error.message);
+      console.log(error);
+    }
+
+      /*
+      if (data.status === 'exist') {
+        console.log('Login successful');
+        router.push('/profile');
       } else if (data === 'notexist') {
         alert('User does not exist');
         console.log('User does not exist');
@@ -39,6 +53,7 @@ const LoginForm = () => {
       alert('An error occurred: ' + error.message);
       console.log(error);
     }
+    */
   }
 
   const validateEmail = (email) => {
@@ -79,7 +94,7 @@ const LoginForm = () => {
         </button>
       </form>
       <span>
-        Not have an account? <Link href="/register">Register</Link>
+        Not have an account? <Link className={styles.formLink} href="/register">Register</Link>
       </span>
     </div>
   );

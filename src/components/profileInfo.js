@@ -4,13 +4,28 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../styles/profile.module.css';
 
+const logout = async (router) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (token) {
+      await axios.post('http://localhost:9000/logout', {}, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      localStorage.removeItem('token');
+      router.push('/login');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const ProfileInfo = () => {
   const [email, setEmail] = useState('');
   const router = useRouter();
-
   useEffect(() => {
     const token = localStorage.getItem('token');
-
     if (token) {
         axios
         .get('http://localhost:9000/profile', {
@@ -19,15 +34,13 @@ const ProfileInfo = () => {
           },
         })
         .then(response => {
-          const userEmail = response.data.email; // Access the email property
-          setEmail(userEmail); // Set the email value in state
+          const userEmail = response.data.email;
+          setEmail(userEmail);
         })
         .catch(error => {
           console.log(error);
-          // Handle any error that occurred during the API request
         });
     } else {
-      // User is not authenticated, redirect to login page
       router.push('/login');
     }
   }, []);
@@ -51,6 +64,7 @@ const ProfileInfo = () => {
           <span className={styles.profileInfoUsername}>Username</span>
           <span className={styles.profileInfoEmail}>Email: {email}</span>
         </div>
+        <button className={styles.logoutButton} onClick={() => logout(router)}>Logout</button>
       </div>
     </div>
   );

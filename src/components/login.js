@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import styles from '../styles/loginregister.module.css';
@@ -10,21 +10,27 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
 
+  useEffect(() => {
+    // Check if the user is already logged in
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Redirect the user to another page, such as the profile page
+      router.push('/profile');
+    }
+  }, []);
+
   async function submit(e) {
     e.preventDefault();
-
     if (!validateEmail(email)) {
       setEmailError('Please enter a valid email address.');
       return;
     }
-
     try {
       const response = await axios.post('http://localhost:9000/login', {
         email,
         password,
       });
       const data = response.data;
-
       if (data.token) {
         localStorage.setItem('token', data.token); // Store the token in local storage
         router.push('/profile');
@@ -37,23 +43,6 @@ const LoginForm = () => {
       alert('An error occurred: ' + error.message);
       console.log(error);
     }
-
-      /*
-      if (data.status === 'exist') {
-        console.log('Login successful');
-        router.push('/profile');
-      } else if (data === 'notexist') {
-        alert('User does not exist');
-        console.log('User does not exist');
-      } else if (data === 'passwordincorrect') {
-        alert('Incorrect password');
-        console.log('Incorrect password');
-      }
-    } catch (error) {
-      alert('An error occurred: ' + error.message);
-      console.log(error);
-    }
-    */
   }
 
   const validateEmail = (email) => {

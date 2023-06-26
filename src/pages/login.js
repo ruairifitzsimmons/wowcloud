@@ -3,8 +3,11 @@ import Navbar from '../components/navbar'
 import styles from '../styles/page.module.css'
 import LoginForm from '../components/login'
 
-export default function Login() {
-  return (
+export default function Login({ isLoggedIn }) {
+  if (isLoggedIn) {
+    // Redirect the user to another page, such as the profile page
+    // or display a message indicating they are already logged in
+    return (
       <main className={styles.main}>
         <Head>
           <title>Login - WoW Cloud</title>
@@ -16,8 +19,26 @@ export default function Login() {
         </Head>
         <Navbar/>
         <div className={styles.loginRegisterContainer}>
-          <LoginForm/>
+          <p>You are already logged in.</p>
         </div>
       </main>
-    )
+    );
+  }
+
+  return (
+    <main className={styles.main}>
+      <Head>
+        <title>Login - WoW Cloud</title>
+        <meta
+          name='login'
+          content='World of Warcraft Community Site'
+          key='desc'
+        />
+      </Head>
+      <Navbar/>
+      <div className={styles.loginRegisterContainer}>
+        <LoginForm/>
+      </div>
+    </main>
+  );
 }

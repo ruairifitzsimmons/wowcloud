@@ -1,34 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../styles/loginregister.module.css';
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ isLoggedIn }) => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
 
+  useEffect(() => {
+    // Check if the user is already logged in
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Redirect the user to another page, such as the profile page
+      router.push('/profile');
+    }
+  }, []);
+
   async function submit(e) {
     e.preventDefault();
-
     if (!validateEmail(email)) {
       setEmailError('Please enter a valid email address.');
       return;
     }
-
     try {
       const response = await axios.post('http://localhost:9000/register', {
         email,
         password,
       });
       const data = response.data;
-
       if (data === 'exist') {
         alert('User already exists');
         console.log('User already exists');
       } else if (data === 'notexist') {
+        localStorage.setItem('token', data.token); // Store the token in local storage
         router.push('/profile');
         console.log('Registration successful');
       }

@@ -6,8 +6,6 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const app = express();
 const port = 9000;
-
-
 const auth = require('./auth');
 
 // CONTROLLERS
@@ -18,7 +16,6 @@ const characterMediaController = require('./controllers/characterMediaController
 const characterEquipmentController = require('./controllers/characterEquipmentController');
 const characterEquipmentMediaController = require('./controllers/characterEquipmentMediaController');
 const characterStatisticsController = require('./controllers/characterStatisticsController');
-const { Collection } = require('mongoose');
 
 app.use(cors());
 app.use(express.json());
@@ -40,7 +37,6 @@ app.post('/login', async (req, res) => {
     const user = await collection.findOne({ email: email });
     if (user) {
       const isPasswordMatch = await auth.comparePasswords(password, user.password);
-      //const isPasswordMatch = await bcrypt.compare(password, user.password);
       if (isPasswordMatch) {
         const token = auth.generateToken(user);
         res.json({ token: token });
@@ -57,19 +53,14 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Profile
 app.get('/profile', auth.authenticateToken, async (req, res) => {
   try {
-    const userId = req.user.userId; // Get the userId from req.user
-
-    // TODO: Fetch the user profile based on the userId
-    // Example code assuming you have a "User" model and using Mongoose
+    const userId = req.user.userId;
     const user = await collection.findById(userId);
-
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
-    // Return the user profile
     res.json({ email: user.email });
   } catch (error) {
     console.error(error);
@@ -82,7 +73,6 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Register
 app.post('/register', async (req, res) => {
   const { email, password } = req.body;
-  // Validate email format
   if (!emailRegex.test(email)) {
     res.json('invalidemail');
     return;
@@ -101,6 +91,11 @@ app.post('/register', async (req, res) => {
   } catch (e) {
     res.status(500).json('error');
   }
+});
+
+// Logout
+app.post('/logout', (req, res) => {
+  res.json({ message: 'Logout successful' });
 });
 
 app.listen(port, () => {

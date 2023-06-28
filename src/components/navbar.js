@@ -35,35 +35,35 @@ export default function Navbar() {
   return (
     <div className={styles.container}>
       <div className={styles.navcontainer}>
-        <Link href="/">
+        <Link href="/" passHref>
           <Image src="/images/WoW Cloud Logo.png" alt="WoW Cloud Logo" width="32" height="32" />
         </Link>
         <div className={`${styles.menuitems} ${isMenuOpen ? styles.open : ''}`}>
-          <Link className={styles.menuitem} href="/content">
-            <span>Content</span>
+          <Link className={styles.menuitem} href="/content" passHref>
+            Content
           </Link>
-          <Link className={styles.menuitem} href="/forum">
-            <span>Forum</span>
+          <Link className={styles.menuitem} href="/forum" passHref>
+            Forum
           </Link>
-          <Link className={styles.menuitem} href="/character">
-            <span>Character Search</span>
+          <Link className={styles.menuitem} href="/character" passHref>
+            Character Search
           </Link>
           {isLoggedIn ? (
             <>
-              <Link className={styles.menubutton} href="/profile">
-                <span>Profile</span>
+              <Link className={styles.menubutton} href="/profile" passHref>
+                Profile
               </Link>
-              <Link className={styles.menubutton} onClick={handleLogout} href="/">
-                <span>Logout</span>
+              <Link className={styles.menubutton} onClick={handleLogout} href="/" passHref>
+                Logout
               </Link>
             </>
           ) : (
             <>
-              <Link className={styles.menubutton2} href="/login">
-                <span>Login</span>
+              <Link className={styles.menubutton2} href="/login" passHref>
+                Login
               </Link>
-              <Link className={styles.menubutton} href="/register">
-                <span>Register</span>
+              <Link className={styles.menubutton} href="/register" passHref>
+                Register
               </Link>
             </>
           )}
@@ -82,30 +82,30 @@ export default function Navbar() {
           <button className={styles.closeButton} onClick={toggleMenu}>
             <FontAwesomeIcon icon={faTimes} className={styles.closeIcon} />
           </button>
-          <Link className={styles.menuitem} href="/content">
-            <span>Content</span>
+          <Link className={styles.menuitem} href="/content" passHref>
+            Content
           </Link>
-          <Link className={styles.menuitem} href="/forum">
-            <span>Forum</span>
+          <Link className={styles.menuitem} href="/forum" passHref>
+            Forum
           </Link>
-          <Link className={styles.menuitem} href="/character">
-            <span>Character Search</span>
+          <Link className={styles.menuitem} href="/character" passHref>
+            Character Search
           </Link>
           {isLoggedIn ? (
             <>
-              <Link className={styles.menubutton} href="/profile">
-                <span>Profile</span>
+              <Link className={styles.menubutton} href="/profile" passHref>
+                Profile
               </Link>
-              <Link className={styles.menubutton} onClick={handleLogout}>
-                <span>Logout</span>
+              <Link className={styles.menubutton} onClick={handleLogout} href="/" passHref>
+                Logout
               </Link>
             </>
           ) : (
             <>
-              <Link className={styles.menubutton2} href="/login">
+              <Link className={styles.menubutton2} href="/login" passHref>
                 <span>Login</span>
               </Link>
-              <Link className={styles.menubutton} href="/register">
+              <Link className={styles.menubutton} href="/register" passHref>
                 <span>Register</span>
               </Link>
             </>

@@ -23,7 +23,11 @@ const logout = async (router) => {
 
 const ProfileInfo = () => {
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [newUsername, setNewUsername] = useState('');
+  const [editing, setEditing] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -34,8 +38,9 @@ const ProfileInfo = () => {
           },
         })
         .then(response => {
-          const userEmail = response.data.email;
-          setEmail(userEmail);
+          const userData = response.data;
+          setUsername(userData.username);
+          setEmail(userData.email);
         })
         .catch(error => {
           console.log(error);
@@ -44,6 +49,40 @@ const ProfileInfo = () => {
       router.push('/login');
     }
   }, []);
+
+  const handleEdit = () => {
+    setEditing(true);
+    setNewUsername(username);
+  };
+
+  const handleSave = () => {
+    const token = localStorage.getItem('token');
+    if (token && newUsername) {
+      axios
+        .put(
+          'http://localhost:9000/profile',
+          { username: newUsername },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then(response => {
+          const updatedUsername = response.data.username;
+          setUsername(updatedUsername);
+          setEditing(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleCancel = () => {
+    setEditing(false);
+    setNewUsername('');
+  };
 
   return (
     <div className={styles.container}>
@@ -61,8 +100,23 @@ const ProfileInfo = () => {
           </div>
         </div>
         <div className={styles.profileInfoContainer}>
-          <span className={styles.profileInfoUsername}>Username</span>
-          <span className={styles.profileInfoEmail}>Email: {email}</span>
+        {editing ? (
+            <div>
+              <input
+                type="text"
+                value={newUsername}
+                onChange={e => setNewUsername(e.target.value)}
+              />
+              <button onClick={handleSave}>Save</button>
+              <button onClick={handleCancel}>Cancel</button>
+            </div>
+          ) : (
+            <div>
+              <span className={styles.profileInfoUsername}>Username: {username}</span>
+              <span className={styles.profileInfoEmail}>Email: {email}</span>
+              <button onClick={handleEdit}>Edit Username</button>
+            </div>
+          )}
         </div>
         <button className={styles.logoutButton} onClick={() => logout(router)}>Logout</button>
       </div>

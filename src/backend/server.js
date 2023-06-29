@@ -44,11 +44,9 @@ app.post('/login', async (req, res) => {
         res.status(401).json({ message: 'Incorrect password' });
       }
     } else {
-      res.json('notexist');
       res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
-    res.json('notexist');
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -61,7 +59,23 @@ app.get('/profile', auth.authenticateToken, async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.json({ email: user.email });
+    res.json({ email: user.email, username: user.username });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Update Profile
+app.put('/profile', auth.authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const newUsername = req.body.username;
+    const user = await collection.findByIdAndUpdate(userId, { username: newUsername }, { new: true });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ username: user.username });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -72,7 +86,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Register
 app.post('/register', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
   if (!emailRegex.test(email)) {
     res.json('invalidemail');
     return;
@@ -83,10 +97,11 @@ app.post('/register', async (req, res) => {
       res.json('exist');
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
-      await collection.insertMany([
-        { email: email, password: hashedPassword },
+      const newUser = await collection.insertMany([
+        { email: email, password: hashedPassword, username: username }, // Include the username field
       ]);
-      res.json('notexist');
+      const token = auth.generateToken(newUser[0]);
+      res.json({ token: token });
     }
   } catch (e) {
     res.status(500).json('error');

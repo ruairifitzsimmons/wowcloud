@@ -9,6 +9,8 @@ const RegistrationForm = ({ isLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [username, setUsername] = useState('');
+  const [usernameError, setUsernameError] = useState('');
 
   useEffect(() => {
     // Check if the user is already logged in
@@ -29,12 +31,13 @@ const RegistrationForm = ({ isLoggedIn }) => {
       const response = await axios.post('http://localhost:9000/register', {
         email,
         password,
+        username,
       });
       const data = response.data;
       if (data === 'exist') {
         alert('User already exists');
         console.log('User already exists');
-      } else if (data === 'notexist') {
+      } else if (data.token) {
         localStorage.setItem('token', data.token); // Store the token in local storage
         router.push('/profile');
         console.log('Registration successful');
@@ -74,6 +77,17 @@ const RegistrationForm = ({ isLoggedIn }) => {
           placeholder="Password"
           required
         />
+        <input
+          className={styles.formInput}
+          type="text"
+          onChange={(e) => {
+            setUsername(e.target.value);
+            setUsernameError('');
+          }}
+          placeholder="Username" // Add a placeholder for the username input
+          required
+        />
+        {usernameError && <p className={styles.error}>{usernameError}</p>}
         <button
           className={styles.formButton}
           type="submit"

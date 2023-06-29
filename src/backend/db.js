@@ -9,19 +9,22 @@ mongoose.connect('mongodb+srv://ruairi:22%26Ht%25Lx4BDv@atlascluster.nqapa88.mon
 .catch(() => {
     console.log('MongoDB Failed.')
 })
-
 const newSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
-})
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  username: {
+    type: String,
+    required: true
+  }
+});
 const collection = mongoose.model('collection', newSchema)
-
+module.exports = collection
 /*
 const categorySchema = new mongoose.Schema({
     name: {
@@ -64,5 +67,3 @@ const postSchema = new mongoose.Schema({
   
 const Post = mongoose.model('Post', postSchema);
 */
-
-module.exports = collection

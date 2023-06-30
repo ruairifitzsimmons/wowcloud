@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: '../../.env' });
 const express = require('express');
-const collection = require('./db')
+const {collection, Post} = require('./db')
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const app = express();
@@ -16,10 +16,10 @@ const characterMediaController = require('./controllers/characterMediaController
 const characterEquipmentController = require('./controllers/characterEquipmentController');
 const characterEquipmentMediaController = require('./controllers/characterEquipmentMediaController');
 const characterStatisticsController = require('./controllers/characterStatisticsController');
+const forumController = require('./controllers/forumController');
 
 app.use(cors());
 app.use(express.json());
-//app.use('/api'/*, dbRouter*/);
 
 // ROUTES
 app.get('/api/dungeons', dungeonsController.getDungeons);
@@ -29,6 +29,7 @@ app.get('/api/character-media', characterMediaController.getCharacterMedia);
 app.get('/api/character-equipment', characterEquipmentController.getCharacterEquipment);
 app.get('/api/character-equipment-media', characterEquipmentMediaController.getCharacterEquipmentMedia);
 app.get('/api/character-statistics', characterStatisticsController.getCharacterStatistics);
+app.use('/api/forum', forumController);
 
 // Login
 app.post('/login', async (req, res) => {
@@ -111,6 +112,18 @@ app.post('/register', async (req, res) => {
 // Logout
 app.post('/logout', (req, res) => {
   res.json({ message: 'Logout successful' });
+});
+
+// Get User Posts
+app.get('/user-posts', auth.authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const posts = await Post.find({ author: userId }).sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 app.listen(port, () => {

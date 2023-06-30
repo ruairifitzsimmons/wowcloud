@@ -32,7 +32,7 @@ const LoginForm = () => {
       });
       const data = response.data;
       if (data.token) {
-        localStorage.setItem('token', data.token); // Store the token in local storage
+        localStorage.setItem('token', data.token);
         router.push('/profile');
         console.log('Login successful');
       } else {

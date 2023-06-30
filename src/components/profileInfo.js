@@ -27,6 +27,7 @@ const ProfileInfo = () => {
   const [newUsername, setNewUsername] = useState('');
   const [editing, setEditing] = useState(false);
   const router = useRouter();
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -48,6 +49,20 @@ const ProfileInfo = () => {
     } else {
       router.push('/login');
     }
+
+    axios
+    .get('http://localhost:9000/user-posts', {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then(response => {
+      const userPosts = response.data;
+      setPosts(userPosts);
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }, []);
 
   const handleEdit = () => {
@@ -89,15 +104,12 @@ const ProfileInfo = () => {
       <div className={styles.infoContainer}>
         <div className={styles.postsContainer}>
           <span>My posts</span>
-          <div className={styles.post}>
-            <span>Posts</span>
-          </div>
-          <div className={styles.post}>
-            <span>Posts</span>
-          </div>
-          <div className={styles.post}>
-            <span>Posts</span>
-          </div>
+          {posts.map(post => (
+            <div key={post._id} className={styles.post}>
+              <span>{post.title}</span>
+              <p>{post.content}</p>
+            </div>
+          ))}
         </div>
         <div className={styles.profileInfoContainer}>
         {editing ? (

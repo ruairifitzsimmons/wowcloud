@@ -38,7 +38,7 @@ const RegistrationForm = ({ isLoggedIn }) => {
         alert('User already exists');
         console.log('User already exists');
       } else if (data.token) {
-        localStorage.setItem('token', data.token); // Store the token in local storage
+        localStorage.setItem('token', data.token);
         router.push('/profile');
         console.log('Registration successful');
       }

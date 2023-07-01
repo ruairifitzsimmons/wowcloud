@@ -1,14 +1,13 @@
-//22&Ht%Lx4BDv
-//22%26Ht%25Lx4BDv
-
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://ruairi:22%26Ht%25Lx4BDv@atlascluster.nqapa88.mongodb.net/?retryWrites=true&w=majority')
-.then(() => {
-    console.log('MongoDB Connected.')
-})
-.catch(() => {
-    console.log('MongoDB Failed.')
-})
+  .then(() => {
+    console.log('MongoDB Connected.');
+    createInitialCategories(); // Call the function to create initial categories
+  })
+  .catch(() => {
+    console.log('MongoDB Failed.');
+  });
+
 const newSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -23,34 +22,61 @@ const newSchema = new mongoose.Schema({
     required: true
   }
 });
-const collection = mongoose.model('collection', newSchema)
+const collection = mongoose.model('collection', newSchema);
+
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  }
+});
+const Category = mongoose.model('Category', categorySchema);
 
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   content: {
     type: String,
-    required: true,
+    required: true
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'collection',
-    required: true,
+    required: true
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 const Post = mongoose.model('Post', postSchema);
 
-//module.exports = { collection, Post };
+// Function to create initial categories
+const createInitialCategories = async () => {
+  try {
+    const initialCategories = ['General', 'Gameplay', 'News', 'Lore'];
 
-//module.exports = collection
+    for (const categoryName of initialCategories) {
+      const categoryExists = await Category.exists({ name: categoryName });
+      if (!categoryExists) {
+        await Category.create({ name: categoryName });
+        console.log(`Category '${categoryName}' created.`);
+      }
+    }
+  } catch (error) {
+    console.error('Error creating initial categories:', error);
+  }
+};
 
 module.exports = {
-  collection: collection, 
+  collection: collection,
   Post: Post,
-}
+  Category: Category
+};

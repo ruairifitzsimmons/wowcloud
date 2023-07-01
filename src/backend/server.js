@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: '../../.env' });
 const express = require('express');
-const {collection, Post} = require('./db')
+const { collection, Post, Category } = require('./db');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const app = express();
@@ -29,7 +29,7 @@ app.get('/api/character-media', characterMediaController.getCharacterMedia);
 app.get('/api/character-equipment', characterEquipmentController.getCharacterEquipment);
 app.get('/api/character-equipment-media', characterEquipmentMediaController.getCharacterEquipmentMedia);
 app.get('/api/character-statistics', characterStatisticsController.getCharacterStatistics);
-app.use('/api/forum', forumController);
+app.use('/forum', forumController);
 
 // Login
 app.post('/login', async (req, res) => {
@@ -119,6 +119,54 @@ app.get('/user-posts', auth.authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
     const posts = await Post.find({ author: userId }).sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Create a new post
+app.post('/forum/posts', auth.authenticateToken, async (req, res) => {
+  try {
+    const { title, content, category } = req.body;
+    const author = req.user.userId;
+    const post = await Post.create({ title, content, author, category });
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+});
+
+// Get all categories
+app.get('/forum/categories', async (req, res) => {
+  try {
+    const categories = await Category.find();
+    res.json(categories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Create a new category
+app.post('/forum/categories', async (req, res) => {
+  try {
+    const { name } = req.body;
+    const category = await Category.create({ name });
+    res.json(category);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get all posts with category
+app.get('/forum/posts', async (req, res) => {
+  try {
+    const categoryId = req.query.category;
+    const posts = await Post.find({ category: categoryId }).sort({ createdAt: 'desc' }).populate('author', 'username');
     res.json(posts);
   } catch (error) {
     console.error(error);

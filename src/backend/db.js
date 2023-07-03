@@ -11,7 +11,8 @@ mongoose.connect('mongodb+srv://ruairi:22%26Ht%25Lx4BDv@atlascluster.nqapa88.mon
 const newSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -19,7 +20,8 @@ const newSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   }
 });
 const collection = mongoose.model('collection', newSchema);
@@ -27,7 +29,8 @@ const collection = mongoose.model('collection', newSchema);
 const categorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   }
 });
 const Category = mongoose.model('Category', categorySchema);

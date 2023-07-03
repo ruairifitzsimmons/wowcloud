@@ -27,4 +27,5 @@ router.post('/posts', auth.authenticateToken, async (req, res) => {
   }
 });
 
+
 module.exports = router;

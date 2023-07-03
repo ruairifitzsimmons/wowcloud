@@ -118,7 +118,9 @@ app.post('/logout', (req, res) => {
 app.get('/user-posts', auth.authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
-    const posts = await Post.find({ author: userId }).sort({ createdAt: -1 });
+    const posts = await Post.find({ author: userId })
+      .sort({ createdAt: -1 })
+      .populate('author', 'username'); // Populate the author field with the username
     res.json(posts);
   } catch (error) {
     console.error(error);

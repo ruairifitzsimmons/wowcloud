@@ -26,19 +26,6 @@
     font-size: 12px;
 }
 
-.post {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background: rgba(103, 109, 155, 0.1);
-    padding: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
-    color: white;
-    font-size: 12px;
-}
-
 .profileInfoContainer {
     display: flex;
     flex-direction: column;
@@ -57,7 +44,30 @@
     font-size: 24px;
 }
 
+.profileUsernameContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
 .profileInfoEmail {
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 16px;
     font-weight: 400;
 }
+
+.profileEditButton {
+    height: max-content;
+    background: none;
+    color: rgb(187, 187, 187);
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    border: 1px solid rgb(76, 76, 76);
+    border-radius: 32px;
+    padding: 4px 8px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+  }

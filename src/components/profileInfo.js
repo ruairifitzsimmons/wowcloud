@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../styles/profile.module.css';
-
-const logout = async (router) => {
-  try {
-    const token = localStorage.getItem('token');
-    if (token) {
-      await axios.post('http://localhost:9000/logout', {}, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      localStorage.removeItem('token');
-      router.push('/login');
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+import Post from './post';
 
 const ProfileInfo = () => {
   const [email, setEmail] = useState('');
@@ -28,41 +11,31 @@ const ProfileInfo = () => {
   const [editing, setEditing] = useState(false);
   const router = useRouter();
   const [posts, setPosts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-        axios
+      axios
         .get('http://localhost:9000/profile', {
           headers: {
             Authorization: token,
           },
         })
-        .then(response => {
+        .then((response) => {
           const userData = response.data;
           setUsername(userData.username);
           setEmail(userData.email);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     } else {
       router.push('/login');
     }
 
-    axios
-    .get('http://localhost:9000/user-posts', {
-      headers: {
-        Authorization: token,
-      },
-    })
-    .then(response => {
-      const userPosts = response.data;
-      setPosts(userPosts);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    fetchPosts(); // Call fetchPosts function to load the posts
+    fetchCategories();
   }, []);
 
   const handleEdit = () => {
@@ -99,19 +72,45 @@ const ProfileInfo = () => {
     setNewUsername('');
   };
 
+  const fetchPosts = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const response = await axios.get('http://localhost:9000/user-posts', {
+          headers: {
+            Authorization: token,
+          },
+        });
+        setPosts(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:9000/forum/categories');
+      setCategories(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCategoryName = (categoryId) => {
+    const category = categories.find((category) => category._id === categoryId);
+    return category ? category.name : '';
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.postsContainer}>
-          <span>My posts</span>
-          {posts.map(post => (
-            <div key={post._id} className={styles.post}>
-              <span>{post.title}</span>
-              <p>{post.content}</p>
-            </div>
+          {posts.map((post) => (
+            <Post key={post._id} post={post} categoryName={getCategoryName(post.category)} />
           ))}
         </div>
-        <div className={styles.profileInfoContainer}>
+        <div>
         {editing ? (
             <div>
               <input
@@ -123,14 +122,15 @@ const ProfileInfo = () => {
               <button onClick={handleCancel}>Cancel</button>
             </div>
           ) : (
-            <div>
-              <span className={styles.profileInfoUsername}>Username: {username}</span>
-              <span className={styles.profileInfoEmail}>Email: {email}</span>
-              <button onClick={handleEdit}>Edit Username</button>
+            <div className={styles.profileInfoContainer}>
+              <div className={styles.profileUsernameContainer}>
+                <span className={styles.profileInfoUsername}>Hello, {username}</span>
+                <button className={styles.profileEditButton} onClick={handleEdit}>Change</button>
+              </div>
+              <span className={styles.profileInfoEmail}>{email}</span>
             </div>
           )}
         </div>
-        <button className={styles.logoutButton} onClick={() => logout(router)}>Logout</button>
       </div>
     </div>
   );

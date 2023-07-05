@@ -176,6 +176,30 @@ app.get('/forum/posts', async (req, res) => {
   }
 });
 
+// Update a post
+app.put('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { content } = req.body;
+
+    // Find the post by ID and update its content
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { content },
+      { new: true }
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

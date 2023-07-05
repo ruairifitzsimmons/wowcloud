@@ -5,8 +5,6 @@ import LoginForm from '../components/login'
 
 export default function Login({ isLoggedIn }) {
   if (isLoggedIn) {
-    // Redirect the user to another page, such as the profile page
-    // or display a message indicating they are already logged in
     return (
       <main className={styles.main}>
         <Head>

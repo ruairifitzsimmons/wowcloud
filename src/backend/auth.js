@@ -31,7 +31,22 @@ function authenticateToken(req, res, next) {
       req.user = decoded; // Attach the decoded user object to req.user
       next();
     });
-  }
+}
+
+// Store the token in LocalStorage
+function storeToken(token) {
+  localStorage.setItem('token', token);
+}
+
+// Remove the token from LocalStorage
+function removeToken() {
+  localStorage.removeItem('token');
+}
+
+// Check if the token exists in LocalStorage
+function hasToken() {
+  return localStorage.getItem('token') !== null;
+}
 
 // Hashes the password
 async function hashPassword(password) {
@@ -47,6 +62,9 @@ async function comparePasswords(password, hashedPassword) {
 module.exports = {
   generateToken,
   authenticateToken,
+  storeToken,
+  removeToken,
+  hasToken,
   hashPassword,
   comparePasswords
 };

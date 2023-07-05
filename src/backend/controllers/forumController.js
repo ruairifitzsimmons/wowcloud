@@ -27,5 +27,28 @@ router.post('/posts', auth.authenticateToken, async (req, res) => {
   }
 });
 
+// PUT route to edit a post
+router.put('/posts/:id', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { content } = req.body;
+
+    // Find the post by ID and update its content
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { content },
+      { new: true }
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 module.exports = router;

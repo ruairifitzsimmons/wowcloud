@@ -34,17 +34,36 @@ router.put('/posts/:id', auth.authenticateToken, async (req, res) => {
     const { content } = req.body;
 
     // Find the post by ID and update its content
-    const updatedPost = await Post.findByIdAndUpdate(
-      postId,
+    const updatedPost = await Post.findOneAndUpdate(
+      { _id: postId, author: req.user.userId },
       { content },
       { new: true }
     );
 
     if (!updatedPost) {
-      return res.status(404).json({ message: 'Post not found' });
+      return res.status(404).json({ message: 'Post not found or unauthorized to edit this post' });
     }
 
     res.json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Delete a post
+router.delete('/posts/:id', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    // Find the post by ID and the author
+    const deletedPost = await Post.findOneAndDelete({ _id: postId, author: req.user.userId });
+
+    if (!deletedPost) {
+      return res.status(404).json({ message: 'Post not found or unauthorized to delete this post' });
+    }
+
+    res.json({ message: 'Post deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

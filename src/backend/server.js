@@ -176,22 +176,22 @@ app.get('/forum/posts', async (req, res) => {
   }
 });
 
-// Update a post
 app.put('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
   try {
     const postId = req.params.id;
     const { content } = req.body;
-
-    // Find the post by ID and update its content
-    const updatedPost = await Post.findByIdAndUpdate(
-      postId,
-      { content },
-      { new: true }
-    );
-
-    if (!updatedPost) {
+    // Find the post by ID
+    const post = await Post.findById(postId);
+    if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
+    // Check if the authenticated user is the author of the post
+    if (post.author.toString() !== req.user.userId) {
+      return res.status(403).json({ message: 'You are not authorized to edit this post' });
+    }
+    // Update the post's content
+    post.content = content;
+    const updatedPost = await post.save();
 
     res.json(updatedPost);
   } catch (error) {
@@ -199,6 +199,34 @@ app.put('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+// Delete a post
+app.delete('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    // Find the post by ID
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if the authenticated user is the author of the post
+    if (post.author.toString() !== req.user.userId) {
+      return res.status(403).json({ message: 'You are not authorized to delete this post' });
+    }
+
+    // Delete the post
+    await post.remove();
+
+    res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

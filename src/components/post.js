@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from '../styles/posts.module.css';
 
-const Post = ({ post, categoryName }) => {
+const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -16,10 +16,14 @@ const Post = ({ post, categoryName }) => {
   };
 
   const handleEdit = () => {
-    if (!isEditMode) {
-      setEditedContent(post.content);
+    if (loggedInUser && post.author.username === loggedInUser.username) {
+      if (!isEditMode) {
+        setEditedContent(post.content);
+      }
+      setIsEditMode(true);
+    } else {
+      console.log('User is not authorized to edit this post.');
     }
-    setIsEditMode(true);
   };
 
   const handleSave = () => {
@@ -33,26 +37,18 @@ const Post = ({ post, categoryName }) => {
       });
   };
 
-  const updatePost = async (postId, content) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (token && content) {
-        const response = await axios.put(
-          `http://localhost:9000/forum/posts/${postId}`,
-          { content },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-
-        const updatedPost = response.data;
-        return updatedPost;
-      }
-    } catch (error) {
-      console.error(error);
-      throw new Error('Failed to update post. Please try again.');
+  const handleDelete = () => {
+    if (loggedInUser && post.author.username === loggedInUser.username) {
+      deletePost(post._id)
+        .then(() => {
+          console.log('Post deleted');
+          closeModal(); // Close the modal after successful deletion
+        })
+        .catch((error) => {
+          console.error('Error deleting post:', error);
+        });
+    } else {
+      console.log('User is not authorized to delete this post.');
     }
   };
 
@@ -64,7 +60,7 @@ const Post = ({ post, categoryName }) => {
       <span className={styles.postCategory}>{categoryName}</span>
       <span className={styles.postAuthor}>{post.author.username}</span>
 
-      {isModalOpen ? (
+      {isModalOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <h2 className={styles.modalPostTitle}>{post.title}</h2>
@@ -77,11 +73,17 @@ const Post = ({ post, categoryName }) => {
                 onChange={(e) => setEditedContent(e.target.value)}
               />
             )}
-            {!isEditMode ? (
-              <button className={styles.editButton} onClick={handleEdit}>
-                Edit
-              </button>
-            ) : (
+            {loggedInUser && post.author.username === loggedInUser.username && !isEditMode ? (
+              <div>
+                <button className={styles.editButton} onClick={handleEdit}>
+                  Edit
+                </button>
+                <button className={styles.deleteButton} onClick={handleDelete}>
+                  Delete
+                </button>
+              </div>
+            ) : null}
+            {isEditMode && (
               <div>
                 <button className={styles.saveButton} onClick={handleSave}>
                   Save Changes
@@ -94,7 +96,7 @@ const Post = ({ post, categoryName }) => {
             <span className={styles.postAuthor}>{post.author.username}</span>
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

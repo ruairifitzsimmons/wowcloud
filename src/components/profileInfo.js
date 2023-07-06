@@ -12,6 +12,7 @@ const ProfileInfo = () => {
   const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -26,6 +27,7 @@ const ProfileInfo = () => {
           const userData = response.data;
           setUsername(userData.username);
           setEmail(userData.email);
+          setLoggedInUser(userData);
         })
         .catch((error) => {
           console.log(error);
@@ -34,7 +36,7 @@ const ProfileInfo = () => {
       router.push('/login');
     }
 
-    fetchPosts(); // Call fetchPosts function to load the posts
+    fetchPosts();
     fetchCategories();
   }, []);
 
@@ -56,12 +58,12 @@ const ProfileInfo = () => {
             },
           }
         )
-        .then(response => {
+        .then((response) => {
           const updatedUsername = response.data.username;
           setUsername(updatedUsername);
           setEditing(false);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -102,30 +104,77 @@ const ProfileInfo = () => {
     return category ? category.name : '';
   };
 
+  const updatePost = async (postId, content) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token && content) {
+        const response = await axios.put(
+          `http://localhost:9000/forum/posts/${postId}`,
+          { content },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        const updatedPost = response.data;
+        setPosts((prevPosts) =>
+          prevPosts.map((post) => (post._id === updatedPost._id ? updatedPost : post))
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deletePost = async (postId) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        await axios.delete(`http://localhost:9000/forum/posts/${postId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        // Refresh the posts list after deletion
+        fetchPosts();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.postsContainer}>
           {posts.map((post) => (
-            <Post key={post._id} post={post} categoryName={getCategoryName(post.category)} />
+            <Post
+              key={post._id}
+              post={post}
+              categoryName={getCategoryName(post.category)}
+              loggedInUser={loggedInUser}
+              updatePost={updatePost}
+              deletePost={deletePost}
+            />
           ))}
         </div>
         <div>
-        {editing ? (
+          {editing ? (
             <div>
-              <input
-                type="text"
-                value={newUsername}
-                onChange={e => setNewUsername(e.target.value)}
-              />
+              <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
               <button onClick={handleSave}>Save</button>
               <button onClick={handleCancel}>Cancel</button>
             </div>
           ) : (
             <div className={styles.profileInfoContainer}>
               <div className={styles.profileUsernameContainer}>
-                <span className={styles.profileInfoUsername}>Hello, {username}</span>
-                <button className={styles.profileEditButton} onClick={handleEdit}>Change</button>
+              <span className={styles.profileInfoUsername}>Hello, {username}</span>
+                <button className={styles.profileEditButton} onClick={handleEdit}>
+                  Change
+                </button>
               </div>
               <span className={styles.profileInfoEmail}>{email}</span>
             </div>

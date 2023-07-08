@@ -38,30 +38,34 @@ const Category = mongoose.model('Category', categorySchema);
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: String,
-    required: true
+    required: true,
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'collection',
-    required: true
+    required: true,
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
-  editable: {
-    type: Boolean,
-    default: true
-  }
+  upvoteCount: {
+    type: Number,
+    default: 0,
+  },
+  downvoteCount: {
+    type: Number,
+    default: 0,
+  },
 });
 const Post = mongoose.model('Post', postSchema);
 

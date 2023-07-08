@@ -62,6 +62,14 @@ const ProfileInfo = () => {
           const updatedUsername = response.data.username;
           setUsername(updatedUsername);
           setEditing(false);
+          window.location.reload();
+
+          // Update author name for each post with the new username
+          setPosts((prevPosts) =>
+          prevPosts.map((post) => ({
+            ...post,
+            author: { ...post.author, username: updatedUsername },
+          })));
         })
         .catch((error) => {
           console.log(error);
@@ -118,9 +126,13 @@ const ProfileInfo = () => {
           }
         );
         const updatedPost = response.data;
+        updatedPost.author = post.author;
         setPosts((prevPosts) =>
-          prevPosts.map((post) => (post._id === updatedPost._id ? updatedPost : post))
+          prevPosts.map((post) => 
+            post._id === updatedPost._id ? { ...post, content: updatedPost.content } : post
+          )
         );
+        return updatedPost;
       }
     } catch (error) {
       console.log(error);

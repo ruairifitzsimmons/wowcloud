@@ -31,6 +31,7 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
       .then((updatedPost) => {
         console.log('Updated Post:', updatedPost);
         setIsEditMode(false);
+        setEditedContent(updatedPost.content); // Update the editedContent state with the updated content
       })
       .catch((error) => {
         console.error('Error updating post:', error);
@@ -59,13 +60,13 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
       </h2>
       <span className={styles.postCategory}>{categoryName}</span>
       <span className={styles.postAuthor}>{post.author.username}</span>
-
+      
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <h2 className={styles.modalPostTitle}>{post.title}</h2>
             {!isEditMode ? (
-              <p className={styles.modalPostContent}>{post.content}</p>
+              <p className={styles.modalPostContent}>{editedContent}</p>
             ) : (
               <textarea
                 className={styles.modalPostContent}

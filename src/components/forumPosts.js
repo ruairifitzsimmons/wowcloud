@@ -69,9 +69,13 @@ const ForumPosts = () => {
           }
         );
         const updatedPost = response.data;
+        updatedPost.author = post.author;
         setPosts((prevPosts) =>
-          prevPosts.map((post) => (post._id === updatedPost._id ? updatedPost : post))
+          prevPosts.map((post) => 
+            post._id === updatedPost._id ? { ...post, content: updatedPost.content } : post
+          )
         );
+        return updatedPost;
       }
     } catch (error) {
       console.log(error);

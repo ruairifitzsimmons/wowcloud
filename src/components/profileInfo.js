@@ -156,8 +156,6 @@ const ProfileInfo = () => {
     }
   };
   
-
-
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>

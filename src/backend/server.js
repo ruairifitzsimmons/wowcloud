@@ -133,7 +133,7 @@ app.post('/forum/posts', auth.authenticateToken, async (req, res) => {
   try {
     const { title, content, category } = req.body;
     const author = req.user.userId;
-    const post = await Post.create({ title, content, author, category });
+    const post = await Post.create({ title, content, author, category, comments: [] });
     res.json(post);
   } catch (error) {
     console.error(error);
@@ -227,6 +227,52 @@ app.delete('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
   }
 });
 
+// Get all comments for a post
+app.get('/forum/posts/:id/comments', async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const comments = await Comment.find({ post: postId }).populate('author', 'username');
+    res.json(comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Create a new comment for a post
+app.post('/forum/posts/:id/comments', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { content } = req.body;
+    const author = req.user.userId;
+
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const comment = await Comment.create({ content, post: postId, author });
+    res.json(comment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get user by ID
+app.get('/forum/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await collection.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ username: user.username });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../auth');
-const { Post } = require('../db');
+const { Post, User, Comment } = require('../db');
 
 // Get all posts
 router.get('/posts', async (req, res) => {
   try {
-    const posts = await Post.find().sort({ createdAt: 'desc' }).populate('author', 'username');
+    const posts = await Post.find()
+      .sort({ createdAt: 'desc' })
+      .populate('author', 'username');
     res.json(posts);
   } catch (error) {
     console.error(error);
@@ -64,6 +66,43 @@ router.delete('/posts/:id', auth.authenticateToken, async (req, res) => {
     }
 
     res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get all comments for a post
+router.get('/posts/:id/comments', async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const comments = await Comment.find({ post: postId });
+    res.json(comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Create a new comment for a post
+router.post('/posts/:id/comments', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { content } = req.body;
+    const author = req.user.userId;
+
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const comment = await Comment.create({ content, post: postId, author });
+    res.json(comment);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

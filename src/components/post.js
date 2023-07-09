@@ -1,12 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from '../styles/posts.module.css';
+import Comment from './comment';
 
 const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([]);
 
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`http://localhost:9000/forum/posts/${post._id}/comments`, {
+        params: { populate: 'author' },
+      });
+      const commentsData = response.data;
+      const populatedComments = await Promise.all(
+        commentsData.map(async (comment) => {
+          const populatedComment = { ...comment };
+          if (!populatedComment.author) {
+            populatedComment.author = { username: 'Unknown User' };
+          } else {
+            const authorResponse = await axios.get(
+              `http://localhost:9000/forum/users/${comment.author}`
+            );
+            populatedComment.author = authorResponse.data;
+          }
+          return populatedComment;
+        })
+      );
+      setComments(populatedComments);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      setComments([]);
+    }
+  };
+  
+  
+  
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -53,6 +89,35 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
     }
   };
 
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // Handle user not authenticated
+        return;
+      }
+
+      const response = await axios.post(
+        `http://localhost:9000/forum/posts/${post._id}/comments`,
+        { content: newComment },
+        { headers: { Authorization: token } }
+      );
+      const newCommentData = response.data;
+
+      // Update the comments state with the new comment
+      setComments((prevComments) => [...prevComments, newCommentData]);
+
+      setNewComment('');
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+    }
+  };
+
   return (
     <div className={styles.post}>
       <h2 className={styles.postTitle} onClick={openModal}>
@@ -60,22 +125,35 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
       </h2>
       <span className={styles.postCategory}>{categoryName}</span>
       <span className={styles.postAuthor}>{post.author.username}</span>
-      
+
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <h2 className={styles.modalPostTitle}>{post.title}</h2>
-            {!isEditMode ? (
-              <p className={styles.modalPostContent}>{editedContent}</p>
-            ) : (
-              <textarea
-                className={styles.modalPostContent}
-                value={editedContent}
-                onChange={(e) => setEditedContent(e.target.value)}
-              />
-            )}
-            {loggedInUser && post.author.username === loggedInUser.username && !isEditMode ? (
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalPostTitle}>{post.title}</h2>
+              <span className={styles.postCategory}>{categoryName}</span>
               <div>
+                <span className={styles.postPosted}>Posted by </span>
+                <span className={styles.postAuthor}>{post.author.username}</span>
+              </div>
+            </div>
+            <div className={styles.modalContentContainer}>
+              {!isEditMode ? (
+                <div
+                  className={styles.modalPostContent}
+                  dangerouslySetInnerHTML={{ __html: editedContent }}
+                ></div>
+              ) : (
+                <textarea
+                  className={styles.modalPostContent1}
+                  rows='10'
+                  value={editedContent}
+                  onChange={(e) => setEditedContent(e.target.value)}
+                />
+              )}
+            </div>
+            {loggedInUser && post.author.username === loggedInUser.username && !isEditMode ? (
+              <div className={styles.modalButtons}>
                 <button className={styles.editButton} onClick={handleEdit}>
                   Edit
                 </button>
@@ -85,16 +163,35 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
               </div>
             ) : null}
             {isEditMode && (
-              <div>
-                <button className={styles.saveButton} onClick={handleSave}>
-                  Save Changes
-                </button>
+              <div className={styles.modalButtons}>
                 <button className={styles.cancelButton} onClick={() => setIsEditMode(false)}>
                   Cancel
                 </button>
+                <button className={styles.saveButton} onClick={handleSave}>
+                  Save Changes
+                </button>
               </div>
             )}
-            <span className={styles.postAuthor}>{post.author.username}</span>
+            <div className={styles.commentsContainer}>
+              <h3>Comments</h3>
+              {comments.map((comment) => (
+                <Comment key={comment._id} comment={comment}/>
+              ))}
+
+              {loggedInUser && (
+                <form className={styles.commentForm} onSubmit={handleSubmitComment}>
+                  <textarea
+                    className={styles.commentInput}
+                    value={newComment}
+                    onChange={handleCommentChange}
+                    placeholder="Write a comment..."
+                  />
+                  <button className={styles.commentButton} type="submit">
+                    Submit Comment
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       )}

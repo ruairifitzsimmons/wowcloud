@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from '../styles/forum.module.css';
 
+
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -45,7 +46,7 @@ const CreatePost = () => {
     <div className={styles.createPostContainer}>
         <h2 className={styles.createPostHeader}>Create a post</h2>
         <input className={styles.postInput} type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
-        <textarea className={styles.postInput} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Content"></textarea>
+        <textarea className={styles.postInput} rows={10} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Content"></textarea>
         <select className={styles.postSelect} required value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
             <option value="">Select Category</option>
             {categories.map((category) => (

@@ -35,9 +35,16 @@
   font-size: 8px;
   font-weight: 500;
   letter-spacing: 1.4px;
-  color: grey;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px;
+  border-radius: 4px;
+  width: fit-content;
 }
-
+.postPosted {
+  font-family: 'Chakra Petch', sans-serif;
+  color: rgb(140, 140, 140);
+}
 .postAuthor {
   font-family: 'Chakra Petch', sans-serif;
   color: rgb(0, 162, 255);
@@ -49,29 +56,108 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
   z-index: 999;
 }
 
 .modalContent {
-    background: rgba(103, 109, 155, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background: rgba(103, 109, 155, 0.3);
     border-radius: 8px;
-    width: 500px;
-    padding: 16px;
+    width: 700px;
+    padding: 24px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
 }
 
-.votesContainer {
-  border: 1px solid red;
+.modalHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.voteButton {
-  border: 1px solid blue;
-  padding: 8px;
+.modalPostTitle {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 24;
+}
+
+.modalContentContainer {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(103, 109, 155, 0.2);
+}
+
+.modalPostContent {
+  font-size: 16px;
+  white-space: pre-line;
+}
+
+.modalPostContent1 {
+  background: transparent;
+  border: 1px solid rgb(0, 162, 255);
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 16px;
+  white-space: pre-line;
+  box-sizing: border-box;
+  box-shadow: rgb(0, 162, 255) 0px 0px 32px -8px;
+  width: 100%;
+  color: white;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.editButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(137, 137, 137);
+  cursor: pointer;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 12px;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(255, 58, 58);
+  cursor: pointer;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 12px;
+}
+
+.modalPostContent li {
+  list-style-position: inside;
+}
+
+.saveButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(0, 162, 255);
+  cursor: pointer;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 12px;
+}
+
+.cancelButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(137, 137, 137);
+  cursor: pointer;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 12px;
 }

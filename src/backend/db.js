@@ -58,16 +58,36 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  upvoteCount: {
-    type: Number,
-    default: 0,
-  },
-  downvoteCount: {
-    type: Number,
-    default: 0,
-  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 });
 const Post = mongoose.model('Post', postSchema);
+
+const commentSchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+  },
+  post: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post',
+    required: true,
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'collection',
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+const Comment = mongoose.model('Comment', commentSchema);
 
 // Function to create initial categories
 const createInitialCategories = async () => {
@@ -89,5 +109,6 @@ const createInitialCategories = async () => {
 module.exports = {
   collection: collection,
   Post: Post,
-  Category: Category
+  Category: Category,
+  Comment: Comment,
 };

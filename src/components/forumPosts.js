@@ -17,12 +17,14 @@ const ForumPosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/forum/posts');
+      const response = await axios.get('http://localhost:9000/forum/posts?include=comments&populate=comments.author');
       setPosts(response.data);
     } catch (error) {
       console.log(error);
     }
   };
+  
+  
 
   const fetchCategories = async () => {
     try {
@@ -69,10 +71,9 @@ const ForumPosts = () => {
           }
         );
         const updatedPost = response.data;
-        updatedPost.author = post.author;
         setPosts((prevPosts) =>
-          prevPosts.map((post) => 
-            post._id === updatedPost._id ? { ...post, content: updatedPost.content } : post
+          prevPosts.map((post) =>
+            post._id === updatedPost._id ? updatedPost : post
           )
         );
         return updatedPost;
@@ -81,6 +82,7 @@ const ForumPosts = () => {
       console.log(error);
     }
   };
+  
 
   const deletePost = async (postId) => {
     try {

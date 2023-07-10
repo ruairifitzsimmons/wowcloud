@@ -41,8 +41,6 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
     }
   };
   
-  
-  
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -129,6 +127,7 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+          <div className={styles.postContainer}>
             <div className={styles.modalHeader}>
               <h2 className={styles.modalPostTitle}>{post.title}</h2>
               <span className={styles.postCategory}>{categoryName}</span>
@@ -172,11 +171,9 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
                 </button>
               </div>
             )}
+            </div>
             <div className={styles.commentsContainer}>
               <h3>Comments</h3>
-              {comments.map((comment) => (
-                <Comment key={comment._id} comment={comment}/>
-              ))}
 
               {loggedInUser && (
                 <form className={styles.commentForm} onSubmit={handleSubmitComment}>
@@ -191,6 +188,11 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
                   </button>
                 </form>
               )}
+              <div className={styles.commentsContainer}>
+                {comments.map((comment) => (
+                  <Comment key={comment._id} comment={comment}/>
+                ))}
+              </div>
             </div>
           </div>
         </div>

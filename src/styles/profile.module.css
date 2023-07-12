@@ -17,6 +17,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    order: -1;
 }
 
 .postContainer {
@@ -43,6 +44,7 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
     color: white;
     font-size: 12px;
+    order: 1;
 }
 
 .profileInfoUsername {
@@ -78,6 +80,68 @@
     cursor: pointer;
   }
 
+  .usernameContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .usernameField {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    background: transparent;
+    border: 1px solid rgb(0, 162, 255);
+    border-radius: 8px;
+    padding: 16px;
+    white-space: pre-line;
+    box-sizing: border-box;
+    box-shadow: rgb(0, 162, 255) 0px 0px 32px -8px;
+    width: 100%;
+    color: white;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .saveButton {
+    background: none;
+    border: none;
+    padding: 0;
+    color: rgb(0, 162, 255);
+    cursor: pointer;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 12px;
+  }
+  
+  .cancelButton {
+    background: none;
+    border: none;
+    padding: 0;
+    color: rgb(137, 137, 137);
+    cursor: pointer;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 12px;
+  }
+
   .h2Header {
     font-family: 'Chakra Petch', sans-serif;
+  }
+
+  @media (max-width: 768px) {
+    .infoContainer {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .postsContainer {
+      order: 1;
+    }
+
+    .profileInfoContainer {
+      order: -1;
+    }
   }

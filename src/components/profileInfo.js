@@ -179,10 +179,14 @@ const ProfileInfo = () => {
         </div>
         <div>
           {editing ? (
-            <div>
-              <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
-              <button onClick={handleSave}>Save</button>
-              <button onClick={handleCancel}>Cancel</button>
+            <div className={styles.profileInfoContainer}>
+              <div className={styles.usernameContainer}>
+                <input className={styles.usernameField} type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
+                <div className={styles.buttonContainer}>
+                  <button className={styles.cancelButton} onClick={handleCancel}>Cancel</button>
+                  <button className={styles.saveButton} onClick={handleSave}>Save</button>
+                </div>
+              </div>
             </div>
           ) : (
             <div className={styles.profileInfoContainer}>

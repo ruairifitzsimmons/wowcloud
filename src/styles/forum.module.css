@@ -12,9 +12,11 @@
 }
 
 .forumRight {
+    order: 1;
 }
 
 .forumLeft {
+    order: -1;
 }
 
 .createPostHeader {
@@ -79,3 +81,18 @@
     text-transform: uppercase;
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+    .forumContainer {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .forumRight {
+        order: -1;
+    }
+    
+    .forumLeft {
+        order: 1;
+    }
+  }

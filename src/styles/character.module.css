@@ -94,10 +94,9 @@
     height: 100%;
     object-fit: cover;
     border-radius: 16px;
-    border: 1px solid rgb(68, 68, 68);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 0;
     box-shadow: black 0px 0px 32px -8px;
-    background: rgb(61, 61, 93);
 }
 
 .characterDetailsContainer {
@@ -171,14 +170,14 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    background: rgba(26, 27, 35, 0.7);
+    background: rgb(24, 26, 42, 0.7);
     backdrop-filter: blur(8px);
     padding: 16px;
     margin-left: 8px;
     margin-top: 8px;
-    border: 1px solid grey;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px 16px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 16px 16px 0px;
     color: white;
     font-size: 12px;
 }
@@ -240,12 +239,12 @@ color: #FF8000; /* Legendary item color */
     font-weight: 600;
     color: white;
     height: max-content;
-    background: rgba(26, 27, 35, 0.7);
+    background: rgb(24, 26, 42, 0.7);
     backdrop-filter: blur(8px);
     padding: 16px;
-    border: 1px solid grey;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px 16px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 16px 16px 0px;
 }
 
 .achievementilvl {
@@ -340,10 +339,10 @@ color: #FF8000; /* Legendary item color */
         flex-direction: column;
         top: 16px;
         right: 16px;
-        background: rgba(26, 27, 35, 0.7);
+        background: rgb(24, 26, 42, 0.7);
         backdrop-filter: blur(8px);
         padding: 16px;
-        border: 1px solid grey;
+        border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: 8px;
         box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px 16px;
         color: white;

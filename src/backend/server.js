@@ -274,6 +274,29 @@ app.get('/forum/users/:id', async (req, res) => {
   }
 });
 
+// Delete a comment
+app.delete('/forum/posts/:postId/comments/:commentId', auth.authenticateToken, async (req, res) => {
+  try {
+    const { postId, commentId } = req.params;
+
+    // Find the comment by ID and the author
+    const deletedComment = await Comment.findOneAndDelete({
+      _id: commentId,
+      post: postId,
+      author: req.user.userId,
+    });
+
+    if (!deletedComment) {
+      return res.status(404).json({ message: 'Comment not found or unauthorized to delete this comment' });
+    }
+
+    res.json({ message: 'Comment deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

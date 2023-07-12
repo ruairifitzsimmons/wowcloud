@@ -160,16 +160,22 @@ const ProfileInfo = () => {
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.postsContainer}>
-          {posts.map((post) => (
-            <Post
-              key={post._id}
-              post={post}
-              categoryName={getCategoryName(post.category)}
-              loggedInUser={loggedInUser}
-              updatePost={updatePost}
-              deletePost={deletePost}
-            />
-          ))}
+          <div className={styles.postContainer}>
+            <h2 className={styles.h2Header}>My Posts</h2>
+            {posts.map((post) => (
+              <Post
+                key={post._id}
+                post={post}
+                categoryName={getCategoryName(post.category)}
+                loggedInUser={loggedInUser}
+                updatePost={updatePost}
+                deletePost={deletePost}
+              />
+            ))}
+            </div>
+            {/*<div className={styles.postContainer}>
+              <h2 className={styles.h2Header}>My Comments</h2>
+            </div>*/}
         </div>
         <div>
           {editing ? (

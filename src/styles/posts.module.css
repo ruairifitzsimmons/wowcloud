@@ -172,6 +172,38 @@
   font-size: 12px;
 }
 
+.commentForm {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  width: 100%;
+  gap: 8px;
+  z-index: 1;
+}
+
+.commentInput {
+  font-size: 12px;
+  color: black;
+  padding: 8px;
+  border: 0px;
+  border-radius: 8px;
+  width: 70%;
+}
+
+.commentButton {
+  background: rgb(255, 58, 58);
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  padding: 8px 32px;
+  border: 0px;
+  border-radius: 8px;
+  cursor: pointer;
+  height: fit-content;
+  width: 30%;
+}
+
 .commentsContainer {
   display: flex;
   flex-direction: column;
@@ -187,4 +219,16 @@
   border-radius: 8px;
   padding: 16px;
   background: rgba(103, 109, 155, 0.1);
+}
+
+.modalCommentContent1 {
+  background: transparent;
+  border: 1px solid rgb(0, 162, 255);
+  border-radius: 8px;
+  padding: 16px;
+  white-space: pre-line;
+  box-sizing: border-box;
+  box-shadow: rgb(0, 162, 255) 0px 0px 32px -8px;
+  width: 100%;
+  color: white;
 }

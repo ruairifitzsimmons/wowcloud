@@ -116,13 +116,59 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
     }
   };
 
+  const updateComment = async (commentId, content) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token && content) {
+        const response = await axios.put(
+          `http://localhost:9000/forum/posts/${post._id}/comments/${commentId}`,
+          { content },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        const updatedComment = response.data;
+        setComments((prevComments) =>
+          prevComments.map((comment) =>
+            comment._id === updatedComment._id ? updatedComment : comment
+          )
+        );
+        return updatedComment;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteComment = async (commentId) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        await axios.delete(`http://localhost:9000/forum/posts/${post._id}/comments/${commentId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return (
     <div className={styles.post}>
       <h2 className={styles.postTitle} onClick={openModal}>
         {post.title}
       </h2>
       <span className={styles.postCategory}>{categoryName}</span>
-      <span className={styles.postAuthor}>{post.author.username}</span>
+      <div>
+        <span className={styles.postPosted}>Posted by </span>
+        <span className={styles.postAuthor}>{post.author.username}</span>
+      </div>
 
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
@@ -179,18 +225,24 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
                 <form className={styles.commentForm} onSubmit={handleSubmitComment}>
                   <textarea
                     className={styles.commentInput}
+                    rows='3'
                     value={newComment}
                     onChange={handleCommentChange}
                     placeholder="Write a comment..."
                   />
                   <button className={styles.commentButton} type="submit">
-                    Submit Comment
+                    Submit
                   </button>
                 </form>
               )}
               <div className={styles.commentsContainer}>
                 {comments.map((comment) => (
-                  <Comment key={comment._id} comment={comment}/>
+                  <Comment 
+                  key={comment._id}
+                  comment={comment}
+                  updateComment={updateComment}
+                  deleteComment={deleteComment}
+                  loggedInUser={loggedInUser}/>
                 ))}
               </div>
             </div>

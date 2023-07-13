@@ -22,11 +22,21 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
   color: white;
   font-size: 12px;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.post:hover {
+  border: 1px solid rgb(0, 162, 255);
+}
+
+.post:active :focus {
+  border: 1px solid rgb(0, 162, 255);
+  box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 16px 0px;
 }
 
 .postTitle {
   font-family: 'Chakra Petch', sans-serif;
-  cursor: pointer;
 }
 
 .postCategory {
@@ -41,10 +51,12 @@
   border-radius: 4px;
   width: fit-content;
 }
+
 .postPosted {
   font-family: 'Chakra Petch', sans-serif;
   color: rgb(140, 140, 140);
 }
+
 .postAuthor {
   font-family: 'Chakra Petch', sans-serif;
   color: rgb(0, 162, 255);
@@ -66,16 +78,16 @@
 }
 
 .modalContent {
-    position: absolute;
-    top: 32px;
-    background: rgb(24, 26, 42);
-    border-radius: 16px;
-    width: 700px;
-    height: 600px;
-    padding: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
-    overflow-y: auto;
+  position: absolute;
+  top: 32px;
+  background: rgb(24, 26, 42, 0.9);
+  border-radius: 16px;
+  width: 700px;
+  height: 600px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 32px -16px;
+  overflow-y: auto;
 }
 
 .postContainer {
@@ -93,8 +105,8 @@
 }
 
 .modalPostTitle {
-    font-family: 'Chakra Petch', sans-serif;
-    font-size: 18px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 18px;
 }
 
 .modalContentContainer {
@@ -232,6 +244,12 @@
   color: white;
 }
 
+/* Add new CSS class for active category */
+.activeCategory {
+  border: 1px solid rgb(0, 162, 255);
+  box-shadow: rgb(0, 162, 255) 0px 0px 8px 0px;
+  /* Customize the styles for the active category */
+}
 
 @media (max-width: 768px) {
   .modalContent {

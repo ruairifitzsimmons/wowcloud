@@ -168,13 +168,16 @@ app.post('/forum/categories', async (req, res) => {
 app.get('/forum/posts', async (req, res) => {
   try {
     const categoryId = req.query.category;
-    const posts = await Post.find({ category: categoryId }).sort({ createdAt: 'desc' }).populate('author', 'username');
+    const posts = await Post.find(categoryId ? { category: categoryId } : {})
+      .sort({ createdAt: 'desc' })
+      .populate('author', 'username');
     res.json(posts);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
-});
+})
+
 
 app.put('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
   try {

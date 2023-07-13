@@ -45,9 +45,11 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (e) => {
+    e.stopPropagation();
     setIsModalOpen(false);
   };
+  
 
   const handleEdit = () => {
     if (loggedInUser && post.author.username === loggedInUser.username) {
@@ -160,8 +162,8 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
 
 
   return (
-    <div className={styles.post}>
-      <h2 className={styles.postTitle} onClick={openModal}>
+    <div className={styles.post} onClick={openModal}>
+      <h2 className={styles.postTitle}>
         {post.title}
       </h2>
       <span className={styles.postCategory}>{categoryName}</span>

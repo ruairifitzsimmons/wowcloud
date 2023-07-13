@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CreatePost from './createPost';
 import Post from './post';
+import ForumCategories from '../components/forumCategories';
 import styles from '../styles/forum.module.css';
 
 const ForumPosts = () => {
   const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]); // Add allPosts state variable
   const [categories, setCategories] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -18,13 +20,13 @@ const ForumPosts = () => {
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://localhost:9000/forum/posts?include=comments&populate=comments.author');
-      setPosts(response.data);
+      setAllPosts(response.data);
+      setPosts(response.data); // Set the initial posts to all posts
     } catch (error) {
       console.log(error);
     }
   };
-  
-  
+   
 
   const fetchCategories = async () => {
     try {
@@ -82,7 +84,6 @@ const ForumPosts = () => {
       console.log(error);
     }
   };
-  
 
   const deletePost = async (postId) => {
     try {
@@ -100,10 +101,21 @@ const ForumPosts = () => {
     }
   };
 
+    const handleCategoryClick = (categoryId) => {
+    if (categoryId === null) {
+      setPosts(allPosts); // Show all posts
+    } else {
+      const filteredPosts = allPosts.filter((post) => post.category === categoryId);
+      setPosts(filteredPosts); // Filter posts by category
+    }
+  };
+  
+
   return (
     <div className={styles.forumOuter}>
       <div className={styles.forumContainer}>
         <div className={styles.forumLeft}>
+          <ForumCategories handleCategoryClick={handleCategoryClick} />
           <div className={styles.postsContainer}>
             {posts.map((post) => (
               <Post

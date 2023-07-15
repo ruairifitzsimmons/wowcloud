@@ -22,7 +22,13 @@ const newSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
-  }
+  },
+  likedPosts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post'
+    }
+  ]
 });
 const collection = mongoose.model('collection', newSchema);
 
@@ -58,6 +64,12 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'collection',
+    },
+  ],
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -86,6 +98,12 @@ const commentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'collection',
+    },
+  ],
 });
 const Comment = mongoose.model('Comment', commentSchema);
 

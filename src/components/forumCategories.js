@@ -26,7 +26,6 @@ const ForumCategories = ({ handleCategoryClick }) => {
 
   return (
     <div className={styles.categoryMainContainer}>
-      <h2 className={styles.categoryHeader}>Filter</h2>
       <div className={styles.categoryContainer}>
         <div
           className={`${styles.category} ${activeCategory === null ? styles.activeCategory : ''}`}

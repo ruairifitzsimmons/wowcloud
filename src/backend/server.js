@@ -300,6 +300,209 @@ app.delete('/forum/posts/:postId/comments/:commentId', auth.authenticateToken, a
   }
 });
 
+// Like a post
+app.post('/forum/posts/:id/like', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.userId;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    const isLiked = post.likes.includes(userId);
+    if (isLiked) {
+      post.likes.pull(userId);
+    } else {
+      post.likes.push(userId);
+    }
+    await post.save();
+    res.json({ liked: !isLiked, count: post.likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Unlike a post
+app.post('/forum/posts/:id/unlike', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.userId;
+
+    // Find the post by ID
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if the user has already liked the post
+    const isLiked = post.likes.includes(userId);
+
+    if (!isLiked) {
+      // User hasn't liked the post, no need to unlike
+      return res.json({ liked: false, count: post.likes.length });
+    }
+
+    // User already liked the post, remove their like
+    post.likes.pull(userId);
+    await post.save();
+
+    // Return the updated like status and count
+    res.json({ liked: false, count: post.likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get like count for a post
+app.get('/forum/posts/:id/like-count', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    // Find the post by ID
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Return the current like count
+    res.json({ count: post.likes.length });
+    console.log(postId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Like a post
+app.post('/forum/posts/:id/like', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.userId;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    const isLiked = post.likes.includes(userId);
+    if (isLiked) {
+      post.likes.pull(userId);
+    } else {
+      post.likes.push(userId);
+    }
+    await post.save();
+    res.json({ liked: !isLiked, count: post.likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Unlike a post
+app.post('/forum/posts/:id/unlike', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.userId;
+
+    // Find the post by ID
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if the user has already liked the post
+    const isLiked = post.likes.includes(userId);
+
+    if (!isLiked) {
+      // User hasn't liked the post, no need to unlike
+      return res.json({ liked: false, count: post.likes.length });
+    }
+
+    // User already liked the post, remove their like
+    post.likes.pull(userId);
+    await post.save();
+
+    // Return the updated like status and count
+    res.json({ liked: false, count: post.likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get like count for a post
+app.get('/forum/posts/:id/like-count', auth.authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    // Find the post by ID
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Return the current like count
+    res.json({ count: post.likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Like a comment
+app.post('/forum/posts/:postId/comments/:commentId/like', auth.authenticateToken, async (req, res) => {
+  try {
+    const { postId, commentId } = req.params;
+    const userId = req.user.userId;
+    
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    const isLiked = comment.likes.includes(userId);
+    if (isLiked) {
+      comment.likes.pull(userId);
+    } else {
+      comment.likes.push(userId);
+    }
+
+    await comment.save();
+
+    res.json({ liked: !isLiked, count: comment.likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Unlike a comment
+app.post('/forum/posts/:postId/comments/:commentId/unlike', auth.authenticateToken, async (req, res) => {
+  try {
+    const { postId, commentId } = req.params;
+    const userId = req.user.userId;
+
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    const isLiked = comment.likes.includes(userId);
+    if (!isLiked) {
+      return res.json({ liked: false, count: comment.likes.length });
+    }
+
+    comment.likes.pull(userId);
+    await comment.save();
+
+    res.json({ liked: false, count: comment.likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

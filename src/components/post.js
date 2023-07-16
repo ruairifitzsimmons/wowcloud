@@ -5,7 +5,13 @@ import Comment from './comment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
-const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
+const Post = ({
+  post,
+  categoryName,
+  loggedInUser,
+  updatePost,
+  deletePost
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -28,15 +34,18 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:9000/forum/posts/${post._id}/comments`, {
-        params: { populate: 'author' },
-      });
+      const response = await axios.get(
+        `http://localhost:9000/forum/posts/${post._id}/comments`,
+        {
+          params: { populate: 'author' },
+        }
+      );
       const commentsData = response.data;
       const populatedComments = await Promise.all(
         commentsData.map(async (comment) => {
           const populatedComment = { ...comment };
           if (!populatedComment.author) {
-            populatedComment.author = { username: 'Unknown User' };
+            populatedComment.author = { username: comment.author };
           } else {
             const authorResponse = await axios.get(
               `http://localhost:9000/forum/users/${comment.author}`
@@ -76,7 +85,6 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
   const handleSave = () => {
     updatePost(post._id, editedContent)
       .then((updatedPost) => {
-        console.log('Updated Post:', updatedPost);
         setIsEditMode(false);
         setEditedContent(updatedPost.content); // Update the editedContent state with the updated content
       })
@@ -87,14 +95,19 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
 
   const handleDelete = () => {
     if (loggedInUser && post.author.username === loggedInUser.username) {
-      deletePost(post._id)
-        .then(() => {
-          console.log('Post deleted');
-          closeModal(); // Close the modal after successful deletion
-        })
-        .catch((error) => {
-          console.error('Error deleting post:', error);
-        });
+      const confirmDelete = window.confirm(
+        'Are you sure you want to delete this post?'
+      );
+      if (confirmDelete) {
+        deletePost(post._id)
+          .then(() => {
+            console.log('Post deleted');
+            closeModal(); // Close the modal after successful deletion
+          })
+          .catch((error) => {
+            console.error('Error deleting post:', error);
+          });
+      }
     } else {
       console.log('User is not authorized to delete this post.');
     }
@@ -159,12 +172,17 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await axios.delete(`http://localhost:9000/forum/posts/${post._id}/comments/${commentId}`, {
-          headers: {
-            Authorization: token,
-          },
-        });
-        setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
+        await axios.delete(
+          `http://localhost:9000/forum/posts/${post._id}/comments/${commentId}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        setComments((prevComments) =>
+          prevComments.filter((comment) => comment._id !== commentId)
+        );
       }
     } catch (error) {
       console.log(error);
@@ -219,9 +237,12 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
         return;
       }
 
-      const response = await axios.get(`http://localhost:9000/forum/posts/${post._id}/like-count`, {
-        headers: { Authorization: token },
-      });
+      const response = await axios.get(
+        `http://localhost:9000/forum/posts/${post._id}/like-count`,
+        {
+          headers: { Authorization: token },
+        }
+      );
       const { liked, count } = response.data;
       setIsLiked(liked);
       setLikeCount(count);
@@ -250,7 +271,10 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
       await checkLikedStatus();
 
       // Update the liked status in local storage
-      localStorage.setItem(`post_${post._id}_liked_${loggedInUser._id}`, !isLiked);
+      localStorage.setItem(
+        `post_${post._id}_liked_${loggedInUser._id}`,
+        !isLiked
+      );
     } catch (error) {
       console.error('Error liking/unliking post:', error);
     }
@@ -259,6 +283,13 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
   return (
     <div className={styles.post}>
       <div className={styles.postLeftRight}>
+        {post.giphyLink && (
+          <img
+            src={post.giphyLink}
+            alt="GIF"
+            className={styles.giphyImage}
+          />
+        )}
         <div className={styles.postLeft}>
           <h2 className={styles.postTitle} onClick={openModal}>
             {post.title}
@@ -271,25 +302,33 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
         </div>
         <div className={styles.postRight}>
           <span className={styles.likeCount}>{likeCount}</span>
-          {loggedInUser ? (
+          {loggedInUser && (
             <FontAwesomeIcon
               icon={faThumbsUp}
               className={`${styles.likeButton} ${isLiked ? styles.liked : ''}`}
               onClick={handleLike}
             />
-          ) : null}
+          )}
         </div>
       </div>
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className={styles.postContainer}>
               <div className={styles.modalHeader}>
-                <h2 className={styles.modalPostTitle}>{post.title}</h2>
-                <span className={styles.postCategory}>{categoryName}</span>
-                <div>
-                  <span className={styles.postPosted}>Posted by </span>
-                  <span className={styles.postAuthor}>{post.author.username}</span>
+                {post.giphyLink && (
+                  <img src={post.giphyLink} alt="GIF" className={styles.giphyImage}/>
+                )}
+                <div className={styles.modalHeaderText}>
+                  <h2 className={styles.modalPostTitle}>{post.title}</h2>
+                  <span className={styles.postCategory}>{categoryName}</span>
+                  <div>
+                    <span className={styles.postPosted}>Posted by </span>
+                    <span className={styles.postAuthor}>{post.author.username}</span>
+                </div>
                 </div>
               </div>
               <div className={styles.modalContentContainer}>
@@ -307,7 +346,7 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
                   />
                 )}
               </div>
-              {loggedInUser?.username && post.author.username === loggedInUser.username && !isEditMode ? (
+              {loggedInUser?.username === post.author.username && !isEditMode && (
                 <div className={styles.modalButtons}>
                   <button className={styles.editButton} onClick={handleEdit}>
                     Edit
@@ -316,10 +355,13 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
                     Delete
                   </button>
                 </div>
-              ) : null}
+              )}
               {isEditMode && (
                 <div className={styles.modalButtons}>
-                  <button className={styles.cancelButton} onClick={() => setIsEditMode(false)}>
+                  <button
+                    className={styles.cancelButton}
+                    onClick={() => setIsEditMode(false)}
+                  >
                     Cancel
                   </button>
                   <button className={styles.saveButton} onClick={handleSave}>

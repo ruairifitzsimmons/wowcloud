@@ -28,7 +28,6 @@ const Comment = ({
   const handleSave = () => {
     updateComment(comment._id, editedContent)
       .then((updatedComment) => {
-        console.log('Updated Comment:', updatedComment);
         setIsEditMode(false);
         setEditedContent(updatedComment.content); // Update the editedContent state with the updated content
       })
@@ -46,38 +45,52 @@ const Comment = ({
     setEditedContent(e.target.value);
   };
 
-  const handleLike = () => {
-    likeComment(comment._id)
-      .then((updatedComment) => {
-        console.log('Liked Comment:', updatedComment);
-        setIsLiked(true);
-      })
-      .catch((error) => {
-        console.error('Error liking comment:', error);
-      });
+  const handleLike = async () => {
+    try {
+      const updatedComment = await likeComment(comment._id);
+      console.log('Liked Comment:', updatedComment);
+      setIsLiked(true);
+    } catch (error) {
+      console.error('Error liking comment:', error);
+    }
   };
 
-  const handleUnlike = () => {
-    unlikeComment(comment._id)
-      .then((updatedComment) => {
-        console.log('Unliked Comment:', updatedComment);
-        setIsLiked(false);
-      })
-      .catch((error) => {
-        console.error('Error unliking comment:', error);
-      });
+  const handleUnlike = async () => {
+    try {
+      const updatedComment = await unlikeComment(comment._id);
+      console.log('Unliked Comment:', updatedComment);
+      setIsLiked(false);
+    } catch (error) {
+      console.error('Error unliking comment:', error);
+    }
   };
 
-  const isCommentOwner = loggedInUser && comment.author && loggedInUser.username === comment.author.username;
+  const isCommentOwner =
+    loggedInUser &&
+    comment.author &&
+    loggedInUser.username === comment.author.username;
 
   const handleDelete = () => {
-    deleteComment(comment._id)
-      .then(() => {
-        console.log('Comment deleted');
-      })
-      .catch((error) => {
-        console.error('Error deleting comment:', error);
-      });
+    if (
+      loggedInUser &&
+      comment.author &&
+      loggedInUser.username === comment.author.username
+    ) {
+      const confirmDelete = window.confirm(
+        'Are you sure you want to delete this comment?'
+      );
+      if (confirmDelete) {
+        deleteComment(comment._id)
+          .then(() => {
+            console.log('Comment deleted');
+          })
+          .catch((error) => {
+            console.error('Error deleting comment:', error);
+          });
+      }
+    } else {
+      console.log('User is not authorized to delete this comment.');
+    }
   };
 
   return (
@@ -87,9 +100,7 @@ const Comment = ({
           <div>
             <span className={styles.postPosted}>Posted by </span>
             <span className={styles.postAuthor}>
-              {comment.author && comment.author.username
-                ? comment.author.username
-                : 'Unknown User'}
+              {comment.author?.username || 'Unknown User'}
             </span>
           </div>
           {isEditMode ? (
@@ -115,16 +126,11 @@ const Comment = ({
         <div className={styles.postRight}>
           <div className={styles.commentLikes}>
             <span className={styles.likeCount}>{comment.likes.length}</span>
-            {loggedInUser ? (
+            {loggedInUser && (
               <FontAwesomeIcon
                 icon={faThumbsUp}
                 onClick={isLiked ? handleUnlike : handleLike}
                 className={`${styles.likeIcon} ${isLiked ? styles.liked : ''}`}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faThumbsUp}
-                className={`${styles.likeIcon} ${styles.disabled}`}
               />
             )}
           </div>

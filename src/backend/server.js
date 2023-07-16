@@ -133,7 +133,7 @@ app.post('/forum/posts', auth.authenticateToken, async (req, res) => {
   try {
     const { title, content, category } = req.body;
     const author = req.user.userId;
-    const post = await Post.create({ title, content, author, category, comments: [] });
+    const post = await Post.create({ title, content, author, category, giphyLink, comments: [] });
     res.json(post);
   } catch (error) {
     console.error(error);
@@ -177,7 +177,6 @@ app.get('/forum/posts', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 })
-
 
 app.put('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
   try {
@@ -443,6 +442,20 @@ app.get('/forum/posts/:id/like-count', auth.authenticateToken, async (req, res) 
 
     // Return the current like count
     res.json({ count: post.likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get liked posts by the authenticated user
+app.get('/forum/posts/liked', auth.authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const posts = await Post.find({ likes: userId })
+      .sort({ createdAt: -1 })
+      .populate('author', 'username');
+    res.json(posts);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

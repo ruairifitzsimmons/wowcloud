@@ -56,12 +56,48 @@
     z-index: 1;
 }
 
+.postOptions {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+}
+
 .postSelect {
     font-size: 12px;
     color: black;
     padding: 8px;
     border: 0px;
     border-radius: 8px;
+    width: 100%;
+    background: rgba(103, 109, 155, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.postSelect:focus {
+    border: 1px solid rgb(0, 162, 255);
+    box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 16px 0px;
+    outline: none;
+}
+
+.imageUploadButton {
+    border: none;
+    background: white;
+    padding: 0px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.giphyLinkContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.giphyIcon {
+    height: 12px;
+    width: auto;
 }
 
 .postInput {
@@ -70,6 +106,17 @@
     padding: 8px;
     border: 0px;
     border-radius: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    background: rgba(103, 109, 155, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.postInput:focus {
+    border: 1px solid rgb(0, 162, 255);
+    box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 16px 0px;
+    outline: none;
 }
 
 .postButton {

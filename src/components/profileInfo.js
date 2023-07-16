@@ -13,6 +13,11 @@ const ProfileInfo = () => {
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [likedPosts, setLikedPosts] = useState([]);
+  const [myPostsPage, setMyPostsPage] = useState(1);
+  const [myPostsPerPage, setMyPostsPerPage] = useState(3);
+  const [likedPostsPage, setLikedPostsPage] = useState(1);
+  const [likedPostsPerPage, setLikedPostsPerPage] = useState(3);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -38,6 +43,7 @@ const ProfileInfo = () => {
 
     fetchPosts();
     fetchCategories();
+    fetchLikedPosts();
   }, []);
 
   const handleEdit = () => {
@@ -66,10 +72,11 @@ const ProfileInfo = () => {
 
           // Update author name for each post with the new username
           setPosts((prevPosts) =>
-          prevPosts.map((post) => ({
-            ...post,
-            author: { ...post.author, username: updatedUsername },
-          })));
+            prevPosts.map((post) => ({
+              ...post,
+              author: { ...post.author, username: updatedUsername },
+            }))
+          );
         })
         .catch((error) => {
           console.log(error);
@@ -128,7 +135,7 @@ const ProfileInfo = () => {
         const updatedPost = response.data;
         updatedPost.author = post.author;
         setPosts((prevPosts) =>
-          prevPosts.map((post) => 
+          prevPosts.map((post) =>
             post._id === updatedPost._id ? { ...post, content: updatedPost.content } : post
           )
         );
@@ -155,14 +162,73 @@ const ProfileInfo = () => {
       console.log(error);
     }
   };
-  
+
+  const fetchLikedPosts = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const response = await axios.get('http://localhost:9000/forum/posts/liked', {
+          headers: {
+            Authorization: token,
+          },
+        });
+        setLikedPosts(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLike = async (postId) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // Handle user not authenticated
+        return;
+      }
+
+      await axios.post(
+        `http://localhost:9000/forum/posts/${postId}/like`,
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      );
+
+      // Refetch the liked posts after liking/unliking a post
+      fetchLikedPosts();
+    } catch (error) {
+      console.error('Error liking/unliking post:', error);
+    }
+  };
+
+  const handleMyPostsPageChange = (newPage) => {
+    setMyPostsPage(newPage);
+  };
+
+  const handleLikedPostsPageChange = (newPage) => {
+    setLikedPostsPage(newPage);
+  };
+
+  const paginateArray = (array, page, perPage) => {
+    const startIndex = (page - 1) * perPage;
+    const endIndex = startIndex + perPage;
+    return array.slice(startIndex, endIndex);
+  };
+
+  const paginatedMyPosts = paginateArray(posts, myPostsPage, myPostsPerPage);
+  const paginatedLikedPosts = paginateArray(likedPosts, likedPostsPage, likedPostsPerPage);
+
+  const maxMyPostsPage = Math.ceil(posts.length / myPostsPerPage);
+  const maxLikedPostsPage = Math.ceil(likedPosts.length / likedPostsPerPage);
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.postsContainer}>
           <div className={styles.postContainer}>
             <h2 className={styles.h2Header}>My Posts</h2>
-            {posts.map((post) => (
+            {paginatedMyPosts.map((post) => (
               <Post
                 key={post._id}
                 post={post}
@@ -172,26 +238,79 @@ const ProfileInfo = () => {
                 deletePost={deletePost}
               />
             ))}
+            {posts.length > 0 && (
+              <div className={styles.pagination}>
+                <button
+                  onClick={() => handleMyPostsPageChange(myPostsPage - 1)}
+                  disabled={myPostsPage === 1}
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => handleMyPostsPageChange(myPostsPage + 1)}
+                  disabled={myPostsPage === maxMyPostsPage}
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </div>
+          {likedPosts.length > 0 && (
+            <div className={styles.postContainer}>
+              <h2 className={styles.h2Header}>Liked Posts</h2>
+              {paginatedLikedPosts.map((post) => (
+                <Post
+                  key={post._id}
+                  post={post}
+                  categoryName={getCategoryName(post.category)}
+                  loggedInUser={loggedInUser}
+                  updatePost={updatePost}
+                  deletePost={deletePost}
+                />
+              ))}
+              {likedPosts.length > 0 && (
+                <div className={styles.pagination}>
+                  <button
+                    onClick={() => handleLikedPostsPageChange(likedPostsPage - 1)}
+                    disabled={likedPostsPage === 1}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={() => handleLikedPostsPageChange(likedPostsPage + 1)}
+                    disabled={likedPostsPage === maxLikedPostsPage}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </div>
-            {/*<div className={styles.postContainer}>
-              <h2 className={styles.h2Header}>My Comments</h2>
-            </div>*/}
+          )}
         </div>
         <div>
           {editing ? (
             <div className={styles.profileInfoContainer}>
               <div className={styles.usernameContainer}>
-                <input className={styles.usernameField} type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
+                <input
+                  className={styles.usernameField}
+                  type="text"
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                />
                 <div className={styles.buttonContainer}>
-                  <button className={styles.cancelButton} onClick={handleCancel}>Cancel</button>
-                  <button className={styles.saveButton} onClick={handleSave}>Save</button>
+                  <button className={styles.cancelButton} onClick={handleCancel}>
+                    Cancel
+                  </button>
+                  <button className={styles.saveButton} onClick={handleSave}>
+                    Save
+                  </button>
                 </div>
               </div>
             </div>
           ) : (
             <div className={styles.profileInfoContainer}>
               <div className={styles.profileUsernameContainer}>
-              <span className={styles.profileInfoUsername}>Hello, {username}</span>
+                <span className={styles.profileInfoUsername}>Hello, {username}</span>
                 <button className={styles.profileEditButton} onClick={handleEdit}>
                   Change
                 </button>

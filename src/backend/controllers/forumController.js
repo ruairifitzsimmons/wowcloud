@@ -19,9 +19,9 @@ router.get('/posts', async (req, res) => {
 // Create a new post
 router.post('/posts', auth.authenticateToken, async (req, res) => {
   try {
-    const { title, content, category } = req.body;
+    const { title, content, category, giphyLink } = req.body;
     const author = req.user.userId;
-    const post = await Post.create({ title, content, author, category });
+    const post = await Post.create({ title, content, author, category, giphyLink });
     res.json(post);
   } catch (error) {
     console.error(error);

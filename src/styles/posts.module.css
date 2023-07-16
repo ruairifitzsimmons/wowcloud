@@ -45,6 +45,7 @@
   color: white;
   background: rgba(255, 255, 255, 0.2);
   padding: 4px;
+  padding-left: 6px;
   border-radius: 4px;
   width: fit-content;
 }
@@ -99,6 +100,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .postLeft {
@@ -127,7 +129,7 @@
   outline: none;
   color: white;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.1s ease;
   height: 16px;
 }
 
@@ -140,7 +142,23 @@
   transform: scale(1.2);
 }
 
+.likeIcon {
+  cursor: pointer;
+  transition: 0.1s ease;
+  height: 16px;
+}
+
+.likeIcon:active {
+  transform: scale(1.2);
+}
+
 .modalHeader {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.modalHeaderText {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -303,6 +321,13 @@
 .activeCategory {
   border: 1px solid rgb(0, 162, 255);
   box-shadow: rgb(0, 162, 255) 0px 0px 8px 0px;
+}
+
+.giphyImage {
+  height: 80px;
+  max-width: 80px;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 

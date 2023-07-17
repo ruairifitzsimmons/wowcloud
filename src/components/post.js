@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from '../styles/posts.module.css';
 import Comment from './comment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
-const Post = ({
-  post,
-  categoryName,
-  loggedInUser,
-  updatePost,
-  deletePost
-}) => {
+const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -69,6 +66,7 @@ const Post = ({
   const closeModal = (e) => {
     e.stopPropagation();
     setIsModalOpen(false);
+    router.push('/forum'); // Redirect back to the forum page when closing the modal
   };
 
   const handleEdit = () => {
@@ -95,9 +93,7 @@ const Post = ({
 
   const handleDelete = () => {
     if (loggedInUser && post.author.username === loggedInUser.username) {
-      const confirmDelete = window.confirm(
-        'Are you sure you want to delete this post?'
-      );
+      const confirmDelete = window.confirm('Are you sure you want to delete this post?');
       if (confirmDelete) {
         deletePost(post._id)
           .then(() => {
@@ -284,16 +280,13 @@ const Post = ({
     <div className={styles.post}>
       <div className={styles.postLeftRight}>
         {post.giphyLink && (
-          <img
-            src={post.giphyLink}
-            alt="GIF"
-            className={styles.giphyImage}
-          />
+          <img src={post.giphyLink} alt="GIF" className={styles.giphyImage} />
         )}
         <div className={styles.postLeft}>
           <h2 className={styles.postTitle} onClick={openModal}>
-            {post.title}
+          {post.title}
           </h2>
+
           <span className={styles.postCategory}>{categoryName}</span>
           <div>
             <span className={styles.postPosted}>Posted by </span>
@@ -320,15 +313,21 @@ const Post = ({
             <div className={styles.postContainer}>
               <div className={styles.modalHeader}>
                 {post.giphyLink && (
-                  <img src={post.giphyLink} alt="GIF" className={styles.giphyImage}/>
+                  <img
+                    src={post.giphyLink}
+                    alt="GIF"
+                    className={styles.giphyImage}
+                  />
                 )}
                 <div className={styles.modalHeaderText}>
                   <h2 className={styles.modalPostTitle}>{post.title}</h2>
                   <span className={styles.postCategory}>{categoryName}</span>
                   <div>
                     <span className={styles.postPosted}>Posted by </span>
-                    <span className={styles.postAuthor}>{post.author.username}</span>
-                </div>
+                    <span className={styles.postAuthor}>
+                      {post.author.username}
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className={styles.modalContentContainer}>
@@ -340,7 +339,7 @@ const Post = ({
                 ) : (
                   <textarea
                     className={styles.modalPostContent1}
-                    rows='10'
+                    rows="10"
                     value={editedContent}
                     onChange={(e) => setEditedContent(e.target.value)}
                   />
@@ -351,7 +350,10 @@ const Post = ({
                   <button className={styles.editButton} onClick={handleEdit}>
                     Edit
                   </button>
-                  <button className={styles.deleteButton} onClick={handleDelete}>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={handleDelete}
+                  >
                     Delete
                   </button>
                 </div>
@@ -374,10 +376,13 @@ const Post = ({
               <h3>Comments</h3>
 
               {loggedInUser && (
-                <form className={styles.commentForm} onSubmit={handleSubmitComment}>
+                <form
+                  className={styles.commentForm}
+                  onSubmit={handleSubmitComment}
+                >
                   <textarea
                     className={styles.commentInput}
-                    rows='3'
+                    rows="3"
                     value={newComment}
                     onChange={handleCommentChange}
                     placeholder="Write a comment..."

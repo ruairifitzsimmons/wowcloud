@@ -7,7 +7,6 @@
     right: 16px;
     left: 16px;
     z-index: 999;
-    background: linear-gradient(to bottom, rgb(24, 26, 42), rgb(24, 26, 42, 0.5));
   }
   
   .navcontainer {
@@ -16,7 +15,7 @@
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
-    background: rgba(103, 109, 155, 0.1);
+    background: rgba(36, 38, 57, 0.7);
     backdrop-filter: blur(8px);
     margin: 16px 16px 0px 16px;
     padding: 16px;

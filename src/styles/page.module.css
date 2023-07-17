@@ -3,3 +3,130 @@
   flex-direction: column;
   align-items: center;
 }
+
+.homeHeroOverlay {
+  position: relative;
+  width: 100%;
+}
+
+.homeHero {
+  display: flex;
+  flex-direction: column;
+  margin-top: -90px;
+  height: 600px;
+  width: 100%;
+  background: linear-gradient(0deg, rgba(24, 26, 42, 0.7), rgb(24, 26, 42, 0.7)), url('../images/heroImage.webp');
+  background-size: cover;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-bottom: 1px solid rgb(0, 162, 255);
+  box-shadow: inset 0 -10px 64px -32px rgb(0, 162, 255, 1), rgb(0, 162, 255, 1) 0px 0px 64px 0px;
+}
+
+.homeHeroText {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  color: white;
+}
+
+.homeHeroButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.homeHeroButton1 {
+  background: rgb(255, 58, 58);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: white;
+  padding: 8px 32px;
+  border: 0px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.homeHeroButton2 {
+  border: 1px solid rgb(255, 58, 58);
+  background: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: white;
+  padding: 8px 32px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+.homeSectionOne {
+  margin: 0px 16px;
+  width: 100vw;
+  max-width: 1200px;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding: 120px 0px 40px 0px;
+}
+
+.homeSectionOneLeft {
+  width: 50%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  padding-right: 40px;
+}
+
+.homeSectionOneRight {
+  height: 100%;
+  width: 50%;
+  background: url('../images/heroImage.webp');
+  background-size: cover;
+  border-radius: 12px;
+  border: 1px solid rgb(41, 44, 65);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 16px -8px;
+}
+
+.homeSectionHeader {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  color: white;
+}
+
+.homeSectionDesc {
+  font-weight: 400;
+  font-size: 16px;
+  color: rgb(183, 183, 183);
+}
+
+.homeSectionTwoLeft {
+  height: 100%;
+  width: 50%;
+  background: url('../images/heroImage.webp');
+  background-size: cover;
+  border-radius: 12px;
+  border: 1px solid rgb(41, 44, 65);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 16px -8px;
+}
+
+.homeSectionTwoRight {
+  width: 50%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  padding-left: 40px;
+}

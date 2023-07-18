@@ -22,7 +22,6 @@ app.use(cors());
 app.use(express.json());
 
 // ROUTES
-app.get('/api/dungeons', dungeonsController.getDungeons);
 app.get('/api/realms', realmsController.getRealms);
 app.get('/api/character', characterController.getCharacter);
 app.get('/api/character-media', characterMediaController.getCharacterMedia);
@@ -30,6 +29,8 @@ app.get('/api/character-equipment', characterEquipmentController.getCharacterEqu
 app.get('/api/character-equipment-media', characterEquipmentMediaController.getCharacterEquipmentMedia);
 app.get('/api/character-statistics', characterStatisticsController.getCharacterStatistics);
 app.use('/forum', forumController);
+app.get('/api/dungeons/:expansionId', dungeonsController.getDungeonsByExpansion);
+app.get('/api/dungeons/:expansion/:dungeonId', dungeonsController.getDungeonDetails);
 
 // Login
 app.post('/login', async (req, res) => {

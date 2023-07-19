@@ -2,7 +2,7 @@ const axios = require('axios');
 const BASE_URL = 'http://localhost:9000/api';
 
 {/*async function getDungeons() {
-  try {
+  try { 
       const response = await axios.get(`${BASE_URL}/dungeons`);
       return response.data;
   } catch (error) {
@@ -11,9 +11,9 @@ const BASE_URL = 'http://localhost:9000/api';
   }
 }*/}
 
-async function getDungeons(expansionId) {
+async function getDungeons(expansionId, dungeonId) {
   try {
-    const url = expansionId ? `${BASE_URL}/dungeons/${expansionId}` : `${BASE_URL}/dungeons`;
+    const url = dungeonId ? `${BASE_URL}/dungeons/${expansionId}/${dungeonId}` : `${BASE_URL}/dungeons/${expansionId}`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -21,6 +21,29 @@ async function getDungeons(expansionId) {
     throw error;
   }
 }
+
+async function getDungeonMedia(expansionId, dungeonId) {
+  try {
+    const url = `${BASE_URL}/media/journal-instance/${dungeonId}`;
+    const response = await axios.get(url, {
+      params: {
+        namespace: `static-${expansionId}_eu`,
+        locale: 'en_GB',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching dungeon media:', error);
+    throw error;
+  }
+}
+
+module.exports = {
+  // ... other functions
+  getDungeonMedia, // Add the new function to the module.exports
+};
+
+
 
 async function getDungeonDetails(req, res) {
   try {
@@ -48,8 +71,6 @@ async function getDungeonDetails(req, res) {
     res.status(500).json({ error: 'An error occurred' });
   }
 }
-
-
 
 async function getRealms() {
   try {

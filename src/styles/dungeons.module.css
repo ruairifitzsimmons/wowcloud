@@ -1,0 +1,144 @@
+/* yourStyles.module.css */
+.dungeonsContainer {
+    margin: auto;
+    padding: 0px 16px;
+    max-width: 1200px;
+  }
+
+  .expansionButtons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .expansionButton {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: 0.2s ease;
+    background: none;
+  }
+
+  .expansionButton:hover {
+    border: 1px solid rgb(0, 162, 255);
+}
+
+.activeButton {
+    border: 1px solid rgb(0, 162, 255);
+    box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 16px 0px;
+    background: rgba(103, 109, 155, 0.1);
+}
+  
+  .expansionName {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: white;
+    margin: 24px 0px 16px 0px;
+    text-decoration: none;
+  }
+
+  .expansionSelect {
+    font-size: 12px;
+    color: black;
+    padding: 8px;
+    border: 0px;
+    border-radius: 8px;
+    width: 100%;
+    background: rgba(103, 109, 155, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.expansionSelect:focus {
+    border: 1px solid rgb(0, 162, 255);
+    box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 16px 0px;
+    outline: none;
+}
+  
+  .dungeonsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 8px;
+  }
+  
+  .dungeonsItem {
+    position: relative; /* Add position relative to the grid item */
+    display: flex;
+    height: 200px;
+    width: 100%;
+    background-size: cover;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hide any overflowing content */
+    border: 1px solid rgb(48, 48, 66);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+    transition: 0.2s ease;
+    text-decoration: none;
+  }
+  
+  .dungeonsItem::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); 
+    border-radius: 8px;
+    backdrop-filter: blur(0);
+    transition: filter 0.2s ease;
+  }
+
+  .dungeonsItem:hover::before {
+    backdrop-filter: blur(2px);
+  }
+
+  .dungeonsItem:hover {
+    z-index: 998;
+    border: 1px solid rgb(0, 162, 255);
+    box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 32px 0px;
+  }
+
+  .dungeonsItem:hover > .dungeonsName {
+    transform: scale(1.1);
+  }
+  
+  .dungeonsName {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-decoration: none;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.2s ease;
+  }
+  
+  @media (max-width: 768px) {
+    /* Hide the expansion buttons on mobile */
+    .expansionButtons {
+      display: none;
+    }
+  
+    /* Show the dropdown container on mobile */
+    .expansionButtonsContainer {
+      display: block;
+      margin: 24px 0;
+    }
+  }
+  
+  /* Media query for desktop devices */
+  @media (min-width: 769px) {
+    /* Hide the dropdown container on desktop */
+    .expansionButtonsContainer {
+      display: none;
+    }
+  }

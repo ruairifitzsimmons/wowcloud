@@ -1,9 +1,7 @@
-// dungeonController.js
 const axios = require('axios');
 const { getAccessToken } = require('../utils/accessToken');
 
-async function getDungeonsByExpansion(req, res) {
-  const { expansionId } = req.params;
+async function fetchDungeonsByExpansion(expansionId) {
   try {
     const accessToken = await getAccessToken();
 
@@ -11,7 +9,7 @@ async function getDungeonsByExpansion(req, res) {
       `https://eu.api.blizzard.com/data/wow/journal-expansion/${expansionId}`,
       {
         params: {
-          namespace: 'static-10.1.5_50232-eu',
+          namespace: 'static-eu',
           locale: 'en_GB',
         },
         headers: {
@@ -20,17 +18,41 @@ async function getDungeonsByExpansion(req, res) {
       }
     );
 
-    // Assuming the response.data contains the details of the expansion, not just the dungeons
-    const expansionData = response.data;
+    const dungeonsData = response.data;
 
-    res.json(expansionData);
+    return dungeonsData;
   } catch (error) {
-    console.error('Error fetching dungeons by expansion: ', error);
-    res.status(500).json({ error: 'An error occurred' });
+    // Instead of just passing the error message, pass the entire error object.
+    throw error;
+  }
+}
+
+async function getDungeonMedia(dungeonId) {
+  try {
+    const accessToken = await getAccessToken();
+
+    const response = await axios.get(
+      `https://eu.api.blizzard.com/data/wow/media/journal-instance/${dungeonId}`,
+      {
+        params: {
+          namespace: 'static-eu',
+          locale: 'en_GB',
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const dungeonMedia = response.data;
+
+    return dungeonMedia;
+  } catch (error) {
+    throw error;
   }
 }
 
 module.exports = {
-  getDungeonsByExpansion,
+  fetchDungeonsByExpansion,
+  getDungeonMedia, // Export the new function
 };
-  

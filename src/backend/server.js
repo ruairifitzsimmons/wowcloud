@@ -29,8 +29,28 @@ app.get('/api/character-equipment', characterEquipmentController.getCharacterEqu
 app.get('/api/character-equipment-media', characterEquipmentMediaController.getCharacterEquipmentMedia);
 app.get('/api/character-statistics', characterStatisticsController.getCharacterStatistics);
 app.use('/forum', forumController);
-app.get('/api/dungeons/:expansionId', dungeonsController.getDungeonsByExpansion);
-app.get('/api/dungeons/:expansion/:dungeonId', dungeonsController.getDungeonDetails);
+app.get('/api/dungeons/:expansionId', async (req, res) => {
+  const { expansionId } = req.params;
+  try {
+    const dungeons = await dungeonsController.fetchDungeonsByExpansion(expansionId);
+    res.json(dungeons);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+});
+
+// Add a new route to fetch media details for each dungeon
+app.get('/api/dungeons/:expansionId/:dungeonId', async (req, res) => {
+  const { expansionId, dungeonId } = req.params;
+  try {
+    const dungeonMedia = await blizzardApi.getDungeonMedia(expansionId, dungeonId);
+    res.json(dungeonMedia);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+});
 
 // Login
 app.post('/login', async (req, res) => {

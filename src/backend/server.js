@@ -29,6 +29,7 @@ app.get('/api/character-equipment', characterEquipmentController.getCharacterEqu
 app.get('/api/character-equipment-media', characterEquipmentMediaController.getCharacterEquipmentMedia);
 app.get('/api/character-statistics', characterStatisticsController.getCharacterStatistics);
 app.use('/forum', forumController);
+
 app.get('/api/dungeons/:expansionId', async (req, res) => {
   const { expansionId } = req.params;
   try {
@@ -40,12 +41,51 @@ app.get('/api/dungeons/:expansionId', async (req, res) => {
   }
 });
 
-// Add a new route to fetch media details for each dungeon
 app.get('/api/dungeons/:expansionId/:dungeonId', async (req, res) => {
   const { expansionId, dungeonId } = req.params;
   try {
-    const dungeonMedia = await blizzardApi.getDungeonMedia(expansionId, dungeonId);
-    res.json(dungeonMedia);
+    const dungeonData = await dungeonsController.fetchDungeonsByExpansion(expansionId);
+    const dungeon = dungeonData.dungeons.find(dungeon => dungeon.id === parseInt(dungeonId));
+    const dungeonMedia = await dungeonsController.getDungeonMedia(dungeonId);
+    const dungeonDetails = await dungeonsController.getDungeonDetails(dungeonId);
+
+    // Combine both media and details and send the response
+    res.json({ dungeonMedia, dungeonDetails });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+});
+
+app.get('/api/dungeons/:expansionId/:dungeonId/:encounterId', async (req, res) => {
+  const { encounterId } = req.params;
+  try {
+    const encounterDetails = await dungeonsController.getEncounterDetails(encounterId);
+    res.json(encounterDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+});
+
+// Get item information
+app.get('/api/item/:itemId', async (req, res) => {
+  const { itemId } = req.params;
+  try {
+    const itemInfo = await dungeonsController.getItemInformation(itemId);
+    res.json(itemInfo);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+});
+
+// Get item media
+app.get('/api/item-media/:itemId', async (req, res) => {
+  const { itemId } = req.params;
+  try {
+    const itemMedia = await dungeonsController.getItemMedia(itemId);
+    res.json(itemMedia);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error', error: error.message });

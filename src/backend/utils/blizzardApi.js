@@ -1,16 +1,6 @@
 const axios = require('axios');
 const BASE_URL = 'http://localhost:9000/api';
 
-{/*async function getDungeons() {
-  try { 
-      const response = await axios.get(`${BASE_URL}/dungeons`);
-      return response.data;
-  } catch (error) {
-      console.error('Error fetching dungeons: ', error);
-      throw error;
-  }
-}*/}
-
 async function getDungeons(expansionId, dungeonId) {
   try {
     const url = dungeonId ? `${BASE_URL}/dungeons/${expansionId}/${dungeonId}` : `${BASE_URL}/dungeons/${expansionId}`;
@@ -38,37 +28,35 @@ async function getDungeonMedia(expansionId, dungeonId) {
   }
 }
 
-module.exports = {
-  // ... other functions
-  getDungeonMedia, // Add the new function to the module.exports
-};
-
-
-
-async function getDungeonDetails(req, res) {
+async function getItemInformation(itemId) {
   try {
-    const { dungeonId } = req.params;
-    const accessToken = await getAccessToken();
-
-    const response = await axios.get(
-      `https://eu.api.blizzard.com/data/wow/journal-instance/${dungeonId}`,
-      {
-        params: {
-          namespace: 'static-10.1.5_50232-eu', // Update the namespace to 'static-10.1.5_50232-eu'
-          locale: 'en_GB',
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    const dungeonDetails = response.data;
-
-    res.json(dungeonDetails);
+    const response = await axios.get(`${BASE_URL}/item/${itemId}`, {
+      params: {
+        namespace: 'static-eu',
+        locale: 'en_GB',
+      },
+    });
+    const itemDetails = response.data;
+    return itemDetails;
   } catch (error) {
-    console.error('Error fetching dungeon details: ', error);
-    res.status(500).json({ error: 'An error occurred' });
+    console.error('Error fetching item details: ', error);
+    throw error;
+  }
+}
+
+async function getItemMedia(itemId) {
+  try {
+    const response = await axios.get(`${BASE_URL}/item-media/${itemId}`, {
+      params: {
+        namespace: 'static-eu',
+        locale: 'en_GB',
+      },
+    });
+    const itemMedia = response.data;
+    return itemMedia;
+  } catch (error) {
+    console.error('Error fetching item media: ', error);
+    throw error;
   }
 }
 
@@ -165,5 +153,8 @@ module.exports = {
   getCharacterEquipment,
   getCharacterEquipmentMedia,
   getCharacterStatistics,
-  getDungeonDetails
+  getDungeonDetails,
+  getDungeonMedia,
+  getItemInformation,
+  getItemMedia,
 };

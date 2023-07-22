@@ -1,0 +1,138 @@
+.dungeonsContainer {
+    margin: auto;
+    padding: 0px 16px;
+    max-width: 1200px;
+}
+
+.dungeonName {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: white;
+    margin: 24px 0px 16px 0px;
+    text-decoration: none;
+}
+
+.dungeonImage {
+    position: relative; /* Add position relative to the grid item */
+    display: flex;
+    width: 100%;
+    background-size: cover;
+    border-radius: 16px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hide any overflowing content */
+    border: 1px solid rgb(48, 48, 66);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+    transition: 0.2s ease;
+    text-decoration: none;
+}
+
+.dungeonDescription {
+    font-size: 16px;
+    color: white;
+}
+
+.encountersHeading {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+}
+
+.encountersList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 8px;
+}
+
+.encounterContainer {
+    position: relative;
+    display: flex;
+    height: 100px;
+    width: 100%;
+    background-size: cover;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hide any overflowing content */
+    border: 1px solid rgb(48, 48, 66);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+    transition: 0.2s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.encounterName {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 16x;
+    color: white;
+}
+
+.encounterDescription {
+    font-size: 16px;
+    color: white;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    z-index: 999;
+    overflow-y: auto;
+}
+
+.modal {
+    position: absolute;
+    top: 32px;
+    background: rgb(24, 26, 42, 0.9);
+    border-radius: 16px;
+    width: 700px;
+    height: 600px;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 32px -16px;
+    overflow-y: auto;
+}
+
+.modalContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.subHeader {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 16x;
+    color: white;
+}
+
+.itemContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 4px 16px;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+    border-radius: 8px;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+    transition-duration: 0.4s;
+}
+
+.itemName {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 16x;
+    color: white;
+}

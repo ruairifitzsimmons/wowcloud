@@ -28,6 +28,30 @@ async function getDungeonMedia(expansionId, dungeonId) {
   }
 }
 
+async function getDungeonDetails(req, res) {
+  try {
+    const { dungeonId } = req.params;
+    const accessToken = await getAccessToken();
+    const response = await axios.get(
+      `https://eu.api.blizzard.com/data/wow/journal-instance/${dungeonId}`,
+      {
+        params: {
+          namespace: 'static-10.1.5_50232-eu', // Update the namespace to 'static-10.1.5_50232-eu'
+          locale: 'en_GB',
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    const dungeonDetails = response.data;
+    res.json(dungeonDetails);
+  } catch (error) {
+    console.error('Error fetching dungeon details: ', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+}
+
 async function getItemInformation(itemId) {
   try {
     const response = await axios.get(`${BASE_URL}/item/${itemId}`, {

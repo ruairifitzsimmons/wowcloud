@@ -92,20 +92,26 @@
 .modal {
     position: absolute;
     top: 32px;
+    bottom:32px;
     background: rgb(24, 26, 42, 0.9);
     border-radius: 16px;
     width: 700px;
-    height: 600px;
     padding: 40px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 32px -16px;
+    box-shadow: rgba(0, 0, 0, 0.7) 0px 8px 64px 16px;
     overflow-y: auto;
 }
 
 .modalContainer {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 32px;
+}
+
+.encounterHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .subHeader {
@@ -114,7 +120,14 @@
     color: white;
 }
 
+.lootContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .itemContainer {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 4px 16px;
@@ -127,12 +140,151 @@
     gap: 8px;
     padding: 4px;
     border-radius: 8px;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
-    transition-duration: 0.4s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition-duration: 0.2s;
+}
+
+.item:hover > .itemImage {
+    transform: scale(1.1) translateX(-6px);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: rgb(0, 0, 0, 0.5) 4px 0px 8px 0px;
+}
+
+
+.itemHeader {
+    display: flex;
+    flex-direction: column;
+}
+
+.itemImage {
+    height: 48px;
+    width: 48px;
+    border-radius: 6px;
+    transition: 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0);
 }
 
 .itemName {
     font-family: 'Chakra Petch', sans-serif;
-    font-size: 16x;
+    font-size: 16px;
+    font-weight: 600;
     color: white;
+}
+
+.itemLevel {
+    font-size: 12px;
+    color: white;
+}
+
+.sectionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgb(40, 44, 67);
+}
+
+.sectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sectionTitle {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(255, 208, 0);
+}
+
+.subSectionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subSection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px;
+    border-radius: 8px;
+    background: rgb(54, 59, 88);
+}
+
+.subSectionTitle {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(255, 208, 0);
+}
+
+.subSectionDescription {
+    font-size: 14px;
+    color: white;
+}
+
+.itemPopup {
+    position: fixed;
+    z-index: 999;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: rgb(24, 26, 42, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 16px;
+    margin-left: 8px;
+    margin-top: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 16px 16px 0px;
+    color: white;
+    font-size: 12px;
+}
+
+.popupname {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+
+.popupitemlevel {
+    color: rgb(255, 225, 0)
+}
+
+.itemslotarmor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.common {
+    color: #AAAAAA; /* Common item color */
+}
+
+.uncommon {
+color: #1EFF00; /* Uncommon item color */
+}
+
+.rare {
+color: #0070DD; /* Rare item color */
+}
+
+.epic {
+color: #A335EE; /* Epic item color */
+}
+
+.legendary {
+color: #FF8000; /* Legendary item color */
 }

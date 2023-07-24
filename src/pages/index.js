@@ -22,10 +22,10 @@ export default function Home() {
         <div className={styles.homeHero}>
           <h1 className={styles.homeHeroText}>WoW Cloud</h1>
           <div className={styles.homeHeroButtons}>
-            <Link href='/character'>
+            <Link href='/character' passHref>
               <button className={styles.homeHeroButton1}>Character Search</button>
             </Link>
-            <Link href='/forum'>
+            <Link href='/forum' passHref>
               <button className={styles.homeHeroButton2}>Forum</button>
             </Link>
           </div>
@@ -37,7 +37,7 @@ export default function Home() {
           <div className={styles.homeSectionOneLeft}>
             <h2 className={styles.homeSectionHeader}>Character Search</h2>
             <p className={styles.homeSectionDesc}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.</p>
-            <Link href='/character'>
+            <Link href='/character' passHref>
               <button className={styles.homeHeroButton1}>Search Character</button>
             </Link>
           </div>
@@ -45,13 +45,13 @@ export default function Home() {
           </div>
       </div>
 
-      <div className={styles.homeSectionOne}>
+      <div className={styles.homeSectionTwo}>
           <div className={styles.homeSectionTwoLeft}>
           </div>
           <div className={styles.homeSectionTwoRight}>
             <h2 className={styles.homeSectionHeader}>Forum</h2>
             <p className={styles.homeSectionDesc}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.</p>
-            <Link href='/forum'>
+            <Link href='/forum' passHref>
               <button className={styles.homeHeroButton1}>Visit forum</button>
             </Link>
           </div>
@@ -61,11 +61,11 @@ export default function Home() {
           <div className={styles.homeSectionOneLeft}>
             <h2 className={styles.homeSectionHeader}>In-game Content</h2>
             <p className={styles.homeSectionDesc}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.</p>
-            <Link href='/character'>
+            <Link href='/game' passHref>
               <button className={styles.homeHeroButton1}>View content</button>
             </Link>
           </div>
-          <div className={styles.homeSectionOneRight}>
+          <div className={styles.homeSectionThreeRight}>
           </div>
       </div>
     </main>

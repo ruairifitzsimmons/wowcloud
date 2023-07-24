@@ -1,6 +1,6 @@
 const axios = require('axios');
-const dotenv = require('dotenv');
-dotenv.config({ path: '../../.env' });
+//const dotenv = require('dotenv');
+//dotenv.config({ path: '../../.env' });
 
 async function getAccessToken() {
   try {

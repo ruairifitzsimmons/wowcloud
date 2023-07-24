@@ -68,8 +68,17 @@
 }
 
 .homeSectionOne {
-  margin: 0px 16px;
-  width: 100vw;
+  width: auto;
+  max-width: 1200px;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding: 120px 0px 40px 0px;
+}
+
+.homeSectionTwo {
+  width: auto;
   max-width: 1200px;
   height: 400px;
   display: flex;
@@ -85,13 +94,12 @@
   flex-direction: column;
   gap: 16px;
   justify-content: center;
-  padding-right: 40px;
 }
 
 .homeSectionOneRight {
   height: 100%;
   width: 50%;
-  background: url('../images/heroImage.webp');
+  background: url('../images/classImage.webp');
   background-size: cover;
   border-radius: 12px;
   border: 1px solid rgb(41, 44, 65);
@@ -128,5 +136,49 @@
   flex-direction: column;
   gap: 16px;
   justify-content: center;
-  padding-left: 40px;
+}
+
+.homeSectionThreeRight {
+  height: 100%;
+  width: 50%;
+  background: url('../images/heroImage.webp');
+  background-size: cover;
+  border-radius: 12px;
+  border: 1px solid rgb(41, 44, 65);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 16px -8px;
+}
+
+@media (max-width: 768px) {
+  .homeSectionOne {
+    flex-direction: column;
+    margin: 0px 16px;
+  }
+
+  .homeSectionTwo {
+    flex-direction: column-reverse;
+    margin: 0px 16px;
+  }
+
+  .homeSectionOneLeft {
+    width: fit-content;
+  }
+
+  .homeSectionOneRight {
+    width: auto;
+    margin: 0px 16px;
+  }
+
+  .homeSectionTwoLeft {
+    width: auto;
+    margin: 0px 16px;
+  }
+
+  .homeSectionTwoRight {
+    width: fit-content;
+  }
+
+  .homeSectionThreeRight {
+    width: auto;
+    margin: 0px 16px;
+  }
 }

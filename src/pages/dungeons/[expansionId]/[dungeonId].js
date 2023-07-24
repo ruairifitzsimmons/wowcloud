@@ -165,6 +165,7 @@ const DungeonPage = ({
                 <div className={styles.itemContainer}>
                   {selectedEncounter.items &&
                     selectedEncounter.items.map((item) => {
+                      
                       const qualityClass = getItemQualityName(
                         item.information.quality.type
                       );

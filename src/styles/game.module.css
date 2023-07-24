@@ -1,0 +1,156 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 16px;
+  margin: 0px 16px;
+  width: 100vw;
+  max-width: 1200px;
+  height: 400px;
+  padding: 120px 0px 40px 0px;
+}
+
+.gameSection {
+  position: relative; /* Add position relative to the grid item */
+  display: flex;
+  height: 400px;
+  width: 100%;
+  background-size: cover;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Hide any overflowing content */
+  border: 1px solid rgb(48, 48, 66);
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  transition: 0.2s ease;
+  text-decoration: none;
+}
+
+.gameSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  backdrop-filter: blur(0);
+  transition: filter 0.2s ease;
+}
+
+.gameSection:hover::before {
+  backdrop-filter: blur(4px);
+}
+
+.gameSection:hover {
+  z-index: 998;
+  border: 1px solid rgb(0, 162, 255);
+  box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 32px 0px;
+  cursor: pointer;
+}
+
+.gameSection:hover > .sectionHeader {
+  transform: scale(1.1);
+}
+
+.dungeonsImage {
+    background: url("../images/heroImage.webp");
+    background-size: cover;
+    background-position: center;
+}
+
+.raidsImage {
+  background: url("../images/raidImage.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.classesImage {
+  background: url("../images/classImage.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.racesImage {
+  background: url("../images/heroImage.webp");
+  background-size: cover;
+}
+
+.linkStyle {
+  text-decoration: none;
+}
+
+.sectionHeader {
+  position: relative;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.classic {
+  background: url("../images/classic.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.tbc {
+  background: url("../images/tbc.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.wotlk {
+  background: url("../images/wotlk.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.cata {
+  background: url("../images/cata.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.mists {
+  background: url("../images/mists.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.wod {
+  background: url("../images/wod.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.legion {
+  background: url("../images/legion.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.bfa {
+  background: url("../images/bfa.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.sl {
+  background: url("../images/sl.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.df {
+  background: url("../images/df.webp");
+  background-size: cover;
+  background-position: center;
+}

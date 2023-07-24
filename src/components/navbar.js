@@ -39,8 +39,8 @@ export default function Navbar() {
           <Image src="/images/WoW Cloud Logo.png" alt="WoW Cloud Logo" width="32" height="32" />
         </Link>
         <div className={`${styles.menuitems} ${isMenuOpen ? styles.open : ''}`}>
-          <Link className={styles.menuitem} href="/content" passHref>
-            Content
+          <Link className={styles.menuitem} href="/game" passHref>
+            Game
           </Link>
           <Link className={styles.menuitem} href="/forum" passHref>
             Forum
@@ -82,8 +82,8 @@ export default function Navbar() {
           <button className={styles.closeButton} onClick={toggleMenu}>
             <FontAwesomeIcon icon={faTimes} className={styles.closeIcon} />
           </button>
-          <Link className={styles.menuitem} href="/content" passHref>
-            Content
+          <Link className={styles.menuitem} href="/game" passHref>
+            Game
           </Link>
           <Link className={styles.menuitem} href="/forum" passHref>
             Forum

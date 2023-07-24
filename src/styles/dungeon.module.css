@@ -92,10 +92,10 @@
 .modal {
     position: absolute;
     top: 32px;
-    bottom:32px;
     background: rgb(24, 26, 42, 0.9);
     border-radius: 16px;
     width: 700px;
+    height: 800px;
     padding: 40px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: rgba(0, 0, 0, 0.7) 0px 8px 64px 16px;
@@ -287,4 +287,16 @@ color: #A335EE; /* Epic item color */
 
 .legendary {
 color: #FF8000; /* Legendary item color */
+}
+
+
+@media (max-width: 768px) {
+    .modal {
+        top: 64px;
+        width: auto;
+    }
+
+    .itemPopup {
+        width: 200px;
+    }
 }

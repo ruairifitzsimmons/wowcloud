@@ -4,7 +4,6 @@ const { getAccessToken } = require('../utils/accessToken');
 async function fetchDungeonsByExpansion(expansionId) {
   try {
     const accessToken = await getAccessToken();
-
     const response = await axios.get(
       `https://eu.api.blizzard.com/data/wow/journal-expansion/${expansionId}`,
       {
@@ -17,12 +16,9 @@ async function fetchDungeonsByExpansion(expansionId) {
         },
       }
     );
-
     const dungeonsData = response.data;
-
     return dungeonsData;
   } catch (error) {
-    // Instead of just passing the error message, pass the entire error object.
     throw error;
   }
 }
@@ -67,9 +63,7 @@ async function getDungeonDetails(dungeonId) {
         },
       }
     );
-
     const dungeonDetails = response.data;
-
     return dungeonDetails;
   } catch (error) {
     console.error('Error fetching dungeon details: ', error);
@@ -160,5 +154,5 @@ module.exports = {
   getDungeonDetails,
   getEncounterDetails,
   getItemInformation,
-  getItemMedia
+  getItemMedia,
 };

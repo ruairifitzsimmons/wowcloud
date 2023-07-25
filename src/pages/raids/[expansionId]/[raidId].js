@@ -11,10 +11,10 @@ import {
 import Navbar from "../../../components/navbar";
 import styles from "../../../styles/dungeon.module.css";
 
-const DungeonPage = ({
-  dungeonData,
-  dungeonMedia,
-  dungeonDetails,
+const RaidPage = ({
+  raidData,
+  raidMedia,
+  raidDetails,
 }) => {
   const router = useRouter();
 
@@ -132,10 +132,10 @@ const DungeonPage = ({
 
   useEffect(() => {
     // Check if all data is available before rendering
-    if (dungeonData && dungeonMedia && dungeonDetails) {
+    if (raidData && raidMedia && raidDetails) {
       setLoading(false);
     }
-  }, [dungeonData, dungeonMedia, dungeonDetails]);
+  }, [raidData, raidMedia, raidDetails]);
 
   useEffect(() => {
     if (hoveredItem) {
@@ -166,24 +166,24 @@ const DungeonPage = ({
       <Navbar />
       <div className={styles.dungeonsContainer}>
         <button className={styles.backButton} onClick={handleBackButtonClick}>Back</button>
-        <h1 className={styles.dungeonName}>{dungeonData.name}</h1>
+        <h1 className={styles.dungeonName}>{raidData.name}</h1>
         <div className={styles.dungeonMeta}>
-          <span className={styles.dungeonMetadata}>Instance Type: {dungeonDetails.category.type}</span>
-          <span className={styles.dungeonMetadata}>Expansion: {dungeonDetails.expansion.name}</span>
-          <span className={styles.dungeonMetadata}>Location: {dungeonDetails.location.name}</span>
+          <span className={styles.dungeonMetadata}>Instance Type: {raidDetails.category.type}</span>
+          <span className={styles.dungeonMetadata}>Expansion: {raidDetails.expansion.name}</span>
+          <span className={styles.dungeonMetadata}>Location: {raidDetails.location.name}</span>
         </div>
         <img
-          src={dungeonMedia?.assets?.[0]?.value}
-          alt={dungeonData.name}
+          src={raidMedia?.assets?.[0]?.value}
+          alt={raidData.name}
           className={styles.dungeonImage}
         />
         <p className={styles.dungeonDescription}>
-          {dungeonDetails.description}
+          {raidDetails.description}
         </p>
         <div className={styles.encountersContainer}>
           <h2 className={styles.encountersHeading}>Bosses:</h2>
           <div className={styles.encountersList}>
-            {dungeonDetails.encounters.map((encounter) => (
+            {raidDetails.encounters.map((encounter) => (
               <div
                 className={styles.encounterContainer}
                 key={encounter.id}
@@ -372,38 +372,36 @@ const DungeonPage = ({
 };
 
 export async function getServerSideProps(context) {
-  const { expansionId, dungeonId } = context.params;
-  const { API_BATTLENET_KEY, API_BATTLENET_SECRET } = process.env;
-
-  try {
-
-    // Fetch dungeon data and find the selected dungeon
-    const dungeonData = await fetchDungeonsByExpansion(expansionId);
-    const dungeon = dungeonData.dungeons.find(
-      (dungeon) => dungeon.id === parseInt(dungeonId)
-    );
-
-    // Fetch dungeon media and details
-    const dungeonMedia = await getDungeonMedia(dungeonId);
-    const dungeonDetails = await getDungeonDetails(dungeonId);
-
-    return {
-      props: {
-        dungeonData: dungeon,
-        dungeonMedia,
-        dungeonDetails,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching dungeon:", error);
-    return {
-      props: {
-        dungeonData: null,
-        dungeonMedia: null,
-        dungeonDetails: null,
-      },
-    };
+    const { expansionId, raidId } = context.params;
+  
+    try {
+      // Fetch raid data and find the selected raid
+      const raidData = await fetchDungeonsByExpansion(expansionId);
+      const raid = raidData.raids.find(
+        (raid) => raid.id === parseInt(raidId)
+      );
+  
+      // Fetch raid media and details
+      const raidMedia = await getDungeonMedia(raidId);
+      const raidDetails = await getDungeonDetails(raidId);
+  
+      return {
+        props: {
+          raidData: raid,
+          raidMedia,
+          raidDetails,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching raid:", error);
+      return {
+        props: {
+          raidData: null,
+          raidMedia: null,
+          raidDetails: null,
+        },
+      };
+    }
   }
-}
 
-export default DungeonPage;
+export default RaidPage;

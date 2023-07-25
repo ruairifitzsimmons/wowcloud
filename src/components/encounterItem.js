@@ -12,7 +12,7 @@ const EncounterItems = ({ items, onItemMouseEnter, onItemMouseLeave, hoveredItem
       case "COMMON":
         return styles.common;
       default:
-        return "Unknown";
+        return styles.common;
     }
   };
 
@@ -96,7 +96,7 @@ const EncounterItems = ({ items, onItemMouseEnter, onItemMouseLeave, hoveredItem
                     </span>
                   ))}
 
-                {item.information.preview_item.requirements && (
+                {item.information.preview_item.requirements?.level?.display_string && (
                   <span>
                     {item.information.preview_item.requirements.level.display_string}
                   </span>

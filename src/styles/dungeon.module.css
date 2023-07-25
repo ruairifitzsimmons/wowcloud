@@ -1,6 +1,6 @@
 .dungeonsContainer {
     margin: auto;
-    padding: 0px 16px;
+    padding: 40px 16px;
     max-width: 1200px;
 }
 
@@ -26,9 +26,11 @@
     box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
     transition: 0.2s ease;
     text-decoration: none;
+    margin-top: 24px;
 }
 
 .dungeonDescription {
+    padding: 24px 0px;
     font-size: 16px;
     color: white;
 }
@@ -41,9 +43,10 @@
 }
 
 .encountersList {
+    padding: 24px 0px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 8px;
+    gap: 16px;
 }
 
 .encounterContainer {
@@ -52,6 +55,7 @@
     height: 100px;
     width: 100%;
     background-size: cover;
+    background: rgba(103, 109, 155, 0.1);
     border-radius: 12px;
     align-items: center;
     justify-content: center;
@@ -63,9 +67,29 @@
     cursor: pointer;
 }
 
+.encounterContainer:hover {
+    border: 1px solid rgb(0, 162, 255);
+    box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 16px 0px;
+    outline: none;
+    cursor: pointer;
+}
+
 .encounterName {
     font-family: 'Chakra Petch', sans-serif;
     font-size: 16x;
+    color: white;
+}
+
+.dungeonMeta {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.dungeonMetadata {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
     color: white;
 }
 
@@ -106,6 +130,10 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
+}
+
+.encountersContainer {
+    padding: 40px 0px;
 }
 
 .encounterHeader {
@@ -289,6 +317,23 @@ color: #A335EE; /* Epic item color */
 color: #FF8000; /* Legendary item color */
 }
 
+.backButton {
+    font-size: 12px;
+    color: black;
+    padding: 8px;
+    border: 0px;
+    border-radius: 8px;
+    background: rgba(103, 109, 155, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.backButton:hover {
+    border: 1px solid rgb(0, 162, 255);
+    box-shadow: rgb(0, 162, 255, 0.4) 0px 0px 16px 0px;
+    outline: none;
+    cursor: pointer;
+}
 
 @media (max-width: 768px) {
     .modal {

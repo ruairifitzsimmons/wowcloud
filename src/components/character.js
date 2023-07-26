@@ -4,13 +4,63 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/character.module.css';
 import EquippedItem from './equippedItem';
 
-export default function CharacterSearch() {
+
+
+export default function CharacterSearch({initialRealmSlug, initialCharacterName}) {
   const [realms, setRealms] = useState([]);
   const [selectedRealm, setSelectedRealm] = useState('');
   const [characterName, setCharacterName] = useState('');
   const [characterData, setCharacterData] = useState(null);
   const [characterStatistics, setCharacterStatistics] = useState(null);
   const [showStatisticsPopup, setShowStatisticsPopup] = useState(false);
+
+  const fetchCharacterData = async (selectedRealm, characterName) => {
+    try {
+      if (selectedRealm && characterName) {
+        const [characterResponse, equipmentResponse, characterMediaResponse] = await Promise.all([
+          getCharacter(selectedRealm, characterName),
+          getCharacterEquipment(selectedRealm, characterName),
+          getCharacterMedia(selectedRealm, characterName),
+        ]);
+  
+        const characterDataWithEquipment = {
+          ...characterResponse,
+          equipment: equipmentResponse,
+        };
+        
+        setCharacterData(characterDataWithEquipment);
+  
+        const characterDataWithCharacterMedia = {
+          ...characterDataWithEquipment,
+          assets: characterMediaResponse.assets || [],
+        };
+  
+        setCharacterData(characterDataWithCharacterMedia);
+  
+        if (equipmentResponse.equipped_items.length > 0) {
+          const equippedItems = equipmentResponse.equipped_items;
+          const mediaPromises = equippedItems.map((item) =>
+            getCharacterEquipmentMedia(item.media.id)
+          );
+  
+          const mediaResponses = await Promise.all(mediaPromises);
+  
+          const characterDataWithMedia = {
+            ...characterDataWithCharacterMedia,
+            media: mediaResponses,
+          };
+  
+          setCharacterData(characterDataWithMedia);
+        }
+  
+        const characterStatisticsResponse = await getCharacterStatistics(selectedRealm, characterName);
+        setCharacterStatistics(characterStatisticsResponse);
+  
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const fetchRealms = async () => {
@@ -28,56 +78,30 @@ export default function CharacterSearch() {
 
     fetchRealms();
   }, []);
+  
+  useEffect(() => {
+    // Check if initialRealmSlug and initialCharacterName are provided
+    // and perform the character search when the component mounts
+    if (initialRealmSlug && initialCharacterName) {
+      setSelectedRealm(initialRealmSlug);
+      setCharacterName(initialCharacterName);
+      fetchCharacterData(initialRealmSlug, initialCharacterName);
+    }
+  }, [initialRealmSlug, initialCharacterName]);
+  
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    // Fetch character data
+    await fetchCharacterData(selectedRealm, characterName);
 
-    try {
-      if (selectedRealm && characterName) {
+    // Update the URL using the History API
+    const searchParams = new URLSearchParams();
+    searchParams.append('realm', selectedRealm);
+    searchParams.append('character', characterName);
 
-        const [characterResponse, equipmentResponse, characterMediaResponse] = await Promise.all([
-          getCharacter(selectedRealm, characterName),
-          getCharacterEquipment(selectedRealm, characterName),
-          getCharacterMedia(selectedRealm, characterName),
-        ]);
-
-        const characterDataWithEquipment = {
-          ...characterResponse,
-          equipment: equipmentResponse,
-        };
-        
-        setCharacterData(characterDataWithEquipment);
-
-        const characterDataWithCharacterMedia = {
-          ...characterDataWithEquipment,
-          assets: characterMediaResponse.assets || [],
-        };
-  
-        setCharacterData(characterDataWithCharacterMedia);
-
-        if (equipmentResponse.equipped_items.length > 0) {
-          const equippedItems = equipmentResponse.equipped_items;
-          const mediaPromises = equippedItems.map((item) =>
-            getCharacterEquipmentMedia(item.media.id)
-          );
-
-          const mediaResponses = await Promise.all(mediaPromises);
-
-          const characterDataWithMedia = {
-            ...characterDataWithCharacterMedia,
-            media: mediaResponses,
-          };
-
-          setCharacterData(characterDataWithMedia);
-        }
-
-        const characterStatisticsResponse = await getCharacterStatistics(selectedRealm, characterName);
-        setCharacterStatistics(characterStatisticsResponse);
-
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
   };
 
   return (

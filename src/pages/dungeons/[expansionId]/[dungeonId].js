@@ -38,10 +38,12 @@ const DungeonPage = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [encounterLoading, setEncounterLoading] = useState(false);
 
   // Function to fetch encounter data when the user clicks on an encounter
   const fetchEncounterData = async (encounter) => {
     try {
+      setEncounterLoading(true);
       const encounterDetails = await getEncounterDetails(encounter.id);
       encounter.items = encounterDetails.items;
       encounter.sections = encounterDetails.sections;
@@ -73,6 +75,8 @@ const DungeonPage = ({
       setSelectedEncounter(encounter); // Update the selected encounter with its data
     } catch (error) {
       console.error("Error fetching encounter details:", error);
+    } finally {
+      setEncounterLoading(false); // Set the loading state back to false when the data is fetched
     }
   };
 
@@ -168,9 +172,9 @@ const DungeonPage = ({
         <button className={styles.backButton} onClick={handleBackButtonClick}>Back</button>
         <h1 className={styles.dungeonName}>{dungeonData.name}</h1>
         <div className={styles.dungeonMeta}>
-          <span className={styles.dungeonMetadata}>Instance Type: {dungeonDetails.category.type}</span>
-          <span className={styles.dungeonMetadata}>Expansion: {dungeonDetails.expansion.name}</span>
-          <span className={styles.dungeonMetadata}>Location: {dungeonDetails.location.name}</span>
+          <span className={styles.dungeonMetadata}><span className={styles.dungeonMetatitle}>Instance Type: </span>{dungeonDetails.category.type}</span>
+          <span className={styles.dungeonMetadata}><span className={styles.dungeonMetatitle}>Expansion: </span>{dungeonDetails.expansion.name}</span>
+          <span className={styles.dungeonMetadata}><span className={styles.dungeonMetatitle}>Location: </span>{dungeonDetails.location.name}</span>
         </div>
         <img
           src={dungeonMedia?.assets?.[0]?.value}
@@ -209,6 +213,10 @@ const DungeonPage = ({
                 </p>
               </div>
 
+              {encounterLoading ? (
+                <p className={styles.loading}>Loading Items...</p>
+              ) : (
+
               <div className={styles.lootContainer}>
                 <h3 className={styles.subHeader}>Loot</h3>
                 <div className={styles.itemContainer}>
@@ -235,7 +243,7 @@ const DungeonPage = ({
                               {item.item.name}
                             </span>
                             <span className={styles.itemLevel}>
-                              {item.information.level}
+                              {item.information.preview_item.level.display_string}
                             </span>
                           </div>
                           {hoveredItem === item && (
@@ -249,9 +257,9 @@ const DungeonPage = ({
                               <span className={`${styles.popupname} ${qualityClass}`}>
                                 {item.item.name}
                               </span>
-                              {item.information.level && (
+                              {item.information.preview_item.level && (
                                 <span className={styles.popupitemlevel}>
-                                  Item Level {item.information.level}
+                                  {item.information.preview_item.level.display_string}
                                 </span>
                               )}
 
@@ -324,6 +332,11 @@ const DungeonPage = ({
                     })}
                 </div>
               </div>
+              )}
+
+              {encounterLoading ? (
+                <p className={styles.loading}>Loading Encounter Details...</p>
+              ) : (
 
               <div className={styles.sectionContainer}>
                 <h3 className={styles.subHeader}>Encounter</h3>
@@ -363,6 +376,7 @@ const DungeonPage = ({
                     </div>
                   ))}
               </div>
+              )}
             </div>
           </div>
         </div>

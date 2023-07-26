@@ -38,10 +38,12 @@ const RaidPage = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [encounterLoading, setEncounterLoading] = useState(false);
 
   // Function to fetch encounter data when the user clicks on an encounter
   const fetchEncounterData = async (encounter) => {
     try {
+      setEncounterLoading(true);
       const encounterDetails = await getEncounterDetails(encounter.id);
       encounter.items = encounterDetails.items;
       encounter.sections = encounterDetails.sections;
@@ -73,6 +75,8 @@ const RaidPage = ({
       setSelectedEncounter(encounter); // Update the selected encounter with its data
     } catch (error) {
       console.error("Error fetching encounter details:", error);
+    } finally {
+      setEncounterLoading(false); // Set the loading state back to false when the data is fetched
     }
   };
 
@@ -168,9 +172,9 @@ const RaidPage = ({
         <button className={styles.backButton} onClick={handleBackButtonClick}>Back</button>
         <h1 className={styles.dungeonName}>{raidData.name}</h1>
         <div className={styles.dungeonMeta}>
-          <span className={styles.dungeonMetadata}>Instance Type: {raidDetails.category.type}</span>
-          <span className={styles.dungeonMetadata}>Expansion: {raidDetails.expansion.name}</span>
-          <span className={styles.dungeonMetadata}>Location: {raidDetails.location.name}</span>
+          <span className={styles.dungeonMetadata}><span className={styles.dungeonMetatitle}>Instance Type: </span>{raidDetails.category.type}</span>
+          <span className={styles.dungeonMetadata}><span className={styles.dungeonMetatitle}>Expansion: </span>{raidDetails.expansion.name}</span>
+          <span className={styles.dungeonMetadata}><span className={styles.dungeonMetatitle}>Location: </span>{raidDetails.location.name}</span>
         </div>
         <img
           src={raidMedia?.assets?.[0]?.value}
@@ -208,6 +212,10 @@ const RaidPage = ({
                   {selectedEncounter.description}
                 </p>
               </div>
+
+              {encounterLoading ? (
+                <p className={styles.loading}>Loading Items...</p>
+              ) : (
 
               <div className={styles.lootContainer}>
                 <h3 className={styles.subHeader}>Loot</h3>
@@ -324,7 +332,11 @@ const RaidPage = ({
                     })}
                 </div>
               </div>
+               )}
 
+              {encounterLoading ? (
+                <p className={styles.loading}>Loading Encounter Details...</p>
+              ) : (
               <div className={styles.sectionContainer}>
                 <h3 className={styles.subHeader}>Encounter</h3>
                 {selectedEncounter.sections &&
@@ -363,6 +375,7 @@ const RaidPage = ({
                     </div>
                   ))}
               </div>
+              )}
             </div>
           </div>
         </div>

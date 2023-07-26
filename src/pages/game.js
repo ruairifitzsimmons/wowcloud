@@ -22,9 +22,11 @@ export default function Game() {
                 <span className={styles.sectionHeader}>Dungeons</span>
             </div>
             </Link>
-            <div className={`${styles.gameSection} ${styles.raidsImage}`}>
-                <span className={styles.sectionHeader}>Raids</span>
-            </div>
+            <Link href='/raids/68' passHref className={styles.linkStyle}>
+              <div className={`${styles.gameSection} ${styles.raidsImage}`}>
+                  <span className={styles.sectionHeader}>Raids</span>
+              </div>
+            </Link>
             <div className={`${styles.gameSection} ${styles.classesImage}`}>
                 <span className={styles.sectionHeader}>Classes</span>
             </div>

@@ -67,7 +67,8 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
       try {
         const realmsData = await getRealms();
         if (realmsData && realmsData.realms) {
-          setRealms(realmsData.realms);
+          const sortedRealms = realmsData.realms.sort((a, b) => a.name.localeCompare(b.name));
+          setRealms(sortedRealms);
         } else {
           console.error('Invalid realms data');
         }

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://ruairi:22%26Ht%25Lx4BDv@atlascluster.nqapa88.mongodb.net/?retryWrites=true&w=majority')
   .then(() => {
     console.log('MongoDB Connected.');
-    createInitialCategories(); // Call the function to create initial categories
+    createInitialCategories();
   })
   .catch(() => {
     console.log('MongoDB Failed.');
@@ -28,7 +28,11 @@ const newSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post'
     }
-  ]
+  ],
+  savedCharacters: {
+    type: String,
+    unique: true,
+  }
 });
 const collection = mongoose.model('collection', newSchema);
 

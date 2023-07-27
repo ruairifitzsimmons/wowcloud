@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0px 16px;
 }
 
 .sectionContainer {
@@ -9,14 +12,11 @@
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 16px;
   margin: 0px 16px;
-  width: 100vw;
-  max-width: 1200px;
-  height: 400px;
-  padding: 120px 0px 40px 0px;
+  width: 100%;
 }
 
 .gameSection {
-  position: relative; /* Add position relative to the grid item */
+  position: relative;
   display: flex;
   height: 400px;
   width: 100%;
@@ -29,6 +29,7 @@
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
   transition: 0.2s ease;
   text-decoration: none;
+  box-sizing: border-box;
 }
 
 .gameSection::before {
@@ -153,4 +154,21 @@
   background: url("../images/df.webp");
   background-size: cover;
   background-position: center;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 40px 0px 40px 0px;
+  width: 100%;
+}
+
+.header {
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: white;
+}
+
+@media (max-width: 768px) {
 }

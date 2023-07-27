@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function Raids() {
   return (
-    <main className={styles.main}>
+    <main>
       <Head>
         <title>Raids - WoW Cloud</title>
         <meta
@@ -15,6 +15,11 @@ export default function Raids() {
         />
       </Head>
       <Navbar/>
+
+        <div className={styles.main}>
+            <div className={styles.headerContainer}>
+                <h1 className={styles.header}>Raids</h1>
+            </div>
 
         <div className={styles.sectionContainer}>
             <Link href='/raids/68' passHref className={styles.linkStyle}>
@@ -67,6 +72,7 @@ export default function Raids() {
                 <span className={styles.sectionHeader}>Dragonflight</span>
             </div>
             </Link>
+        </div>
         </div>
     </main>
   )

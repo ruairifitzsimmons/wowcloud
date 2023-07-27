@@ -123,21 +123,17 @@
   }
   
   @media (max-width: 768px) {
-    /* Hide the expansion buttons on mobile */
     .expansionButtons {
       display: none;
     }
   
-    /* Show the dropdown container on mobile */
     .expansionButtonsContainer {
       display: block;
       margin: 24px 0;
     }
   }
   
-  /* Media query for desktop devices */
   @media (min-width: 769px) {
-    /* Hide the dropdown container on desktop */
     .expansionButtonsContainer {
       display: none;
     }

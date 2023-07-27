@@ -39,9 +39,20 @@ export default function Navbar() {
           <Image src="/images/WoW Cloud Logo.png" alt="WoW Cloud Logo" width="32" height="32" />
         </Link>
         <div className={`${styles.menuitems} ${isMenuOpen ? styles.open : ''}`}>
-          <Link className={styles.menuitem} href="/game" passHref>
-            Game
-          </Link>
+        <div className={styles.menuitemWithDropdown}>
+            <span>Game</span>
+            <div className={styles.dropdownContent}>
+              <Link href="/dungeons/68" passHref>
+                Dungeons
+              </Link>
+              <Link href="/raids/68" passHref>
+                Raids
+              </Link>
+              <Link href="/classes" passHref>
+                Classes
+              </Link>
+            </div>
+          </div>
           <Link className={styles.menuitem} href="/forum" passHref>
             Forum
           </Link>

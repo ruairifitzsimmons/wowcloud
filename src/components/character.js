@@ -3,8 +3,7 @@ import { getCharacter, getRealms, getCharacterEquipment, getCharacterEquipmentMe
 import { useEffect, useState } from 'react';
 import styles from '../styles/character.module.css';
 import EquippedItem from './equippedItem';
-
-
+import axios from 'axios';
 
 export default function CharacterSearch({initialRealmSlug, initialCharacterName}) {
   const [realms, setRealms] = useState([]);
@@ -13,6 +12,7 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
   const [characterData, setCharacterData] = useState(null);
   const [characterStatistics, setCharacterStatistics] = useState(null);
   const [showStatisticsPopup, setShowStatisticsPopup] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const fetchCharacterData = async (selectedRealm, characterName) => {
     try {
@@ -90,7 +90,6 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
     }
   }, [initialRealmSlug, initialCharacterName]);
   
-
   const handleSearch = async (e) => {
     e.preventDefault();
     // Fetch character data
@@ -104,6 +103,59 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
   };
+
+  const handleBookmark = async () => {
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+      console.error('No token found. User is not authenticated.');
+      return;
+    }
+  
+    try {
+      const currentUrl = window.location.href;
+  
+      if (!isBookmarked) {
+        // Send a request to save the bookmark, including the character details in the request body
+        await axios.post(
+          `http://localhost:9000/api/bookmarks/save`,
+          {
+            url: currentUrl,
+            realm: selectedRealm,
+            character: characterName,
+          },
+          {
+            headers: {
+              'Authorization': token,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        setIsBookmarked(true);
+      } else {
+        // Send a request to remove the bookmark, including the character details in the request body
+        await axios.post(
+          `http://localhost:9000/api/bookmarks/remove`,
+          {
+            url: currentUrl,
+            realm: selectedRealm,
+            character: characterName,
+          },
+          {
+            headers: {
+              'Authorization': token,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        setIsBookmarked(false);
+      }
+    } catch (error) {
+      console.error('Error handling bookmark:', error);
+      // Optionally, you can handle specific error status codes here and provide appropriate feedback to the user.
+    }
+  };
+  
 
   return (
     <div className={styles.container}>
@@ -145,6 +197,7 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
 
       {/* Character Container */}
       <div className={styles.mainContainer}>
+
         {characterData && (
           <div className={styles.character}>
 
@@ -159,6 +212,16 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
                     {characterData.character_class.name}&nbsp;
                   </span>
                 </div>
+
+            <div>
+              {/* Bookmark Button */}
+              <button
+                className={`${styles.bookmarkButton} ${isBookmarked ? styles.bookmarked : ''}`}
+                onClick={handleBookmark}
+              >
+                {isBookmarked ? 'Bookmarked' : 'Bookmark'}
+              </button>
+            </div>
 
                 <button
                   className={styles.showStatisticsButton}

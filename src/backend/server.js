@@ -576,6 +576,88 @@ app.post('/forum/posts/:postId/comments/:commentId/unlike', auth.authenticateTok
   }
 });
 
+// Save a bookmark
+app.post('/api/bookmarks/save', auth.authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { url, realm, character } = req.body;
+
+    // Check if the user has already bookmarked the character
+    const user = await collection.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const bookmark = user.savedCharacters.find(
+      (bookmark) => bookmark.url === url && bookmark.realm === realm && bookmark.character === character
+    );
+
+    if (bookmark) {
+      return res.json({ bookmarked: true, message: 'Character is already bookmarked' });
+    }
+
+    // User hasn't bookmarked the character, add it to bookmarks
+    user.savedCharacters.push({ url, realm, character });
+    await user.save();
+
+    res.json({ bookmarked: true, message: 'Character bookmarked successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Remove a bookmark
+app.post('/api/bookmarks/remove', auth.authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { url, realm, character } = req.body;
+
+    // Check if the user has already bookmarked the character
+    const user = await collection.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const bookmarkIndex = user.savedCharacters.findIndex(
+      (bookmark) => bookmark.url === url && bookmark.realm === realm && bookmark.character === character
+    );
+
+    if (bookmarkIndex === -1) {
+      return res.json({ bookmarked: false, message: 'Character is not bookmarked' });
+    }
+
+    // User has bookmarked the character, remove it from bookmarks
+    user.savedCharacters.splice(bookmarkIndex, 1);
+    await user.save();
+
+    res.json({ bookmarked: false, message: 'Character removed from bookmarks' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Fetch bookmarked characters
+app.get('/api/bookmarks', auth.authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    // Check if the user exists in the database
+    const user = await collection.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Extract the savedCharacters from the user object
+    const bookmarkedCharacters = user.savedCharacters;
+
+    res.json(bookmarkedCharacters);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

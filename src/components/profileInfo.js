@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import styles from '../styles/profile.module.css';
 import Post from './post';
+import Link from 'next/link';
 
 const ProfileInfo = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ const ProfileInfo = () => {
   const [myPostsPerPage, setMyPostsPerPage] = useState(3);
   const [likedPostsPage, setLikedPostsPage] = useState(1);
   const [likedPostsPerPage, setLikedPostsPerPage] = useState(3);
+  const [bookmarkedCharacters, setBookmarkedCharacters] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -44,7 +46,24 @@ const ProfileInfo = () => {
     fetchPosts();
     fetchCategories();
     fetchLikedPosts();
+    fetchBookmarkedCharacters();
   }, []);
+
+  const fetchBookmarkedCharacters = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const response = await axios.get('http://localhost:9000/api/bookmarks', {
+          headers: {
+            Authorization: token,
+          },
+        });
+        setBookmarkedCharacters(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleEdit = () => {
     setEditing(true);
@@ -318,7 +337,23 @@ const ProfileInfo = () => {
               <span className={styles.profileInfoEmail}>{email}</span>
             </div>
           )}
+
+          {/* Display the bookmarked characters */}
+          <div className={styles.bookmarkedCharactersContainer}>
+            {bookmarkedCharacters.length === 0 ? (
+              <p>No bookmarked characters yet.</p>
+            ) : (
+              <div>
+                {bookmarkedCharacters.map((character) => (
+                  <Link key={character.url} href={character.url}>
+                      {character.character}<br/>{character.realm}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+        
       </div>
     </div>
   );

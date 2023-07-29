@@ -29,10 +29,22 @@ const newSchema = new mongoose.Schema({
       ref: 'Post'
     }
   ],
-  savedCharacters: {
-    type: String,
-    unique: true,
-  }
+  savedCharacters: [
+    {
+      url: {
+        type: String,
+        unique: true
+      },
+      character: {
+        type: String,
+        required: true
+      },
+      realm: {
+        type: String,
+        required: true
+      }
+    }
+  ],
 });
 const collection = mongoose.model('collection', newSchema);
 

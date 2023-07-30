@@ -64,6 +64,8 @@ const EquippedItem = ({ media, item, index }) => {
         return styles.epic;
       case 'LEGENDARY':
         return styles.legendary;
+      case 'HEIRLOOM':
+        return styles.heirloom;
       default:
         return '';
     }

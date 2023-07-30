@@ -2,350 +2,377 @@
 }
 
 .formContainer {
-    padding: 16px;
+  padding: 16px;
 }
 
 .searchContainer {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    background: rgba(103, 109, 155, 0.1);
-    border-radius: 12px;
-    padding: 16px;
-    gap: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 16px -8px;
-    z-index: 1;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  background: rgba(103, 109, 155, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 16px -8px;
+  z-index: 1;
 }
 
 .searchSelect {
-    font-size: 12px;
-    color: black;
-    padding: 8px;
-    border: 0px;
-    border-radius: 8px;
+  font-size: 12px;
+  color: black;
+  padding: 8px;
+  border: 0px;
+  border-radius: 8px;
 }
 
 .searchInput {
-    font-size: 12px;
-    color: black;
-    padding: 8px;
-    border: 0px;
-    border-radius: 8px;
+  font-size: 12px;
+  color: black;
+  padding: 8px;
+  border: 0px;
+  border-radius: 8px;
 }
 
 .searchButton {
-    background: rgb(255, 58, 58);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.4px;
-    color: white;
-    padding: 8px 32px;
-    border: 0px;
-    border-radius: 8px;
-    text-transform: uppercase;
-    cursor: pointer;
+  background: rgb(255, 58, 58);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: white;
+  padding: 8px 32px;
+  border: 0px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .mainContainer {
-    width: 100vw;
-    max-width: 1200px;
+  width: 100vw;
+  max-width: 1200px;
 }
 
 .character {
-    position: relative;
-    padding: 32px;
-    z-index: 1;
-    margin: 0px 16px;
+  position: relative;
+  padding: 32px;
+  z-index: 1;
+  margin: 0px 16px;
 }
 
 .characterContainer {
-    position: relative;
-    z-index: 1;
-    padding: 8px;
-    padding: 16px;
+  position: relative;
+  z-index: 1;
+  padding: 8px;
+  padding: 16px;
 }
 
 .characterName {
-    font-family: 'Chakra Petch', sans-serif;
-    color: white;
-    font-size: 32px;
-    font-weight: 600;
+  font-family: "Chakra Petch", sans-serif;
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
 }
 
 .characterMetadata {
-    font-family: 'Chakra Petch', sans-serif;
-    color: rgb(176, 176, 176);
-    font-size: 16px;
+  font-family: "Chakra Petch", sans-serif;
+  color: rgb(176, 176, 176);
+  font-size: 16px;
 }
 
 .characterImageContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
 .characterImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 0;
-    box-shadow: black 0px 0px 32px -8px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 0;
+  box-shadow: black 0px 0px 32px -8px;
 }
 
 .characterDetailsContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .equippeditem {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    max-width: 400px;
-    padding: 8px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 400px;
+  padding: 8px;
 }
 
 .item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    padding: 4px;
-    border-radius: 8px;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
-    transition-duration: 0.4s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 8px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  transition-duration: 0.4s;
 }
 
 .item:hover {
-    background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-    cursor: default;
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  cursor: default;
 }
 
 .item:hover > .itemimage {
-    transform: scale(1.1) translateX(-6px);
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: rgb(0, 0, 0, 0.5) 4px 0px 8px 0px;
+  transform: scale(1.1) translateX(-6px);
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.1),
+    rgba(0, 0, 0, 0)
+  );
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: rgb(0, 0, 0, 0.5) 4px 0px 8px 0px;
 }
 
 .itemimage {
-    transition-duration: 0.2s;
-    background: rgba(255, 255, 255, 0.1);
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0);
+  transition-duration: 0.2s;
+  background: rgba(255, 255, 255, 0.1);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0);
 }
 
 .iteminfo {
-    display: flex;
-    flex-direction: column;
-    color: white;
+  display: flex;
+  flex-direction: column;
+  color: white;
 }
 
 .itemname {
-    font-family: 'Chakra Petch', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .itemslotname {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .popup {
-    position: fixed;
-    z-index: 999;
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    background: rgb(24, 26, 42, 0.7);
-    backdrop-filter: blur(8px);
-    padding: 16px;
-    margin-left: 8px;
-    margin-top: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 16px 16px 0px;
-    color: white;
-    font-size: 12px;
+  position: fixed;
+  z-index: 999;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: rgb(24, 26, 42, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 16px;
+  margin-left: 8px;
+  margin-top: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 16px 16px 0px;
+  color: white;
+  font-size: 12px;
 }
 
 .popupname {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .popupdesc {
-    color: rgb(0, 255, 0);
+  color: rgb(0, 255, 0);
 }
 
 .popupitemlevel {
-    color: rgb(255, 225, 0)
+  color: rgb(255, 225, 0);
 }
 
 .popuptransmog {
-    color: rgb(255, 106, 225);
+  color: rgb(255, 106, 225);
 }
 
 .popupspell {
-    color: rgb(0, 255, 0);
+  color: rgb(0, 255, 0);
 }
 
 .itemslotarmor {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .common {
-    color: #AAAAAA; /* Common item color */
+  color: #aaaaaa; /* Common item color */
 }
 
 .uncommon {
-color: #1EFF00; /* Uncommon item color */
+  color: #1eff00; /* Uncommon item color */
 }
 
 .rare {
-color: #0070DD; /* Rare item color */
+  color: #0070dd; /* Rare item color */
 }
 
 .epic {
-color: #A335EE; /* Epic item color */
+  color: #a335ee; /* Epic item color */
 }
 
 .legendary {
-color: #FF8000; /* Legendary item color */
+  color: #ff8000; /* Legendary item color */
+}
+
+.heirloom {
+  color: #38c9fb;
 }
 
 .characterStatistics {
-    position: absolute;
-    right: 40px;
-    display: flex;
-    flex-direction: column;
-    z-index: 5;
-    font-family: 'Chakra Petch', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: white;
-    height: max-content;
-    background: rgb(24, 26, 42, 0.7);
-    backdrop-filter: blur(8px);
-    padding: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 16px 16px 0px;
+  position: absolute;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  height: max-content;
+  background: rgb(24, 26, 42, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 16px 16px 0px;
 }
 
 .achievementilvl {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 16px;
-    font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 16px;
 }
 
 .healthPower {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 16px 0px;
-    width: 200px;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0px;
+  width: 200px;
+  text-align: center;
 }
 
 .characterHealth {
-    background: green;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-family: 'Chakra Petch', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+  background: green;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .characterPower {
-    background: rgb(0, 81, 255);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-family: 'Chakra Petch', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+  background: rgb(0, 81, 255);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .characterAttributes {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .characterAttribute {
-    font-family: 'Chakra Petch', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-} 
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
 
 .showStatisticsButton {
-    display: none;
+  display: none;
 }
-  
+
+.bookmarkButton {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: 0.2s ease;
+    background: rgba(103, 109, 155, 0.1);
+    margin-top: 8px;
+}
+
+.bookmarkButton:hover {
+    border: 1px solid rgb(0, 162, 255);
+}
+
 @media (max-width: 768px) {
-    .searchContainer {
-        flex-direction: column;
-        box-sizing: border-box;
-        width: 100%;
-    }
+  .searchContainer {
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+  }
 
-    .characterStatistics {
-        display: none;
-    }
+  .characterStatistics {
+    display: none;
+  }
 
-    .character {
-        padding: 0px;
-    }
+  .character {
+    padding: 0px;
+  }
 
-    .equippeditem {
-        padding: 16px;
-    }
+  .equippeditem {
+    padding: 16px;
+  }
 
-    .showStatisticsButton {
-        display: block;
-        padding: 8px 16px;
-        margin-top: 12px;
-        background-color: #ff3f3f;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        font-size: 14px;
-        cursor: pointer;
-    }
+  .showStatisticsButton {
+    display: block;
+    padding: 8px 16px;
+    margin-top: 12px;
+    background-color: #ff3f3f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }
 
-    .statisticsPopup {
-        position: absolute;
-        z-index: 999;
-        width: fit-content;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        top: 16px;
-        right: 16px;
-        background: rgb(24, 26, 42, 0.7);
-        backdrop-filter: blur(8px);
-        padding: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px 16px;
-        color: white;
-        font-size: 12px;
-    }
+  .statisticsPopup {
+    position: absolute;
+    z-index: 999;
+    width: fit-content;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    top: 16px;
+    right: 16px;
+    background: rgb(24, 26, 42, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px 16px;
+    color: white;
+    font-size: 12px;
+  }
 }

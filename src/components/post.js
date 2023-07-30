@@ -66,7 +66,6 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
   const closeModal = (e) => {
     e.stopPropagation();
     setIsModalOpen(false);
-    router.push('/forum'); // Redirect back to the forum page when closing the modal
   };
 
   const handleEdit = () => {

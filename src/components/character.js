@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/character.module.css';
 import EquippedItem from './equippedItem';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 export default function CharacterSearch({initialRealmSlug, initialCharacterName}) {
   const [realms, setRealms] = useState([]);
@@ -13,6 +15,31 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
   const [characterStatistics, setCharacterStatistics] = useState(null);
   const [showStatisticsPopup, setShowStatisticsPopup] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkedCharacters, setBookmarkedCharacters] = useState([]);
+  const [characterNameInput, setCharacterNameInput] = useState('');
+
+  // Fetch bookmarked characters from the server
+  const fetchBookmarkedCharacters = async () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('No token found. User is not authenticated.');
+      return;
+    }
+
+    try {
+      const response = await axios.get('http://localhost:9000/api/bookmarks', {
+        headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      setBookmarkedCharacters(response.data);
+    } catch (error) {
+      console.error('Error fetching bookmarked characters:', error);
+    }
+  };
 
   const fetchCharacterData = async (selectedRealm, characterName) => {
     try {
@@ -78,11 +105,10 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
     };
 
     fetchRealms();
+    fetchBookmarkedCharacters();
   }, []);
   
   useEffect(() => {
-    // Check if initialRealmSlug and initialCharacterName are provided
-    // and perform the character search when the component mounts
     if (initialRealmSlug && initialCharacterName) {
       setSelectedRealm(initialRealmSlug);
       setCharacterName(initialCharacterName);
@@ -93,30 +119,30 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
   const handleSearch = async (e) => {
     e.preventDefault();
     // Fetch character data
-    await fetchCharacterData(selectedRealm, characterName);
+    await fetchCharacterData(selectedRealm, characterNameInput);
 
     // Update the URL using the History API
     const searchParams = new URLSearchParams();
-    searchParams.append('realm', selectedRealm);
-    searchParams.append('character', characterName);
+    searchParams.append('realmSlug', selectedRealm);
+    searchParams.append('characterName', characterNameInput);
 
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
+    setCharacterName(characterNameInput);
   };
 
   const handleBookmark = async () => {
     const token = localStorage.getItem('token');
-  
+
     if (!token) {
       console.error('No token found. User is not authenticated.');
       return;
     }
-  
+
     try {
       const currentUrl = window.location.href;
-  
+
       if (!isBookmarked) {
-        // Send a request to save the bookmark, including the character details in the request body
         await axios.post(
           `http://localhost:9000/api/bookmarks/save`,
           {
@@ -132,31 +158,20 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
           }
         );
         setIsBookmarked(true);
-      } else {
-        // Send a request to remove the bookmark, including the character details in the request body
-        await axios.post(
-          `http://localhost:9000/api/bookmarks/remove`,
-          {
-            url: currentUrl,
-            realm: selectedRealm,
-            character: characterName,
-          },
-          {
-            headers: {
-              'Authorization': token,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        setIsBookmarked(false);
       }
     } catch (error) {
       console.error('Error handling bookmark:', error);
-      // Optionally, you can handle specific error status codes here and provide appropriate feedback to the user.
     }
   };
-  
 
+  // Check if the character is already bookmarked
+  useEffect(() => {
+    setIsBookmarked(bookmarkedCharacters.some((character) => {
+      return character.realm === selectedRealm && character.character === characterName;
+    }));
+  }, [selectedRealm, characterName, bookmarkedCharacters]);
+
+  
   return (
     <div className={styles.container}>
       <div>
@@ -181,12 +196,12 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
 
           {/* Character Input */}
           <input
-            className={styles.searchInput}
-            type="text"
-            value={characterName}
-            onChange={(e) => setCharacterName(e.target.value)}
-            placeholder="Enter character name"
-          />
+              className={styles.searchInput}
+              type="text"
+              value={characterNameInput}
+              onChange={(e) => setCharacterNameInput(e.target.value)}
+              placeholder="Enter character name"
+            />
 
           {/* Search Button */}
           <button className={styles.searchButton} type="submit">Search</button>
@@ -212,22 +227,23 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
                     {characterData.character_class.name}&nbsp;
                   </span>
                 </div>
-
+                {/* Bookmark Button */}
+                {!isBookmarked && (
+                    <button
+                      className={`${styles.bookmarkButton} ${isBookmarked ? styles.bookmarked : ''}`}
+                      onClick={handleBookmark}
+                    >
+                      {isBookmarked ? 'Bookmarked' : 'Bookmark'}
+                    </button>
+                  )}
+              </div>
             <div>
-              {/* Bookmark Button */}
-              <button
-                className={`${styles.bookmarkButton} ${isBookmarked ? styles.bookmarked : ''}`}
-                onClick={handleBookmark}
-              >
-                {isBookmarked ? 'Bookmarked' : 'Bookmark'}
-              </button>
-            </div>
 
-                <button
-                  className={styles.showStatisticsButton}
-                  onClick={() => setShowStatisticsPopup(!showStatisticsPopup)}>
-                  eye
-                </button>
+            <FontAwesomeIcon
+              icon={faEye}
+              className={styles.showStatisticsButton}
+              onClick={() => setShowStatisticsPopup(!showStatisticsPopup)}
+            />
 
             </div>
 

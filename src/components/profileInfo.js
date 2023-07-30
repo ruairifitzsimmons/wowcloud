@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import styles from '../styles/profile.module.css';
 import Post from './post';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileInfo = () => {
   const [email, setEmail] = useState('');
@@ -241,6 +243,33 @@ const ProfileInfo = () => {
   const maxMyPostsPage = Math.ceil(posts.length / myPostsPerPage);
   const maxLikedPostsPage = Math.ceil(likedPosts.length / likedPostsPerPage);
 
+  const handleRemoveBookmark = async (url, realm, character) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        await axios.post(
+          'http://localhost:9000/api/bookmarks/remove',
+          {
+            url,
+            realm,
+            character,
+          },
+          {
+            headers: {
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+  
+        fetchBookmarkedCharacters();
+      }
+    } catch (error) {
+      console.error('Error removing bookmark:', error);
+    }
+  };
+  
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -258,14 +287,14 @@ const ProfileInfo = () => {
               />
             ))}
             {posts.length > 0 && (
-              <div className={styles.pagination}>
-                <button
+              <div className={styles.buttonContainer}>
+                <button className={`${styles.previousButton} ${myPostsPage === 1 ? styles.disabled : ''}`}
                   onClick={() => handleMyPostsPageChange(myPostsPage - 1)}
                   disabled={myPostsPage === 1}
                 >
                   Previous
                 </button>
-                <button
+                <button className={`${styles.nextButton} ${myPostsPage === maxMyPostsPage ? styles.disabled : ''}`}
                   onClick={() => handleMyPostsPageChange(myPostsPage + 1)}
                   disabled={myPostsPage === maxMyPostsPage}
                 >
@@ -288,14 +317,14 @@ const ProfileInfo = () => {
                 />
               ))}
               {likedPosts.length > 0 && (
-                <div className={styles.pagination}>
-                  <button
+                <div className={styles.buttonContainer}>
+                  <button className={`${styles.previousButton} ${likedPostsPage === 1 ? styles.disabled : ''}`}
                     onClick={() => handleLikedPostsPageChange(likedPostsPage - 1)}
                     disabled={likedPostsPage === 1}
                   >
                     Previous
                   </button>
-                  <button
+                  <button className={`${styles.nextButton} ${likedPostsPage === maxLikedPostsPage ? styles.disabled : ''}`}
                     onClick={() => handleLikedPostsPageChange(likedPostsPage + 1)}
                     disabled={likedPostsPage === maxLikedPostsPage}
                   >
@@ -306,7 +335,7 @@ const ProfileInfo = () => {
             </div>
           )}
         </div>
-        <div>
+        <div className={styles.rightContainer}>
           {editing ? (
             <div className={styles.profileInfoContainer}>
               <div className={styles.usernameContainer}>
@@ -340,14 +369,21 @@ const ProfileInfo = () => {
 
           {/* Display the bookmarked characters */}
           <div className={styles.bookmarkedCharactersContainer}>
+            <h2 className={styles.h2Header}>Saved Characters</h2>
             {bookmarkedCharacters.length === 0 ? (
               <p>No bookmarked characters yet.</p>
             ) : (
-              <div>
+              <div className={styles.bookmarkedCharacterContainer2}>
                 {bookmarkedCharacters.map((character) => (
-                  <Link key={character.url} href={character.url}>
-                      {character.character}<br/>{character.realm}
+                  <div key={character.url} className={styles.bookmarkedCharacter}>
+                  <Link href={character.url} className={styles.decoration} passHref>
+                      <span className={styles.characterName}>{character.character}</span>
+                      <span className={styles.characterRealm}>{character.realm}</span>
                   </Link>
+                  <FontAwesomeIcon icon={faTimes} className={styles.removeBookmarkButton} onClick={() =>
+                        handleRemoveBookmark(character.url, character.realm, character.character)
+                      }/>
+                  </div>
                 ))}
               </div>
             )}

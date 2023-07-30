@@ -33,6 +33,12 @@
     font-size: 12px;
 }
 
+.rightContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .profileInfoContainer {
     display: flex;
     flex-direction: column;
@@ -44,7 +50,6 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
     color: white;
     font-size: 12px;
-    order: 1;
 }
 
 .profileInfoUsername {
@@ -127,8 +132,108 @@
     font-size: 12px;
   }
 
+  .previousButton {
+    background: none;
+    border: none;
+    padding: 0;
+    color: white;
+    cursor: pointer;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 12px;
+  }
+
+  .nextButton {
+    background: none;
+    border: none;
+    padding: 0;
+    color: white;
+    cursor: pointer;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 12px;
+  }
+
+  .nextButton:hover, .previousButton:hover {
+    color: rgb(0, 162, 255);
+  }
+
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   .h2Header {
     font-family: 'Chakra Petch', sans-serif;
+  }
+
+  .bookmarkedCharactersContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: rgba(103, 109, 155, 0.1);
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
+    color: white;
+    font-size: 12px;
+  }
+
+  .bookmarkedCharacterContainer2 {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .bookmarkedCharacter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 4px;
+    background: rgba(103, 109, 155, 0.1);
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px 8px;
+    color: white;
+    font-size: 12px;
+    text-transform: capitalize;
+    transition: 0.2s ease;
+    text-decoration: none;
+  }
+
+  .bookmarkedCharacter:hover {
+    border: 1px solid rgb(0, 162, 255);
+    cursor:pointer;
+  }
+
+  .characterName {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 18px;
+    color: white;
+  }
+
+  .characterRealm {
+    font-family: 'Chakra Petch', sans-serif;
+    color: rgb(140, 140, 140);
+  }
+
+  .removeBookmarkButton {
+    color: rgb(140, 140, 140);
+    font-size: 14px;
+    transition: 0.2s ease;
+  }
+
+  .removeBookmarkButton:hover {
+    color: rgb(255, 58, 58);
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+
+  .decoration {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   @media (max-width: 768px) {

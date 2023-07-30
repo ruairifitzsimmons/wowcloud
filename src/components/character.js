@@ -5,7 +5,7 @@ import styles from '../styles/character.module.css';
 import EquippedItem from './equippedItem';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faStar, faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 
 export default function CharacterSearch({initialRealmSlug, initialCharacterName}) {
   const [realms, setRealms] = useState([]);
@@ -164,6 +164,63 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
     }
   };
 
+  const handleToggleStatisticsPopup = () => {
+    setShowStatisticsPopup(!showStatisticsPopup);
+  };
+
+   // Function to get the CSS class for the character's class
+   const getCharacterClass = (characterClass) => {
+    switch (characterClass) {
+      case 'Paladin':
+        return styles.paladin;
+      case 'Mage':
+        return styles.mage;
+      case 'Rogue':
+        return styles.rogue;
+      case 'Death Knight':
+        return styles.deathknight;
+      case 'Demon Hunter':
+        return styles.demonhunter;
+      case 'Hunter':
+        return styles.hunter;
+      case 'Warrior':
+        return styles.warrior;
+      case 'Warlock':
+        return styles.warlock;
+      case 'Priest':
+        return styles.priest;
+      case 'Shaman':
+        return styles.shaman;
+      case 'Druid':
+        return styles.druid;
+      case 'Evoker':
+        return styles.evoker;
+      case 'Monk':
+        return styles.monk;
+      // Add more cases for other character classes if needed
+      default:
+        return 'characterImageContainer'; // Fallback class with default image
+    }
+  };
+
+  // Function to get the CSS class for the character's power type
+  const getPowerTypeClass = (powerType) => {
+    switch (powerType) {
+      case 'Rage':
+        return styles.rage;
+      case 'Energy':
+        return styles.energy;
+      case 'Insanity':
+        return styles.insanity;
+      case 'Fury':
+        return styles.fury;
+      case 'Focus':
+        return styles.focus;
+      default:
+        return styles.characterPower; // Default class for common power types
+    }
+  };
+
   // Check if the character is already bookmarked
   useEffect(() => {
     setIsBookmarked(bookmarkedCharacters.some((character) => {
@@ -212,6 +269,7 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
 
       {/* Character Container */}
       <div className={styles.mainContainer}>
+        
 
         {characterData && (
           <div className={styles.character}>
@@ -226,6 +284,11 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
                     {characterData.active_spec.name}&nbsp;
                     {characterData.character_class.name}&nbsp;
                   </span>
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className={styles.showStatisticsButton}
+                    onClick={() => setShowStatisticsPopup(!showStatisticsPopup)}
+                  />
                 </div>
                 {/* Bookmark Button */}
                 {!isBookmarked && (
@@ -238,19 +301,11 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
                   )}
               </div>
             <div>
+          </div>
 
-            <FontAwesomeIcon
-              icon={faEye}
-              className={styles.showStatisticsButton}
-              onClick={() => setShowStatisticsPopup(!showStatisticsPopup)}
-            />
-
-            </div>
-
-            {/* Character Image */}
             {characterData.assets && (
-              <div className={styles.characterImageContainer}>
-                <img className={styles.characterImage} src={characterData.assets[2].value} alt='/'/>
+              <div className={`${styles.characterImageContainer} ${getCharacterClass(characterData.character_class.name)}`}>
+                <img className={styles.characterImage} src={characterData.assets[2].value} alt='/' />
               </div>
             )}
             
@@ -275,14 +330,16 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
 
                   {/* Character Achievement Points & iLvl */}
                   <div className={styles.achievementilvl}>
-                    <span>*{characterData.achievement_points}</span>
-                    <span>^{characterData.equipped_item_level}</span>
+                    <span className={styles.statIcons}><FontAwesomeIcon icon={faStar}/>{characterData.achievement_points}</span>
+                    <span className={styles.statIcons}><FontAwesomeIcon icon={faShieldHalved}/>{characterData.equipped_item_level}</span>
                   </div>
 
                   {/* Character Health & Power */}
                   <div className={styles.healthPower}>
-                  <span className={styles.characterHealth}>{characterStatistics.health}</span>
-                  <span className={styles.characterPower}>{characterStatistics.power}</span>
+                    <span className={styles.characterHealth}>{characterStatistics.health}</span>
+                    <div className={`${styles.characterPower} ${getPowerTypeClass(characterStatistics.power_type.name)}`}>
+                      {characterStatistics.power}
+                    </div>
                   </div>
 
                   {/* Character Attributes */}
@@ -301,14 +358,16 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
                 <div className={styles.statisticsPopup}>
                   {/* Character Achievement Points & iLvl */}
                   <div className={styles.achievementilvl}>
-                    <span>*{characterData.achievement_points}</span>
-                    <span>^{characterData.equipped_item_level}</span>
+                    <span className={styles.statIcons}><FontAwesomeIcon icon={faStar}/>{characterData.achievement_points}</span>
+                    <span className={styles.statIcons}><FontAwesomeIcon icon={faShieldHalved}/>{characterData.equipped_item_level}</span>
                   </div>
 
                   {/* Character Health & Power */}
                   <div className={styles.healthPower}>
                   <span className={styles.characterHealth}>{characterStatistics.health}</span>
-                  <span className={styles.characterPower}>{characterStatistics.power}</span>
+                  <div className={`${styles.characterPower} ${getPowerTypeClass(characterStatistics.power_type.name)}`}>
+                      {characterStatistics.power}
+                    </div>
                   </div>
 
                   {/* Character Attributes */}

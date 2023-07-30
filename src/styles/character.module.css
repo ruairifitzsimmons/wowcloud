@@ -87,6 +87,9 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+  backdrop-filter: blur(4px);
+  box-shadow: black 0px 0px 32px -8px;
+  opacity: 75%;
 }
 
 .characterImage {
@@ -94,9 +97,91 @@
   height: 100%;
   object-fit: cover;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 0;
-  box-shadow: black 0px 0px 32px -8px;
+}
+
+.paladin {
+    background-image: url(../images/classes/paladin.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.warrior {
+    background-image: url(../images/classes/warrior.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.mage {
+    background-image: url(../images/classes/mage.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.rogue {
+    background-image: url(../images/classes/rogue.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.monk {
+    background-image: url(../images/classes/monk.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.deathknight {
+    background-image: url(../images/classes/deathknight.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.demonhunter {
+    background-image: url(../images/classes/demonhunter.webp);
+    background-size: cover;
+    background-position: right;
+    border-radius: 16px;
+}
+
+.hunter {
+    background-image: url(../images/classes/hunter.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.priest {
+    background-image: url(../images/classes/priest.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.shaman {
+    background-image: url(../images/classes/shaman.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.druid {
+    background-image: url(../images/classes/druid.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+}
+
+.evoker {
+    background-image: url(../images/classes/evoker.webp);
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
 }
 
 .characterDetailsContainer {
@@ -326,7 +411,44 @@
     border: 1px solid rgb(0, 162, 255);
 }
 
+
+.characterPower {
+    background: rgb(21, 92, 191);
+}
+
+.rage {
+    background: rgb(161, 25, 25);
+}
+
+.energy {
+    background: rgb(193, 178, 13);
+}
+
+.insanity {
+    background: rgb(68, 18, 161);
+}
+
+.fury {
+    background: rgb(144, 18, 161);
+}
+
+.focus {
+    background: rgb(211, 124, 31);
+}
+
+.statIcons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
 @media (max-width: 768px) {
+
+.characterImage {
+    height: 100%;
+}
+
   .searchContainer {
     flex-direction: column;
     box-sizing: border-box;

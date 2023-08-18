@@ -36,7 +36,7 @@ export default function Home() {
       <div className={styles.homeSectionOne}>
           <div className={styles.homeSectionOneLeft}>
             <h2 className={styles.homeSectionHeader}>Character Search</h2>
-            <p className={styles.homeSectionDesc}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.</p>
+            <p className={styles.homeSectionDesc}>Need to check your gear? Want to be nosey and keep an eye on your friends character? Search em up here...</p>
             <Link href='/character' passHref>
               <button className={styles.homeHeroButton1}>Search Character</button>
             </Link>
@@ -50,7 +50,7 @@ export default function Home() {
           </div>
           <div className={styles.homeSectionTwoRight}>
             <h2 className={styles.homeSectionHeader}>Forum</h2>
-            <p className={styles.homeSectionDesc}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.</p>
+            <p className={styles.homeSectionDesc}>A dedicated World of Warcraft forum, no other games & no other BS. With different categories to pick, join in or create a discussion today...</p>
             <Link href='/forum' passHref>
               <button className={styles.homeHeroButton1}>Visit forum</button>
             </Link>
@@ -60,7 +60,7 @@ export default function Home() {
       <div className={styles.homeSectionOne}>
           <div className={styles.homeSectionOneLeft}>
             <h2 className={styles.homeSectionHeader}>In-game Content</h2>
-            <p className={styles.homeSectionDesc}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.</p>
+            <p className={styles.homeSectionDesc}>Navigate through different items from different bosses in different dungeons from different expansions... you get the point.</p>
             <Link href='/game' passHref>
               <button className={styles.homeHeroButton1}>View content</button>
             </Link>

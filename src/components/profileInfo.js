@@ -91,7 +91,6 @@ const ProfileInfo = () => {
           setEditing(false);
           window.location.reload();
 
-          // Update author name for each post with the new username
           setPosts((prevPosts) =>
             prevPosts.map((post) => ({
               ...post,
@@ -176,7 +175,6 @@ const ProfileInfo = () => {
             Authorization: token,
           },
         });
-        // Refresh the posts list after deletion
         fetchPosts();
       }
     } catch (error) {
@@ -204,7 +202,6 @@ const ProfileInfo = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        // Handle user not authenticated
         return;
       }
 

@@ -120,7 +120,7 @@ export async function getServerSideProps(context) {
     console.error('Error fetching raids:', error);
     return {
       props: {
-        raidsData: [], // Return an empty array if there's an error
+        raidsData: [],
       },
     };
   }

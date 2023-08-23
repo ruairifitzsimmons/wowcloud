@@ -36,7 +36,7 @@ async function getDungeonDetails(req, res) {
       `https://eu.api.blizzard.com/data/wow/journal-instance/${dungeonId}`,
       {
         params: {
-          namespace: 'static-10.1.5_50232-eu', // Update the namespace to 'static-10.1.5_50232-eu'
+          namespace: 'static-10.1.5_50232-eu',
           locale: 'en_GB',
         },
         headers: {

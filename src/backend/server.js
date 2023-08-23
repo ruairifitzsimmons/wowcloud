@@ -166,6 +166,7 @@ app.post('/register', async (req, res) => {
       res.json({ token: token });
     }
   } catch (e) {
+    console.error(e);
     res.status(500).json('error');
   }
 });
@@ -181,7 +182,7 @@ app.get('/user-posts', auth.authenticateToken, async (req, res) => {
     const userId = req.user.userId;
     const posts = await Post.find({ author: userId })
       .sort({ createdAt: -1 })
-      .populate('author', 'username'); // Populate the author field with the username
+      .populate('author', 'username');
     res.json(posts);
   } catch (error) {
     console.error(error);
@@ -243,7 +244,7 @@ app.put('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
   try {
     const postId = req.params.id;
     const { content } = req.body;
-    // Find the post by ID
+    
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
@@ -252,7 +253,7 @@ app.put('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
     if (post.author.toString() !== req.user.userId) {
       return res.status(403).json({ message: 'You are not authorized to edit this post' });
     }
-    // Update the post's content
+    
     post.content = content;
     const updatedPost = await post.save();
 
@@ -267,8 +268,6 @@ app.put('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
 app.delete('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
   try {
     const postId = req.params.id;
-
-    // Find the post by ID
     const post = await Post.findById(postId);
 
     if (!post) {
@@ -280,7 +279,6 @@ app.delete('/forum/posts/:id', auth.authenticateToken, async (req, res) => {
       return res.status(403).json({ message: 'You are not authorized to delete this post' });
     }
 
-    // Delete the post
     await post.remove();
 
     res.json({ message: 'Post deleted successfully' });
@@ -341,8 +339,6 @@ app.get('/forum/users/:id', async (req, res) => {
 app.delete('/forum/posts/:postId/comments/:commentId', auth.authenticateToken, async (req, res) => {
   try {
     const { postId, commentId } = req.params;
-
-    // Find the comment by ID and the author
     const deletedComment = await Comment.findOneAndDelete({
       _id: commentId,
       post: postId,
@@ -395,7 +391,7 @@ app.post('/forum/posts/:id/unlike', auth.authenticateToken, async (req, res) => 
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    // Check if the user has already liked the post
+    // Check if user has already liked the post
     const isLiked = post.likes.includes(userId);
 
     if (!isLiked) {
@@ -407,7 +403,6 @@ app.post('/forum/posts/:id/unlike', auth.authenticateToken, async (req, res) => 
     post.likes.pull(userId);
     await post.save();
 
-    // Return the updated like status and count
     res.json({ liked: false, count: post.likes.length });
   } catch (error) {
     console.error(error);
@@ -426,7 +421,7 @@ app.get('/forum/posts/:id/like-count', auth.authenticateToken, async (req, res) 
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    // Return the current like count
+    // Return current like count
     res.json({ count: post.likes.length });
     console.log(postId);
   } catch (error) {
@@ -463,8 +458,6 @@ app.post('/forum/posts/:id/unlike', auth.authenticateToken, async (req, res) => 
   try {
     const postId = req.params.id;
     const userId = req.user.userId;
-
-    // Find the post by ID
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
@@ -482,7 +475,6 @@ app.post('/forum/posts/:id/unlike', auth.authenticateToken, async (req, res) => 
     post.likes.pull(userId);
     await post.save();
 
-    // Return the updated like status and count
     res.json({ liked: false, count: post.likes.length });
   } catch (error) {
     console.error(error);
@@ -494,8 +486,6 @@ app.post('/forum/posts/:id/unlike', auth.authenticateToken, async (req, res) => 
 app.get('/forum/posts/:id/like-count', auth.authenticateToken, async (req, res) => {
   try {
     const postId = req.params.id;
-
-    // Find the post by ID
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
@@ -642,14 +632,11 @@ app.post('/api/bookmarks/remove', auth.authenticateToken, async (req, res) => {
 app.get('/api/bookmarks', auth.authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
-
-    // Check if the user exists in the database
     const user = await collection.findById(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Extract the savedCharacters from the user object
     const bookmarkedCharacters = user.savedCharacters;
 
     res.json(bookmarkedCharacters);

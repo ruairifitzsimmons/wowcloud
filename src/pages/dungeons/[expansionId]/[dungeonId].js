@@ -76,13 +76,13 @@ const DungeonPage = ({
     } catch (error) {
       console.error("Error fetching encounter details:", error);
     } finally {
-      setEncounterLoading(false); // Set the loading state back to false when the data is fetched
+      setEncounterLoading(false);
     }
   };
 
   const handleEncounterClick = (encounter) => {
-    fetchEncounterData(encounter); // Fetch encounter data when the user clicks on an encounter
-    setIsPopupOpen(true); // Open the popup
+    fetchEncounterData(encounter);
+    setIsPopupOpen(true);
   };
 
   // Function to handle clicking the back button
@@ -91,11 +91,11 @@ const DungeonPage = ({
   };
 
   const closePopup = () => {
-    setIsPopupOpen(false); // Close the popup
+    setIsPopupOpen(false);
   };
 
   const handleOverlayClick = (e) => {
-    // Check if the clicked element is the overlay itself (not its children)
+    
     if (e.target.classList.contains(styles.modalOverlay)) {
       closePopup();
     }
@@ -123,11 +123,9 @@ const DungeonPage = ({
       document.addEventListener("mousemove", handleMouseMove);
     } else {
       document.removeEventListener("click", handleOverlayClick);
-      // Remove the 'mousemove' event listener when the popup is closed
       document.removeEventListener("mousemove", handleMouseMove);
     }
 
-    // Detach the event listeners when the component unmounts
     return () => {
       document.removeEventListener("click", handleOverlayClick);
       document.removeEventListener("mousemove", handleMouseMove);
@@ -148,7 +146,6 @@ const DungeonPage = ({
       document.removeEventListener("mousemove", handleMouseMove);
     }
 
-    // Detach the event listener when the component unmounts
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
     };

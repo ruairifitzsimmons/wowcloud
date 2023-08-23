@@ -30,7 +30,7 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
   }, [post._id, loggedInUser?.id]);
 
   const fetchComments = async () => {
-    try {
+    try { 
       const response = await axios.get(
         `http://localhost:9000/forum/posts/${post._id}/comments`,
         {
@@ -117,7 +117,6 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        // Handle user not authenticated
         return;
       }
 
@@ -128,7 +127,7 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
       );
       const newCommentData = response.data;
 
-      // Update the comments state with the new comment
+      // Update comment state with the new comment
       setComments((prevComments) => [...prevComments, newCommentData]);
 
       setNewComment('');
@@ -197,7 +196,6 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
         { headers: { Authorization: token } }
       );
 
-      // Fetch comments again to update the liked status
       fetchComments();
     } catch (error) {
       console.error('Error liking comment:', error);
@@ -217,7 +215,6 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
         { headers: { Authorization: token } }
       );
 
-      // Fetch comments again to update the liked status
       fetchComments();
     } catch (error) {
       console.error('Error unliking comment:', error);
@@ -228,7 +225,7 @@ const Post = ({ post, categoryName, loggedInUser, updatePost, deletePost }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        setIsLiked(false); // User is not authenticated, set liked status to false
+        setIsLiked(false); 
         return;
       }
 

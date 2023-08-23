@@ -84,7 +84,7 @@ const RegistrationForm = ({ isLoggedIn }) => {
             setUsername(e.target.value);
             setUsernameError('');
           }}
-          placeholder="Username" // Add a placeholder for the username input
+          placeholder="Username"
           required
         />
         {usernameError && <p className={styles.error}>{usernameError}</p>}

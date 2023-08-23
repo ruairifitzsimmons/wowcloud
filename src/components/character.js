@@ -118,10 +118,9 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
   
   const handleSearch = async (e) => {
     e.preventDefault();
-    // Fetch character data
     await fetchCharacterData(selectedRealm, characterNameInput);
 
-    // Update the URL using the History API
+    // Update the URL
     const searchParams = new URLSearchParams();
     searchParams.append('realmSlug', selectedRealm);
     searchParams.append('characterName', characterNameInput);
@@ -168,7 +167,6 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
     setShowStatisticsPopup(!showStatisticsPopup);
   };
 
-   // Function to get the CSS class for the character's class
    const getCharacterClass = (characterClass) => {
     switch (characterClass) {
       case 'Paladin':
@@ -197,13 +195,11 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
         return styles.evoker;
       case 'Monk':
         return styles.monk;
-      // Add more cases for other character classes if needed
       default:
-        return 'characterImageContainer'; // Fallback class with default image
+        return 'characterImageContainer';
     }
   };
 
-  // Function to get the CSS class for the character's power type
   const getPowerTypeClass = (powerType) => {
     switch (powerType) {
       case 'Rage':
@@ -217,7 +213,7 @@ export default function CharacterSearch({initialRealmSlug, initialCharacterName}
       case 'Focus':
         return styles.focus;
       default:
-        return styles.characterPower; // Default class for common power types
+        return styles.characterPower;
     }
   };
 

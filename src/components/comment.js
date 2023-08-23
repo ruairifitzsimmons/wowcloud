@@ -38,7 +38,7 @@ const Comment = ({
 
   const handleCancel = () => {
     setIsEditMode(false);
-    setEditedContent(comment.content); // Reset the edited content to the original content
+    setEditedContent(comment.content);
   };
 
   const handleContentChange = (e) => {
@@ -100,7 +100,7 @@ const Comment = ({
           <div>
             <span className={styles.postPosted}>Posted by </span>
             <span className={styles.postAuthor}>
-              {comment.author?.username || 'Unknown User'}
+              {comment.author?.username || loggedInUser.username}
             </span>
           </div>
           {isEditMode ? (

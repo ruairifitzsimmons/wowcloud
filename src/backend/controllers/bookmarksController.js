@@ -4,13 +4,13 @@ const { collection } = require('../db');
 // Save the bookmark URL to the database
 async function saveBookmark(req, res) {
   const { realm, character } = req.body;
-  const userId = req.user.id; // Assuming you're using authentication and have access to the user ID
+  const userId = req.user.id;
 
   try {
     // Find the user in the database by their user ID
     const user = await collection.findById(userId);
 
-    // Check if the user already has the bookmark in their savedCharacters array
+    // Check if the user already has the bookmark in the savedCharacters array
     const isAlreadySaved = user.savedCharacters.some(
       (bookmark) => bookmark.realm === realm && bookmark.character === character
     );
@@ -31,7 +31,7 @@ async function saveBookmark(req, res) {
 // Remove the bookmark URL from the database
 async function removeBookmark(req, res) {
   const { realm, character } = req.body;
-  const userId = req.user.id; // Assuming you're using authentication and have access to the user ID
+  const userId = req.user.id;
 
   try {
     // Find the user in the database by their user ID

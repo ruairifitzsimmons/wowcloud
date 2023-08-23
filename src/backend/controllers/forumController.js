@@ -115,7 +115,6 @@ router.put('/posts/:postId/comments/:commentId', auth.authenticateToken, async (
     const { postId, commentId } = req.params;
     const { content } = req.body;
 
-    // Find the comment by ID and the author
     const comment = await Comment.findOneAndUpdate(
       { _id: commentId, post: postId, author: req.user.userId },
       { content },
@@ -138,7 +137,6 @@ router.delete('/posts/:postId/comments/:commentId', auth.authenticateToken, asyn
   try {
     const { postId, commentId } = req.params;
 
-    // Find the comment by ID and the author
     const deletedComment = await Comment.findOneAndDelete({
       _id: commentId,
       post: postId,
@@ -162,13 +160,11 @@ router.post('/posts/:id/like', auth.authenticateToken, async (req, res) => {
     const postId = req.params.id;
     const userId = req.user.userId;
 
-    // Find the post by ID
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    // Check if the user has already liked the post
     const isLiked = post.likes.includes(userId);
 
     if (isLiked) {
@@ -179,10 +175,8 @@ router.post('/posts/:id/like', auth.authenticateToken, async (req, res) => {
       post.likes.push(userId);
     }
 
-    // Save the updated post
     await post.save();
 
-    // Return the updated like status and count
     res.json({ liked: !isLiked, count: post.likes.length });
   } catch (error) {
     console.error(error);
@@ -214,7 +208,6 @@ router.post('/posts/:id/unlike', auth.authenticateToken, async (req, res) => {
     post.likes.pull(userId);
     await post.save();
 
-    // Return the updated like status and count
     res.json({ liked: false, count: post.likes.length });
   } catch (error) {
     console.error(error);
@@ -228,7 +221,6 @@ router.get('/posts/:id/like-count', auth.authenticateToken, async (req, res) => 
     const postId = req.params.id;
     const userId = req.user.userId;
 
-    // Find the post by ID
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });

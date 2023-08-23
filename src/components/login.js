@@ -11,10 +11,9 @@ const LoginForm = () => {
   const [emailError, setEmailError] = useState('');
 
   useEffect(() => {
-    // Check if the user is already logged in
     const token = localStorage.getItem('token');
     if (token) {
-      // Redirect the user to another page, such as the profile page
+      
       router.push('/profile');
     }
   }, []);
@@ -40,7 +39,7 @@ const LoginForm = () => {
         console.log('Login failed');
       }
     } catch (error) {
-      alert('An error occurred: ' + error.message);
+      alert('Login failed, incorrect details');
       console.log(error);
     }
   }

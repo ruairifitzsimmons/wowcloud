@@ -13,7 +13,6 @@ const LikedPosts = ({ loggedInUser }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        // Handle user not authenticated
         return;
       }
 
@@ -34,7 +33,6 @@ const LikedPosts = ({ loggedInUser }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        // Handle user not authenticated
         return;
       }
 
@@ -46,7 +44,6 @@ const LikedPosts = ({ loggedInUser }) => {
         }
       );
 
-      // Refetch the liked posts after liking/unliking a post
       fetchLikedPosts();
     } catch (error) {
       console.error('Error liking/unliking post:', error);

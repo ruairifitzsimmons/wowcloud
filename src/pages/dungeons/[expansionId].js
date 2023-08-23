@@ -120,7 +120,7 @@ export async function getServerSideProps(context) {
     console.error('Error fetching dungeons:', error);
     return {
       props: {
-        dungeonsData: [], // Return an empty array if there's an error
+        dungeonsData: [],
       },
     };
   }

@@ -22,10 +22,6 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
@@ -47,9 +43,6 @@ export default function Navbar() {
               </Link>
               <Link href="/raids/68" passHref>
                 Raids
-              </Link>
-              <Link href="/classes" passHref>
-                Classes
               </Link>
             </div>
           </div>
@@ -93,8 +86,11 @@ export default function Navbar() {
           <button className={styles.closeButton} onClick={toggleMenu}>
             <FontAwesomeIcon icon={faTimes} className={styles.closeIcon} />
           </button>
-          <Link className={styles.menuitem} href="/game" passHref>
-            Game
+          <Link className={styles.menuitem} href="/dungeons/68" passHref>
+            Dungeons
+          </Link>
+          <Link className={styles.menuitem} href="/raids/68" passHref>
+            Raids
           </Link>
           <Link className={styles.menuitem} href="/forum" passHref>
             Forum

@@ -28,12 +28,10 @@ const CreatePost = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        // Handle user not authenticated
         return;
       }
   
-      if (!giphyLink.includes('giphy.gif')) {
-        // Display an error message or handle the invalid link
+      if (giphyLink && !giphyLink.includes('giphy.gif')) {
         console.log('Invalid GIPHY link');
         return;
       }

@@ -33,7 +33,6 @@ const newSchema = new mongoose.Schema({
     {
       url: {
         type: String,
-        unique: true
       },
       character: {
         type: String,

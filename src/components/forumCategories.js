@@ -20,7 +20,7 @@ const ForumCategories = ({ handleCategoryClick }) => {
   };
 
   const handleCategorySelection = (categoryId) => {
-    setActiveCategory(categoryId); // Set the active category
+    setActiveCategory(categoryId);
     handleCategoryClick(categoryId);
   };
 

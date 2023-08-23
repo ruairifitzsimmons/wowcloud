@@ -7,7 +7,7 @@ import styles from '../styles/forum.module.css';
 
 const ForumPosts = () => {
   const [posts, setPosts] = useState([]);
-  const [allPosts, setAllPosts] = useState([]); // Add allPosts state variable
+  const [allPosts, setAllPosts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -21,7 +21,7 @@ const ForumPosts = () => {
     try {
       const response = await axios.get('http://localhost:9000/forum/posts?include=comments&populate=comments.author');
       setAllPosts(response.data);
-      setPosts(response.data); // Set the initial posts to all posts
+      setPosts(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -103,10 +103,10 @@ const ForumPosts = () => {
 
     const handleCategoryClick = (categoryId) => {
     if (categoryId === null) {
-      setPosts(allPosts); // Show all posts
+      setPosts(allPosts);
     } else {
       const filteredPosts = allPosts.filter((post) => post.category === categoryId);
-      setPosts(filteredPosts); // Filter posts by category
+      setPosts(filteredPosts);
     }
   };
   
